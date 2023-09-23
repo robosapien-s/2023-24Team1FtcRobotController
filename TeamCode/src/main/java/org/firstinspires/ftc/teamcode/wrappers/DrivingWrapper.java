@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.wrappers;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -19,15 +20,19 @@ public class DrivingWrapper {
         hardwareMap = inHardwareMap;
         telemetry = inTelemetry;
         //0
-        motorFrontLeft = (DcMotorEx) hardwareMap.dcMotor.get("motorFrontLeft");
+        motorFrontLeft = (DcMotorEx) hardwareMap.dcMotor.get("fL");
         //1
-        motorFrontRight = (DcMotorEx)hardwareMap.dcMotor.get("motorFrontRight");
+        motorFrontRight = (DcMotorEx)hardwareMap.dcMotor.get("fR");
         //2
-        motorBackLeft = (DcMotorEx)hardwareMap.dcMotor.get("motorBackLeft");
+        motorBackLeft = (DcMotorEx)hardwareMap.dcMotor.get("bL");
         //3
-        motorBackRight = (DcMotorEx) hardwareMap.dcMotor.get("motorBackRight");
-        motorFrontRight.setDirection(DcMotorSimple.Direction.REVERSE); //setting the right side motors to reverse so they go the right directiond
-        motorBackRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorBackRight = (DcMotorEx) hardwareMap.dcMotor.get("bR");
+        motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //motorFrontRight.setDirection(DcMotorSimple.Direction.REVERSE); //setting the right side motors to reverse so they go the right directiond
+        //motorBackRight.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     public static double FrontLeftPower(double denominator, double y, double x, double rx) {
@@ -53,7 +58,7 @@ public class DrivingWrapper {
     public void Drive(JoystickWrapper joystickWrapper, double speed, double rotSpeed) {
         double y = -joystickWrapper.gamepad1GetLeftStickY(); // Remember, this is reversed! | Defining the y variable
         double x = joystickWrapper.gamepad1GetLeftStickX() * 1.1; // Counteract imperfect strafing | Defining the x variable
-        double rx = -joystickWrapper.gamepad1GetRightStickX() * rotSpeed; // Defining the rx (right x) variable
+        double rx = joystickWrapper.gamepad1GetRightStickX() * rotSpeed; // Defining the rx (right x) variable
         double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1); // Defining the denominator variable
 
         motorFrontLeft.setPower(FrontLeftPower(denominator, y, x, rx/speed) * speed); //setting the power for the motors
