@@ -320,11 +320,11 @@ public class JoystickWrapper {
     }
 
     public double gamepad1GetLeftStickAngleRaw() {
-        return QuikMaths.GetAngleFromVector(gamepad1.left_stick_x, gamepad1.left_stick_y);
+        return QuikMaths.GetAngleFromVector(-gamepad1.left_stick_y, -gamepad1.left_stick_x);
     }
 
     public double gamepad1GetRightStickAngleRaw() {
-        return QuikMaths.GetAngleFromVector(gamepad1.right_stick_x, gamepad1.right_stick_y);
+        return QuikMaths.GetAngleFromVector(-gamepad1.right_stick_y, -gamepad1.right_stick_x);
     }
 
     //Gamepad 2
