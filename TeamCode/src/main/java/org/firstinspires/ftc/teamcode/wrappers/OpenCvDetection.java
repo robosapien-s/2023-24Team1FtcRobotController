@@ -45,8 +45,8 @@ public class OpenCvDetection {
 
     public int barcodeInt;
 
-    public OpenCvDetection(Telemetry inTelemtry, HardwareMap inHardwareMap){
-        telemetry = inTelemtry;
+    public OpenCvDetection(Telemetry inTelemetry, HardwareMap inHardwareMap){
+        telemetry = inTelemetry;
         hardwareMap = inHardwareMap;
     }
 
@@ -54,13 +54,14 @@ public class OpenCvDetection {
     Mat mask = new Mat();
     Mat hierarchy = new Mat();
 
-    int cameraHieght = 600;
+    int cameraHeight = 600;
     int cameraWidth = 800;
 
     public void init(boolean webcamBool) {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+
         if(webcamBool) {
-            webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+            webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "webcam"), cameraMonitorViewId);
         } else {
             webcam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
 
@@ -103,7 +104,7 @@ public class OpenCvDetection {
                  * For a rear facing camera or a webcam, rotation is defined assuming the camera is facing
                  * away from the user.
                  */
-                webcam.startStreaming(cameraWidth, cameraHieght, OpenCvCameraRotation.UPRIGHT);
+                webcam.startStreaming(cameraWidth, cameraHeight, OpenCvCameraRotation.UPRIGHT);
             }
 
             @Override
