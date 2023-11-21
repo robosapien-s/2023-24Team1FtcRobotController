@@ -14,10 +14,12 @@ public class testOpenCV extends LinearOpMode{
     public OpenCvDetection OpenCVWrapper;
     int signalInt=0;
 
+
     @Override
     public void runOpMode() throws InterruptedException {
         OpenCVWrapper = new OpenCvDetection(telemetry, hardwareMap);
-        OpenCVWrapper.init(true);
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        OpenCVWrapper.init(true, cameraMonitorViewId);
         waitForStart();
         while (!isStopRequested()) {
             signalInt = OpenCVWrapper.barcodeInt;
