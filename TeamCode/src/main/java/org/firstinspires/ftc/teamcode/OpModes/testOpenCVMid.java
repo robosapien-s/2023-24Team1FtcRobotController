@@ -1,9 +1,12 @@
-package org.firstinspires.ftc.teamcode.wrappers;
+package org.firstinspires.ftc.teamcode.OpModes;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.wrappers.OpenCvDetection;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
@@ -16,38 +19,21 @@ import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvInternalCamera;
 import org.openftc.easyopencv.OpenCvPipeline;
 import org.openftc.easyopencv.OpenCvWebcam;
-//import org.outoftheboxrobotics.tensorflowapi.ImageClassification.TensorImageClassifier;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@TeleOp
+public class testOpenCVMid extends LinearOpMode {
 
-// This is a comment LOL ¯\_(ツ)_/¯
-
-/* this is also a comment
-
-
-and also this ¯\_(ツ)_/¯
- */
-public class OpenCvDetection {
 
     OpenCvWebcam webcam;
     Point loc;
 
-    HardwareMap hardwareMap;
-    Telemetry telemetry;
 
-    public int barcodeInt;
-
-    public OpenCvDetection(Telemetry inTelemetry, HardwareMap inHardwareMap){
-        telemetry = inTelemetry;
-        hardwareMap = inHardwareMap;
-
-    }
-
+    int barcodeInt;
     Mat cvtMat = new Mat();
     Mat mask = new Mat();
     Mat hierarchy = new Mat();
@@ -55,32 +41,13 @@ public class OpenCvDetection {
     int cameraHeight = 600;
     int cameraWidth = 800;
 
-    public void init() {
-        int cameraMonitorViewId =  hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+    @Override
+    public void runOpMode() {
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-
-
-        // OR...  Do Not Activate the Camera Monitor View
-        //phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK);
-
-        /*
-         * Specify the image processing pipeline we wish to invoke upon receipt
-         * of a frame from the camera. Note that switching pipelines on-the-fly
-         * (while a streaming session is in flight) *IS* supported.
-         */
-        webcam.setPipeline(new OpenCvPl());
-
-        /*
-         * Open the connection to the camera device. New in v1.4.0 is the ability
-         * to open the camera asynchronously, and this is now the recommended way
-         * to do it. The benefits of opening async include faster init time, and
-         * better behavior when pressing stop during init (i.e. less of a chance
-         * of tripping the stuck watchdog)
-         *
-         * If you really want to open synchronously, the old method is still available.
-         */
-        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
-        {
+        webcam.setPipeline(new TestPipline());
+        webcam.setMillisecondsPermissionTimeout(5000);
+        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened()
             {
@@ -107,9 +74,18 @@ public class OpenCvDetection {
                  */
             }
         });
+        waitForStart();
+        while (!isStopRequested()) {
+            telemetry.addData("Frame Count", webcam.getFrameCount());
+            telemetry.addData("FPS", String.format("%.2f", webcam.getFps()));
+            telemetry.addData("Total frame time ms", webcam.getTotalFrameTimeMs());
+            telemetry.addData("Pipeline time ms", webcam.getPipelineTimeMs());
+            telemetry.addData("Overhead time ms", webcam.getOverheadTimeMs());
+            telemetry.addData("Theoretical max FPS", webcam.getCurrentPipelineMaxFps());
+            telemetry.update();
+        }
     }
-
-    public class OpenCvPl extends OpenCvPipeline
+    public class TestPipline extends OpenCvPipeline
     {
         boolean viewportPaused = false;
 
@@ -238,3 +214,8 @@ public class OpenCvDetection {
         webcam.stopStreaming();
     }
 }
+
+
+
+
+
