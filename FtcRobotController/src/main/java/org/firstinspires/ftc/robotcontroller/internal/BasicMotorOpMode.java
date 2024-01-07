@@ -68,6 +68,9 @@ public class BasicMotorOpMode extends LinearOpMode {
         dcMotor  = hardwareMap.get(DcMotor.class, "motor");
         dcMotor.setDirection(DcMotor.Direction.FORWARD);
 
+
+
+
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
