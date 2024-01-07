@@ -23,10 +23,14 @@ public class Robot {
     public void doStuff() {
         drivingWrapper.Drive(joystickWrapper, speed, rotSpeed);
         armWrapper.PPArmMove(joystickWrapper);
+
+
+
+
         /**
          * Add inputs below as needed
          * For example:
-         * if (joystickWrapper.gamepad1.a) {
+         * public void gamepad1a() {
          *      servo.setPower(.5);
          * }
          */

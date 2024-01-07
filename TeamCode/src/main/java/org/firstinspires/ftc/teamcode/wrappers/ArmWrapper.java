@@ -5,6 +5,7 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -19,6 +20,16 @@ public class ArmWrapper {
     HardwareMap hardwareMap;
     Telemetry telemetry;
 
+    Servo rearLiftServo;
+
+    Servo rearWristVerticalServo;
+    Servo rearClawServo;
+
+    Servo frontLiftServo;
+    Servo frontWristVerticalServo;
+    Servo frontWristHorizontalServo;
+    Servo frontClawServo;
+
     DcMotorEx slideMotor;
     public int slidePos = 0;
     int Ratio = 28;
@@ -28,9 +39,8 @@ public class ArmWrapper {
     double MotorTicks = ((((1+(46/17))) * (1+(46/11))) * 28);
 
 
-    PIDController pidArm;
 
-    public ArmWrapper(HardwareMap inHardwareMap, Telemetry inTelemetry, double Kp, double Ki, double Kd, double maxIntegralSum, double a) {
+    public ArmWrapper(HardwareMap inHardwareMap, Telemetry inTelemetry) {
         hardwareMap = inHardwareMap;
         telemetry = inTelemetry;
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -39,15 +49,12 @@ public class ArmWrapper {
         slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //slideMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         slideMotor.setTargetPosition(0);
-        pidArm = new PIDController(Kp, Ki, Kd, maxIntegralSum, a);
     }
 
     public void PPArmMove(JoystickWrapper joystickWrapper) {
-        dt = new ElapsedTime();
 
 
-        //slidePos = slideMotor.getTargetPosition() + (int)((joystickWrapper.gamepad1GetRightTrigger()-joystickWrapper.gamepad1GetLeftTrigger())*slideEncoderFactor);
-        slidePos += (int)((joystickWrapper.gamepad1GetRightTrigger()-joystickWrapper.gamepad1GetLeftTrigger())*slideEncoderFactor);
+        slidePos = slideMotor.getTargetPosition() + (int)((joystickWrapper.gamepad1GetRightTrigger()-joystickWrapper.gamepad1GetLeftTrigger())*slideEncoderFactor);
         if (joystickWrapper.gamepad1GetRightBumperDown()){
             if(limit){
                 limit=false;
@@ -95,18 +102,16 @@ public class ArmWrapper {
             slidePos = 3000;
         }
 
-        actualPosition = (int) pidArm.calculate(slidePos, slideMotor.getCurrentPosition(), dt);
 
 
 
         slideMotor.setPower(1);
-        slideMotor.setTargetPosition(actualPosition);
+        slideMotor.setTargetPosition(slidePos);
 
         slideMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         telemetry.addData("CurrentPosition:slide", slideMotor.getCurrentPosition());
         // telemetry.addData("CurrentPosition:servo", clawServo.getPosition());
         telemetry.addData("TargetPosition", slideMotor.getTargetPosition());
-        telemetry.addData("InputSlidePos", slidePos);
         // telemetry.addData("ClawBase", clawBase.getPower());
         telemetry.addData("Limit?", limit);
         telemetry.update();
