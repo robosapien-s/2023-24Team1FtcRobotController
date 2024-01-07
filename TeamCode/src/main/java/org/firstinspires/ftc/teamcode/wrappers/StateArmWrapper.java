@@ -61,22 +61,69 @@ public class StateArmWrapper {
                                 backArmState = backArmState.MOVINGWAITINGTRANSFER;
                             }
                         case BackLOWPICKUP:
-
+                            //Go to pickup
                         case BackHIGHPICKUP:
+                            //go to pickup
                         case BackMEDIUMPICKUP:
+                            //go to pickup
                         default:
+                            //do nothing
                             break;
                     }
                 }
             case MOVINGTRANSFER:
+                //check if servo pos is at wanted location until whenever
+                //maybe do some pid
 
             case MOVINGPICKUP:
-
+                //Do nothing
             case TRANSFER:
 
             case WAITINGTRANSFER:
-
+                if(frontArmState == FrontArmState.TRANSFER){
+                    backArmState = BackArmState.MOVINGTRANSFER;
+                }
             case MOVINGWAITINGTRANSFER:
+                //do the same as moving transfer but move until right above the transfer place
+
+
+        }
+        switch (frontArmState){
+            case TRANSFER:
+                if(backArmState == BackArmState.TRANSFER){
+
+                }
+            case DROP:
+                switch (currentInput){
+                    case TRANSFER:
+                        frontArmState = FrontArmState.MOVINGTRANSFER;
+                    case BackLOWPICKUP:
+                        //Go to pickup
+                    case BackHIGHPICKUP:
+                        //go to pickup
+                    case BackMEDIUMPICKUP:
+                        //go to pickup
+                    default:
+                        //do nothing
+                        break;
+                }
+            case PICKUP:
+                switch (currentInput){
+                    case TRANSFER:
+                        frontArmState = FrontArmState.MOVINGTRANSFER;
+                    case FrontHIGHPICKUP:
+                        //
+                    case FrontLOWPICKUP:
+                        //go to pickup
+                    default:
+                        //do nothing
+                        break;
+                }
+            case MOVINGDROP:
+
+            case MOVINGPICKUP:
+
+            case MOVINGTRANSFER:
 
         }
 
