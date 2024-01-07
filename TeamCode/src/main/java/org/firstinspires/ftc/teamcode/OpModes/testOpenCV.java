@@ -5,23 +5,27 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.wrappers.OpenCvDetection;
+import org.openftc.easyopencv.OpenCvCamera;
+
 @TeleOp
 public class testOpenCV extends LinearOpMode{
 
 
     Telemetry telemetry;
     HardwareMap hardwareMap;
+
+
     public OpenCvDetection OpenCVWrapper;
     int signalInt=0;
 
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
         OpenCVWrapper = new OpenCvDetection(telemetry, hardwareMap);
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        OpenCVWrapper.init(true, cameraMonitorViewId);
+        OpenCVWrapper.init();
         waitForStart();
         while (!isStopRequested()) {
+
             signalInt = OpenCVWrapper.barcodeInt;
             //telemetry.addData("Barcode:", OpenCVWrapper.barcodeInt);
             //telemetry.update();

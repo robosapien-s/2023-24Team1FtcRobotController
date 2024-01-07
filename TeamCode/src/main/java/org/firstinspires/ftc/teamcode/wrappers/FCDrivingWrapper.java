@@ -37,8 +37,8 @@ public class FCDrivingWrapper{
         motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        //motorFrontRight.setDirection(DcMotorSimple.Direction.REVERSE); //setting the right side motors to reverse so they go the right directiond
-        //motorBackRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorFrontRight.setDirection(DcMotorEx.Direction.REVERSE); //setting the right side motors to reverse so they go the right directiond
+        motorBackRight.setDirection(DcMotorEx.Direction.REVERSE);
     }
 
     public static double FrontLeftPower(double denominator, double y, double x, double t) {
