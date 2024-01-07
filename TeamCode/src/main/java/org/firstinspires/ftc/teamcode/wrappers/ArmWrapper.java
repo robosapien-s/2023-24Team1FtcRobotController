@@ -14,7 +14,6 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.util.PIDController;
 
 public class ArmWrapper {
-    ElapsedTime dt;
 
     int actualPosition;
     HardwareMap hardwareMap;
@@ -46,7 +45,8 @@ public class ArmWrapper {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         slideMotor  = hardwareMap.get(DcMotorEx.class, "slideMotor");
-        slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        slideMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //slideMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         slideMotor.setTargetPosition(0);
     }
@@ -54,7 +54,7 @@ public class ArmWrapper {
     public void PPArmMove(JoystickWrapper joystickWrapper) {
 
 
-        slidePos = slideMotor.getTargetPosition() + (int)((joystickWrapper.gamepad1GetRightTrigger()-joystickWrapper.gamepad1GetLeftTrigger())*slideEncoderFactor);
+        slidePos = slideMotor.getCurrentPosition() + (int)((joystickWrapper.gamepad1GetRightTrigger()-joystickWrapper.gamepad1GetLeftTrigger())*slideEncoderFactor);
         if (joystickWrapper.gamepad1GetRightBumperDown()){
             if(limit){
                 limit=false;
@@ -105,17 +105,17 @@ public class ArmWrapper {
 
 
 
-        slideMotor.setPower(1);
-        slideMotor.setTargetPosition(slidePos);
+        //slideMotor.setPower(1);
+        //slideMotor.setTargetPosition(slidePos);
 
-        slideMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        //slideMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        slideMotor.setPower(joystickWrapper.gamepad1GetRightTrigger()-joystickWrapper.gamepad1GetLeftTrigger());
         telemetry.addData("CurrentPosition:slide", slideMotor.getCurrentPosition());
         // telemetry.addData("CurrentPosition:servo", clawServo.getPosition());
         telemetry.addData("TargetPosition", slideMotor.getTargetPosition());
         // telemetry.addData("ClawBase", clawBase.getPower());
         telemetry.addData("Limit?", limit);
         telemetry.update();
-        dt.reset();
         //topMotor.setPower(-joystickWrapper.gamepad2GetLeftStickY());
 
 
