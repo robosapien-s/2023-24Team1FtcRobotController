@@ -5,14 +5,16 @@ import java.util.List;
 public class StateArmWrapper {
 
     enum InputStates{
-        FrontDROPLOW,
+        FrontDROPLOW, // vertical wrist = .8, horizontal wrist = 0.5 is straight ahead, call it 0˚
+        //if straight is 0˚, then 0 servo position = -150˚, 1 servo position = 150˚, should be proportional spectrum so 75˚ should be .75, etc.
+        //lift position = 1 when drop
         FrontDROPMEDIUM,
         FrontDROPHIGH,
         FrontLOWPICKUP,
         FrontHIGHPICKUP,
-        BackLOWPICKUP,
-        BackMEDIUMPICKUP,
-        BackHIGHPICKUP,
+        BackLOWPICKUP, //verticalwrist = .4, lift = 1
+        BackMEDIUMPICKUP, //vertical wrist =.5, lift = .7
+        BackHIGHPICKUP, //vertical wrist = .7, lift = .6 or .5 depending on height of the stack
         TRANSFER
     }
     enum BackArmState{
