@@ -7,6 +7,7 @@ public class StateArmWrapper {
     enum InputStates{
         FrontDROPLOW, // vertical wrist = .8, horizontal wrist = 0.5 is straight ahead, call it 0˚
         //if straight is 0˚, then 0 servo position = -150˚, 1 servo position = 150˚, should be proportional spectrum so 75˚ should be .75, etc.
+        //lift position = 1 when drop
         FrontDROPMEDIUM,
         FrontDROPHIGH,
         FrontLOWPICKUP,
