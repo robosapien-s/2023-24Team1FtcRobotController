@@ -1,10 +1,30 @@
 package org.firstinspires.ftc.teamcode.wrappers;
 
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class StateArmWrapper {
 
-    enum InputStates{
+    HardwareMap hardwareMap;
+    Telemetry telemetry;
+
+    Servo rearLiftServo;
+
+    Servo rearWristVerticalServo;
+    Servo rearClawServo;
+
+    Servo frontLiftServo;
+    Servo frontWristVerticalServo;
+    Servo frontWristHorizontalServo;
+    Servo frontClawServo;
+
+    public enum InputStates{
         FrontDROPLOW, // vertical wrist = .8, horizontal wrist = 0.5 is straight ahead, call it 0˚
         //if straight is 0˚, then 0 servo position = -150˚, 1 servo position = 150˚, should be proportional spectrum so 75˚ should be .75, etc.
         //lift position = 1 when drop
@@ -25,11 +45,7 @@ public class StateArmWrapper {
         TRANSFER,
         MOVINGTRANSFER
     }
-    enum PickupHeight{
-        PICKUPLOW,
-        PICKUPMEDIUM,
-        PICKUPHIGH
-    }
+
     enum FrontArmState{
         DROP,
         PICKUP,
@@ -40,53 +56,86 @@ public class StateArmWrapper {
     }
 
     public StateArmWrapper(){
-
+        backArmState = BackArmState.PICKUP;
     }
 
     BackArmState backArmState;
-    PickupHeight pickupHeight;
     FrontArmState frontArmState;
 
     List<InputStates> inputBuffer;
     InputStates currentInput;
 
+    ElapsedTime frontLiftTimer = new ElapsedTime();
+    ElapsedTime backLiftTimer = new ElapsedTime();
+
     public void Update(){
         switch (backArmState){
-
             case PICKUP:
-                if(currentInput != null){
-                    switch (currentInput){
+                backLiftTimer.reset();
+                if(currentInput != null) {
+                    switch (currentInput) {
                         case TRANSFER:
-                            if(frontArmState==FrontArmState.TRANSFER){
+                            if (frontArmState == FrontArmState.TRANSFER) {
+                                MoveToState(InputStates.TRANSFER);
                                 backArmState = backArmState.MOVINGTRANSFER;
-                            }else {
+                                inputBuffer.remove(0);
+                            } else {
+                                MoveToState(InputStates.TRANSFER);
                                 backArmState = backArmState.MOVINGWAITINGTRANSFER;
+                                inputBuffer.remove(0);
                             }
                         case BackLOWPICKUP:
-                            //Go to pickup
+                            MoveToState(InputStates.BackLOWPICKUP);
+                            backArmState = BackArmState.MOVINGPICKUP;
+                            inputBuffer.remove(0);
                         case BackHIGHPICKUP:
-                            //go to pickup
+                            MoveToState(InputStates.BackHIGHPICKUP);
+                            backArmState = BackArmState.MOVINGPICKUP;
+                            inputBuffer.remove(0);
                         case BackMEDIUMPICKUP:
-                            //go to pickup
+                            MoveToState(InputStates.BackMEDIUMPICKUP);
+                            backArmState = BackArmState.MOVINGPICKUP;
+                            inputBuffer.remove(0);
                         default:
-                            //do nothing
                             break;
                     }
                 }
             case MOVINGTRANSFER:
-                //check if servo pos is at wanted location until whenever
-                //maybe do some pid
+                if(backLiftTimer.seconds() >= .4){
+                    backArmState = BackArmState.TRANSFER;
+                }
 
             case MOVINGPICKUP:
-                //Do nothing
+                if(backLiftTimer.seconds() >= .4){
+                    backArmState = BackArmState.PICKUP;
+                }
             case TRANSFER:
+                if(currentInput != null) {
+                    switch (currentInput) {
+                        case TRANSFER:
+                            if (frontArmState == FrontArmState.TRANSFER) {
+                                MoveToState(InputStates.TRANSFER);
+                                backArmState = backArmState.MOVINGTRANSFER;
+                                inputBuffer.remove(0);
+                            } else {
+                                MoveToState(InputStates.TRANSFER);
+                                backArmState = backArmState.MOVINGWAITINGTRANSFER;
+                                inputBuffer.remove(0);
+                            }
+                        default:
+                            break;
+                    }
+                }
+
 
             case WAITINGTRANSFER:
                 if(frontArmState == FrontArmState.TRANSFER){
                     backArmState = BackArmState.MOVINGTRANSFER;
                 }
             case MOVINGWAITINGTRANSFER:
-                //do the same as moving transfer but move until right above the transfer place
+                if(backLiftTimer.seconds() >= .4){
+                    backArmState = BackArmState.WAITINGTRANSFER;
+                }
 
 
         }
@@ -99,11 +148,11 @@ public class StateArmWrapper {
                 switch (currentInput){
                     case TRANSFER:
                         frontArmState = FrontArmState.MOVINGTRANSFER;
-                    case BackLOWPICKUP:
+                    case FrontDROPHIGH:
                         //Go to pickup
-                    case BackHIGHPICKUP:
+                    case FrontDROPLOW:
                         //go to pickup
-                    case BackMEDIUMPICKUP:
+                    case FrontDROPMEDIUM:
                         //go to pickup
                     default:
                         //do nothing
@@ -114,7 +163,7 @@ public class StateArmWrapper {
                     case TRANSFER:
                         frontArmState = FrontArmState.MOVINGTRANSFER;
                     case FrontHIGHPICKUP:
-                        //
+                        //go to pickup
                     case FrontLOWPICKUP:
                         //go to pickup
                     default:
@@ -128,7 +177,83 @@ public class StateArmWrapper {
             case MOVINGTRANSFER:
 
         }
+        telemetry.addData("BackArm",backArmState);
+        telemetry.addData("TimeElapsed", backLiftTimer.seconds());
+        telemetry.addData("Input", inputBuffer);
+        telemetry.update();
 
+    }
+
+
+    public void MoveToState(FrontArmState state){
+        switch (state){
+            case DROP:
+
+            case TRANSFER:
+
+            default:
+
+        }
+    }
+    public void MoveToState(BackArmState state){
+        switch(state){
+            case TRANSFER:
+
+            case MOVINGPICKUP:
+
+            case PICKUP:
+
+            case MOVINGWAITINGTRANSFER:
+
+            case WAITINGTRANSFER:
+
+            case MOVINGTRANSFER:
+
+        }
+    }
+
+    public void MoveToState(InputStates state){
+        /*switch (state){
+            case BackHIGHPICKUP:
+                //vertical wrist = .7, lift = .6 or .5 depending on height of the stack
+                rearWristVerticalServo.setPosition(.7);
+                rearLiftServo.setPosition(.5);
+
+            case BackLOWPICKUP:
+                rearWristVerticalServo.setPosition(.4);
+                rearLiftServo.setPosition(1);
+                //verticalwrist = .4, lift = 1
+            case BackMEDIUMPICKUP:
+                rearLiftServo.setPosition(.7);
+                rearWristVerticalServo.setPosition(.5);
+                //vertical wrist =.5, lift = .7
+
+            case FrontDROPLOW:
+                frontWristVerticalServo.setPosition(.8);
+                frontWristHorizontalServo.setPosition(getServoRotation());
+
+                // vertical wrist = .8, horizontal wrist = 0.5 is straight ahead, call it 0˚
+                //if straight is 0˚, then 0 servo position = -150˚, 1 servo position = 150˚, should be proportional spectrum so 75˚ should be .75, etc.
+                //lift position = 1 when drop
+
+            case FrontDROPHIGH:
+
+            case FrontDROPMEDIUM:
+
+            case FrontLOWPICKUP:
+
+            case FrontHIGHPICKUP:
+
+        }*/
+    }
+
+    private double getServoRotation() {
+        return .5;
+
+    }
+
+    public void AddInput(InputStates input) {
+        inputBuffer.add(input);
     }
 
 
