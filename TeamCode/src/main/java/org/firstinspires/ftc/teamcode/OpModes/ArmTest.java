@@ -15,6 +15,7 @@ public class ArmTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         joystickWrapper = new JoystickWrapper(gamepad1, gamepad2);
+
         armWrapper = new ArmWrapper(hardwareMap, telemetry);//, armPidConstants.Kp, armPidConstants.Ki, armPidConstants.Kd, armPidConstants.maxIntegralSum, armPidConstants.a);
 
         waitForStart();
