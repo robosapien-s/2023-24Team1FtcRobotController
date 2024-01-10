@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.wrappers.JoystickWrapper;
 import java.util.ArrayList;
 
 @TeleOp
-public class RobotTasksTest extends LinearOpMode {
+public class RobotTasks extends LinearOpMode {
 
     JoystickWrapper joystickWrapper;
     Servo ServoRearLift;
@@ -25,7 +25,6 @@ public class RobotTasksTest extends LinearOpMode {
     Servo ServoFrontWristHorizontal;
     Servo ServoFrontClaw;
 
-    int count;
 
 
 
@@ -39,35 +38,33 @@ public class RobotTasksTest extends LinearOpMode {
         return parallel;
     }
 
+
     IRobotTask ReadyDropOff(Long delay){
         RobotTaskParallel parallel = new RobotTaskParallel();
+
         parallel.add(new ServoTask(ServoFrontLift, .55, delay, "rearLift"));
         parallel.add(new ServoTask(ServoFrontWristVertical, .7, delay, "rearLift"));
         parallel.add(new ServoTask(ServoFrontWristHorizontal, .5, delay, "rearLift"));
-        count = 2;
+
         return parallel;
     }
-    IRobotTask CycleDropOff(Long delay){
+    IRobotTask DropOff(Long delay){
+        RobotTaskSeries series = new RobotTaskSeries();
+
+        series.add(new ServoTask(ServoFrontClaw, 0, 1000, "rearLift"));
+
         RobotTaskParallel parallel = new RobotTaskParallel();
-        switch(count){
-            case 1: //top
-                parallel.add(new ServoTask(ServoFrontLift, .55, delay, "rearLift"));
-                parallel.add(new ServoTask(ServoFrontWristVertical, .7, delay, "rearLift"));
-                parallel.add(new ServoTask(ServoFrontWristHorizontal, .5, delay, "rearLift"));
-                count = 2;
-            case 2: //middle
-                parallel.add(new ServoTask(ServoFrontLift, .75, delay, "rearLift"));
-                parallel.add(new ServoTask(ServoFrontWristVertical, .8, delay, "rearLift"));
-                parallel.add(new ServoTask(ServoFrontWristHorizontal, .5, delay, "rearLift"));
-                count = 3;
-            case 3: //bottom
-                parallel.add(new ServoTask(ServoFrontLift, .9, delay, "rearLift"));
-                parallel.add(new ServoTask(ServoFrontWristVertical, .85, delay, "rearLift"));
-                parallel.add(new ServoTask(ServoFrontWristHorizontal, .5, delay, "rearLift"));
-                count = 1;
-        }
-        return parallel;
+        parallel.add(new ServoTask(ServoRearClaw, .65, 500, ""));
+        parallel.add(new ServoTask(ServoFrontLift, 0, 600, ""));
+        parallel.add(new ServoTask(ServoFrontWristVertical, 0.84, 600, ""));
+        parallel.add(new ServoTask(ServoFrontWristHorizontal, 0.47, 600, ""));
+        parallel.add(new ServoTask(ServoFrontClaw, 0.45, 600, ""));
+
+        series.add(parallel);
+
+        return series;
     }
+
     IRobotTask mediumPickup(long delay) {
         RobotTaskParallel parallel = new RobotTaskParallel();
         parallel.add(new ServoTask(ServoRearLift, .7, delay, "rearLift"));
@@ -88,21 +85,26 @@ public class RobotTasksTest extends LinearOpMode {
 
         RobotTaskSeries series = new RobotTaskSeries();
 
-        series.add(new ServoTask(ServoRearClaw, .65, 500, ""));
+        //series.add(new ServoTask(ServoRearClaw, .65, 500, ""));
+
+        RobotTaskParallel parallelFront = new RobotTaskParallel();
+        parallelFront.add(new ServoTask(ServoRearClaw, .65, 500, ""));
+        parallelFront.add(new ServoTask(ServoFrontLift, 0, 600, ""));
+        parallelFront.add(new ServoTask(ServoFrontWristVertical, 0.84, 600, ""));
+        parallelFront.add(new ServoTask(ServoFrontWristHorizontal, 0.47, 600, ""));
+        parallelFront.add(new ServoTask(ServoFrontClaw, 0.45, 600, ""));
+        series.add(parallelFront);
 
         RobotTaskParallel parallel = new RobotTaskParallel();
-        parallel.add(new ServoTask(ServoFrontLift, 0, 2000, ""));
-        parallel.add(new ServoTask(ServoFrontWristVertical, 0.84, 2000, ""));
-        parallel.add(new ServoTask(ServoFrontWristHorizontal, 0.47, 2000, ""));
-        parallel.add(new ServoTask(ServoFrontClaw, 0.45, 2000, ""));
-
         parallel.add(new ServoTask(ServoRearLift, 0, 2000, ""));
         parallel.add(new ServoTask(ServoRearWristVertical, .65, 2000, ""));
 
         series.add(parallel);
 
         series.add(new ServoTask(ServoRearClaw, .45, 2000, ""));
-        series.add(new ServoTask(ServoFrontClaw, 1, 200,""));
+        series.add(new ServoTask(ServoFrontClaw, 1, 300,""));
+        series.add(new ServoTask(ServoRearLift, .25, 200, ""));
+
         return series;
     }
 
@@ -145,24 +147,20 @@ public class RobotTasksTest extends LinearOpMode {
         waitForStart();
         while (!isStopRequested()) {
 
+            if(joystickWrapper.gamepad2GetDUp()){
+
+            } else if (joystickWrapper.gamepad1GetDDown()) {
+
+            }
 
             if(joystickWrapper.gamepad1GetDRight()) {
-                servoCounter++;
-                if(servoCounter >= servoArray.size()) {
-                    servoCounter = servoArray.size()-1;
-                }
 
-                servoArray.get(servoCounter).setPosition(.5);
             }
             telemetry.addData("Current Servo: ",servoStringArray.get(servoCounter));
             telemetry.addData("position",  servoArray.get(servoCounter).getPosition());
-            if(joystickWrapper.gamepad1GetDLeft()) {
-                servoCounter--;
-                if(servoCounter < 0) {
-                    servoCounter = 0;
-                }
 
-                servoArray.get(servoCounter).setPosition(.5);
+            if(joystickWrapper.gamepad1GetDLeft()) {
+                tasks.add(ReadyDropOff(300L));
             }
 
             if(joystickWrapper.gamepad1GetRightBumperDown()) {
@@ -173,9 +171,7 @@ public class RobotTasksTest extends LinearOpMode {
             }
 
             if(joystickWrapper.gamepad1GetLeftBumperDown()) {
-                servoArray.get(servoCounter).setPosition(servoArray.get(servoCounter).getPosition()-.05);
-                telemetry.addData("position",  servoArray.get(servoCounter).getPosition());
-                telemetry.update();
+                tasks.add(DropOff(1L));
             }
 
 
