@@ -58,7 +58,7 @@ public class RobotTasks extends LinearOpMode {
         parallel.add(new ServoTask(ServoFrontLift, 0, 600, ""));
         parallel.add(new ServoTask(ServoFrontWristVertical, 0.84, 600, ""));
         parallel.add(new ServoTask(ServoFrontWristHorizontal, 0.47, 600, ""));
-        parallel.add(new ServoTask(ServoFrontClaw, 0.45, 600, ""));
+        parallel.add(new ServoTask(ServoFrontClaw, 1, 600, ""));
 
         series.add(parallel);
 
