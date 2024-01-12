@@ -148,7 +148,24 @@ public class RobotTasks extends LinearOpMode {
         waitForStart();
         while (!isStopRequested()) {
 
-            drivingWrapper.Drive(joystickWrapper, 1, 1);
+            double speed;
+            double rotSpeed;
+
+            if (joystickWrapper.gamepad1GetLeftStick()){
+                speed = 1;
+            }
+            else{
+                speed = .5;
+            }
+
+            if (joystickWrapper.gamepad1GetRightStick()){
+                rotSpeed = 1;
+            }
+            else{
+                rotSpeed = .5;
+            }
+
+            drivingWrapper.Drive(joystickWrapper, speed, rotSpeed);
             if(joystickWrapper.gamepad2GetDUp()){
 
             } else if (joystickWrapper.gamepad1GetDDown()) {
