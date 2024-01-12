@@ -156,6 +156,9 @@ public class RobotTasks extends LinearOpMode {
             if(joystickWrapper.gamepad1GetDRight()) {
 
             }
+            if (joystickWrapper.gamepad1GetLeftStickDown()){
+
+            }
             telemetry.addData("Current Servo: ",servoStringArray.get(servoCounter));
             telemetry.addData("position",  servoArray.get(servoCounter).getPosition());
 
