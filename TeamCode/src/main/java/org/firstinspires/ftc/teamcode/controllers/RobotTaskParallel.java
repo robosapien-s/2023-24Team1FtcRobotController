@@ -17,9 +17,10 @@ public class RobotTaskParallel extends RobotTaskImpl{
     public void execute(Telemetry telemetry) {
 
         for (IRobotTask task : tasks) {
-            if(!task.hasStarted()) {
-                task.execute(telemetry);
-            }
+//            if(!task.hasStarted()) {
+//                task.execute(telemetry);
+//            }
+            task.execute(telemetry);
         };
     }
 

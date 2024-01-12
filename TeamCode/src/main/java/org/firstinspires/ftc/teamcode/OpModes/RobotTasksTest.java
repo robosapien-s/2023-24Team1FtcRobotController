@@ -94,7 +94,7 @@ public class RobotTasksTest extends LinearOpMode {
         parallel.add(new ServoTask(ServoFrontLift, 0, 2000, ""));
         parallel.add(new ServoTask(ServoFrontWristVertical, 0.84, 2000, ""));
         parallel.add(new ServoTask(ServoFrontWristHorizontal, 0.47, 2000, ""));
-        parallel.add(new ServoTask(ServoFrontClaw, 0.45, 2000, ""));
+        parallel.add(new ServoTask(ServoFrontClaw, 0.7, 2000, ""));
 
         parallel.add(new ServoTask(ServoRearLift, 0, 2000, ""));
         parallel.add(new ServoTask(ServoRearWristVertical, .65, 2000, ""));
@@ -152,7 +152,7 @@ public class RobotTasksTest extends LinearOpMode {
                     servoCounter = servoArray.size()-1;
                 }
 
-                servoArray.get(servoCounter).setPosition(.5);
+                //servoArray.get(servoCounter).setPosition(.5);
             }
             telemetry.addData("Current Servo: ",servoStringArray.get(servoCounter));
             telemetry.addData("position",  servoArray.get(servoCounter).getPosition());
@@ -162,7 +162,7 @@ public class RobotTasksTest extends LinearOpMode {
                     servoCounter = 0;
                 }
 
-                servoArray.get(servoCounter).setPosition(.5);
+                //servoArray.get(servoCounter).setPosition(.5);
             }
 
             if(joystickWrapper.gamepad1GetRightBumperDown()) {

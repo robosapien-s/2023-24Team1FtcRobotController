@@ -17,10 +17,8 @@ public class RobotTaskSeries extends RobotTaskImpl{
     public void execute(Telemetry telemetry) {
 
         for (IRobotTask task : tasks) {
-            if(!task.hasStarted()) {
+            if(!task.isComplete()) {
                 task.execute(telemetry);
-                break;
-            } else if( !task.isComplete()) {
                 break;
             }
         };

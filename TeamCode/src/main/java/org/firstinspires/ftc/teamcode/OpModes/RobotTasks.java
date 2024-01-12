@@ -43,20 +43,20 @@ public class RobotTasks extends LinearOpMode {
     IRobotTask ReadyDropOff(Long delay){
         RobotTaskParallel parallel = new RobotTaskParallel();
 
-        parallel.add(new ServoTask(ServoFrontLift, .55, delay, "rearLift"));
-        parallel.add(new ServoTask(ServoFrontWristVertical, .7, delay, "rearLift"));
-        parallel.add(new ServoTask(ServoFrontWristHorizontal, .45, delay, "rearLift"));
+        parallel.add(new ServoTask(ServoFrontLift, .55, delay, "ServoFrontLift", true));
+        parallel.add(new ServoTask(ServoFrontWristVertical, .7, delay, "ServoFrontWristVertical"));
+        parallel.add(new ServoTask(ServoFrontWristHorizontal, .45, delay, "ServoFrontWristHorizontal"));
 
         return parallel;
     }
     IRobotTask DropOff(Long delay){
         RobotTaskSeries series = new RobotTaskSeries();
 
-        series.add(new ServoTask(ServoFrontClaw, 0, 1000, "rearLift"));
+        series.add(new ServoTask(ServoFrontClaw, 0, 1500, "ServoFrontClaw", true));
 
         RobotTaskParallel parallel = new RobotTaskParallel();
         parallel.add(new ServoTask(ServoRearClaw, .65, 500, ""));
-        parallel.add(new ServoTask(ServoFrontLift, 0, 600, ""));
+        parallel.add(new ServoTask(ServoFrontLift, 0, 800, "", true));
         parallel.add(new ServoTask(ServoFrontWristVertical, 0.84, 600, ""));
         parallel.add(new ServoTask(ServoFrontWristHorizontal, 0.45, 600, ""));
         parallel.add(new ServoTask(ServoFrontClaw, 1, 600, ""));
@@ -89,10 +89,10 @@ public class RobotTasks extends LinearOpMode {
 
         RobotTaskParallel parallelFront = new RobotTaskParallel();
         parallelFront.add(new ServoTask(ServoRearClaw, .65, 500, ""));
-        parallelFront.add(new ServoTask(ServoFrontLift, 0, 600, ""));
+        parallelFront.add(new ServoTask(ServoFrontLift, 0, 1000, "", true));
         parallelFront.add(new ServoTask(ServoFrontWristVertical, 0.84, 600, ""));
         parallelFront.add(new ServoTask(ServoFrontWristHorizontal, 0.45, 600, ""));
-        parallelFront.add(new ServoTask(ServoFrontClaw, 0, 600, ""));
+        parallelFront.add(new ServoTask(ServoFrontClaw, .6, 600, ""));
         series.add(parallelFront);
 
         RobotTaskParallel parallel = new RobotTaskParallel();
@@ -178,11 +178,11 @@ public class RobotTasks extends LinearOpMode {
             if (joystickWrapper.gamepad1GetLeftStickDown()){
 
             }
-            telemetry.addData("Current Servo: ",servoStringArray.get(servoCounter));
-            telemetry.addData("position",  servoArray.get(servoCounter).getPosition());
+            //telemetry.addData("Current Servo: ",servoStringArray.get(servoCounter));
+            //telemetry.addData("position",  servoArray.get(servoCounter).getPosition());
 
             if(joystickWrapper.gamepad1GetDLeft()) {
-                tasks.add(ReadyDropOff(300L));
+                tasks.add(ReadyDropOff(1000L));
             }
 
             if(joystickWrapper.gamepad1GetRightBumperDown()) {
