@@ -47,8 +47,8 @@ public class AngleThing{
             roll = orientation.getRoll(AngleUnit.DEGREES);
             yaw = orientation.getYaw(AngleUnit.DEGREES);
 
-            if (length(joystickWrapper.gamepad1GetLeftStickX(), joystickWrapper.gamepad1GetLeftStickY()) > .5) {
-                targetHeading = Math.toDegrees(Math.atan2(joystickWrapper.gamepad1GetLeftStickY(), joystickWrapper.gamepad1GetLeftStickX()));
+            if (length(joystickWrapper.gamepad1GetRightStickX(), -joystickWrapper.gamepad1GetRightStickY()) > .5) {
+                targetHeading = Math.toDegrees(Math.atan2(-joystickWrapper.gamepad1GetRightStickY(), joystickWrapper.gamepad1GetRightStickX()));
             }  // Save for telemetry
 
             // Determine the heading current error
@@ -60,7 +60,7 @@ public class AngleThing{
             range = Range.clip(headingError * PGain, -1, 1);
 
             telemetry.addData("Joystick Left Angle", targetHeading);
-            telemetry.addData("Joystick Right Angle", Math.toDegrees(Math.atan2(joystickWrapper.gamepad1GetLeftStickY(), joystickWrapper.gamepad1GetLeftStickX())));
+            telemetry.addData("Joystick Right Angle", Math.toDegrees(Math.atan2(-joystickWrapper.gamepad1GetRightStickY(), -joystickWrapper.gamepad1GetRightStickX())));
             telemetry.addData("Pitch", pitch);
             telemetry.addData("Roll", roll);
             telemetry.addData("Yaw", yaw);
