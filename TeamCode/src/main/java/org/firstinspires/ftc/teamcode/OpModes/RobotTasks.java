@@ -33,7 +33,7 @@ public class RobotTasks extends LinearOpMode {
 
     IRobotTask bottomPickup(long delay) {
         RobotTaskParallel parallel = new RobotTaskParallel();
-        parallel.add(new ServoTask(ServoRearLift, 1, delay, "rearLift"));
+        parallel.add(new ServoTask(ServoRearLift, .95, delay, "rearLift"));
         parallel.add(new ServoTask(ServoRearWristVertical, .4, delay, "rearLift"));
         parallel.add(new ServoTask(ServoRearClaw, .45, delay, "rearLift"));
         return parallel;
@@ -45,7 +45,7 @@ public class RobotTasks extends LinearOpMode {
 
         parallel.add(new ServoTask(ServoFrontLift, .55, delay, "ServoFrontLift", true));
         parallel.add(new ServoTask(ServoFrontWristVertical, .7, delay, "ServoFrontWristVertical"));
-        parallel.add(new ServoTask(ServoFrontWristHorizontal, .45, delay, "ServoFrontWristHorizontal"));
+        parallel.add(new ServoTask(ServoFrontWristHorizontal, .42, delay, "ServoFrontWristHorizontal"));
 
         return parallel;
     }
@@ -57,13 +57,18 @@ public class RobotTasks extends LinearOpMode {
         RobotTaskParallel parallel = new RobotTaskParallel();
         parallel.add(new ServoTask(ServoRearClaw, .65, 500, ""));
         parallel.add(new ServoTask(ServoFrontLift, 0, 800, "", true));
-        parallel.add(new ServoTask(ServoFrontWristVertical, 0.84, 600, ""));
-        parallel.add(new ServoTask(ServoFrontWristHorizontal, 0.45, 600, ""));
+        parallel.add(new ServoTask(ServoFrontWristVertical, 0.93, 600, ""));
+        parallel.add(new ServoTask(ServoFrontWristHorizontal, 0.43, 600, ""));
         parallel.add(new ServoTask(ServoFrontClaw, 1, 600, ""));
 
         series.add(parallel);
 
         return series;
+    }
+    IRobotTask Compact(long delay) {
+        RobotTaskParallel parallel = new RobotTaskParallel();
+        parallel.add(new ServoTask(ServoFrontLift,1,delay,"idk"));
+        return parallel;
     }
 
     IRobotTask mediumPickup(long delay) {
@@ -85,13 +90,14 @@ public class RobotTasks extends LinearOpMode {
     IRobotTask transfer() {
         RobotTaskSeries series = new RobotTaskSeries();
 
-        //series.add(new ServoTask(ServoRearClaw, .65, 500, ""));
+        series.add(new ServoTask(ServoRearLift, 1, 20, ""));
+
 
         RobotTaskParallel parallelFront = new RobotTaskParallel();
         parallelFront.add(new ServoTask(ServoRearClaw, .65, 500, ""));
         parallelFront.add(new ServoTask(ServoFrontLift, 0, 1000, "", true));
         parallelFront.add(new ServoTask(ServoFrontWristVertical, 0.84, 600, ""));
-        parallelFront.add(new ServoTask(ServoFrontWristHorizontal, 0.45, 600, ""));
+        parallelFront.add(new ServoTask(ServoFrontWristHorizontal, 0.43, 600, ""));
         parallelFront.add(new ServoTask(ServoFrontClaw, .6, 600, ""));
         series.add(parallelFront);
 
@@ -166,11 +172,6 @@ public class RobotTasks extends LinearOpMode {
             }
 
             drivingWrapper.Drive(joystickWrapper, speed, rotSpeed);
-            if(joystickWrapper.gamepad2GetDUp()){
-
-            } else if (joystickWrapper.gamepad1GetDDown()) {
-
-            }
 
             if(joystickWrapper.gamepad1GetDRight()) {
 
@@ -185,6 +186,9 @@ public class RobotTasks extends LinearOpMode {
                 tasks.add(ReadyDropOff(1000L));
             }
 
+            if(joystickWrapper.gamepad1GetDDown()) {
+                tasks.add(Compact(1000L));
+            }
             if(joystickWrapper.gamepad1GetRightBumperDown()) {
                 servoArray.get(servoCounter).setPosition(servoArray.get(servoCounter).getPosition()+.05);
 

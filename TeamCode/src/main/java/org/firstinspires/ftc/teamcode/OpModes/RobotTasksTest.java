@@ -101,7 +101,7 @@ public class RobotTasksTest extends LinearOpMode {
 
         series.add(parallel);
 
-        series.add(new ServoTask(ServoRearClaw, .45, 2000, ""));
+        series.add(new ServoTask(ServoRearClaw, .45, 500, ""));
         series.add(new ServoTask(ServoFrontClaw, 1, 200,""));
         return series;
     }
