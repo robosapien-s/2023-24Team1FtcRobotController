@@ -147,8 +147,8 @@ public class OpenCvDetection {
             Imgproc.GaussianBlur(cvtMat,cvtMat,new Size(3,3),0);
 
 
-            Scalar minValues = new Scalar(23, 50, 70);
-            Scalar maxValues = new Scalar(32, 255, 255);
+            Scalar minValues = new Scalar(0, 100, 100);
+            Scalar maxValues = new Scalar(10, 255, 255);
 
 
 
