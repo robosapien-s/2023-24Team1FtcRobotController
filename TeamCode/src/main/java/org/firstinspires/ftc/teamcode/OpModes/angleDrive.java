@@ -27,7 +27,7 @@ public class angleDrive extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         joystickWrapper = new JoystickWrapper(gamepad1, gamepad2);  //see JoystickWrapper
-        drivingWrapper = new AngleDrivingWrapper(hardwareMap, telemetry, Kp, Ki, Kd, maxIntegralSum, a); //see DrivingWrapper
+        drivingWrapper = new AngleDrivingWrapper(hardwareMap, telemetry); //see DrivingWrapper
         revIMU = new RevIMUv2(hardwareMap, "imu");
 
         revIMU.init();
