@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.wrappers;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
-import org.firstinspires.ftc.teamcode.util.QuikMaths;
+import org.firstinspires.ftc.teamcode.usefulStuff.QuikMaths;
 
 
 public class JoystickWrapper {

@@ -3,10 +3,9 @@ package org.firstinspires.ftc.teamcode.OpModes;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.util.RevIMUv2;
+import org.firstinspires.ftc.teamcode.usefulStuff.RevIMUv2;
 import org.firstinspires.ftc.teamcode.wrappers.AngleDrivingWrapper;
 import org.firstinspires.ftc.teamcode.wrappers.JoystickWrapper;
-import org.firstinspires.ftc.teamcode.wrappers.FCDrivingWrapper;
 
 @TeleOp
 public class angleDrive extends LinearOpMode {

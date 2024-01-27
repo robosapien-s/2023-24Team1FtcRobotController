@@ -16,7 +16,6 @@ import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvInternalCamera;
 import org.openftc.easyopencv.OpenCvPipeline;
 import org.openftc.easyopencv.OpenCvWebcam;
 //import org.outoftheboxrobotics.tensorflowapi.ImageClassification.TensorImageClassifier;
@@ -34,18 +33,20 @@ and also this ¯\_(ツ)_/¯
  */
 public class OpenCvDetection {
 
+    String[] position = {"LEFT","MIDDLE","RIGHT"};
+
     OpenCvWebcam webcam;
     Point loc;
 
     HardwareMap hardwareMap;
     Telemetry telemetry;
+    boolean red;
 
     public int barcodeInt;
 
     public OpenCvDetection(Telemetry inTelemetry, HardwareMap inHardwareMap){
         telemetry = inTelemetry;
         hardwareMap = inHardwareMap;
-
     }
 
     Mat cvtMat = new Mat();
@@ -55,7 +56,12 @@ public class OpenCvDetection {
     int cameraHeight = 600;
     int cameraWidth = 800;
 
+    public void initColor(boolean red) {
+        this.red = red;
+    }
+
     public void init() {
+
         int cameraMonitorViewId =  hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
 
@@ -143,16 +149,24 @@ public class OpenCvDetection {
 
             //Scalar minValues = new Scalar(0,0,0);
             //Scalar maxValues = new Scalar(255,255,164);
+
+
+            Scalar minValuesRed = new Scalar(0, 50, 50);
+            Scalar maxValuesRed = new Scalar(10, 255, 255);
+            Scalar minValuesBlue = new Scalar(100, 100, 100);
+            Scalar maxValuesBlue = new Scalar(140, 255, 255);
+
             Imgproc.cvtColor(input, cvtMat, Imgproc.COLOR_RGB2HSV);
             Imgproc.GaussianBlur(cvtMat,cvtMat,new Size(3,3),0);
+            if (red) {
+                Core.inRange(cvtMat, minValuesRed, maxValuesRed, mask);
+                telemetry.addData("Color: ", "Red");
+            } else {
+                Core.inRange(cvtMat, minValuesBlue, maxValuesBlue, mask);
+                telemetry.addData("Color: ", "Blue");
+            }
 
 
-            Scalar minValues = new Scalar(0, 100, 100);
-            Scalar maxValues = new Scalar(10, 255, 255);
-
-
-
-            Core.inRange(cvtMat, minValues, maxValues, mask);
 
 
             List<MatOfPoint> contours = new ArrayList<>();
@@ -180,6 +194,7 @@ public class OpenCvDetection {
                         barcodeInt = 3;
                     }
                     telemetry.addData("Test Barcode:", barcodeInt);
+                    telemetry.addData("Position", position[barcodeInt-1]);
                     telemetry.addData("Location", loc);
                     telemetry.addData("Size",boundRect.size());
                     telemetry.update();
@@ -234,6 +249,11 @@ public class OpenCvDetection {
             }
         }
     }
+
+    public void switchColor() {
+        red = !red;
+    }
+
     public void StopCameraStream(){
         webcam.stopStreaming();
     }

@@ -1,32 +1,35 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.wrappers.JoystickWrapper;
 import org.firstinspires.ftc.teamcode.wrappers.OpenCvDetection;
-import org.openftc.easyopencv.OpenCvCamera;
 
 @TeleOp
-public class testOpenCV extends LinearOpMode{
+public class testOpenCVBlue extends LinearOpMode{
 
 
-    Telemetry telemetry;
-    HardwareMap hardwareMap;
-
-
-    public OpenCvDetection OpenCVWrapper;
+    JoystickWrapper joystickWrapper;
+    OpenCvDetection OpenCVWrapper;
     int signalInt=0;
+
+    boolean red=false;
 
 
     @Override
     public void runOpMode() {
+        joystickWrapper = new JoystickWrapper(gamepad1,gamepad2);
         OpenCVWrapper = new OpenCvDetection(telemetry, hardwareMap);
+        telemetry.update();
+        OpenCVWrapper.initColor(red);
         OpenCVWrapper.init();
         waitForStart();
         while (!isStopRequested()) {
-
-            signalInt = OpenCVWrapper.barcodeInt;
+            if (joystickWrapper.gamepad1GetA()) {
+                OpenCVWrapper.switchColor();
+                //red=!red;
+                //OpenCVWrapper.initColor(red);
+            }
             //telemetry.addData("Barcode:", OpenCVWrapper.barcodeInt);
             //telemetry.update();
         }

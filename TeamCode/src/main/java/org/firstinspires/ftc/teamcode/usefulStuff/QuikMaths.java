@@ -1,11 +1,9 @@
-package org.firstinspires.ftc.teamcode.util;
+package org.firstinspires.ftc.teamcode.usefulStuff;
 
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
-
-import org.opencv.core.Mat;
 
 public class QuikMaths {
     public static final double PI = 3.14159265358979323846;

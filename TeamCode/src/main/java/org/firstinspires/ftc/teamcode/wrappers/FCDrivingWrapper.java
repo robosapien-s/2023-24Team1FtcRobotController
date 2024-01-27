@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.util.RevIMUv2;
+import org.firstinspires.ftc.teamcode.usefulStuff.RevIMUv2;
 
 public class FCDrivingWrapper{
 
