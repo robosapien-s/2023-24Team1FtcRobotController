@@ -9,7 +9,6 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 @TeleOp
-@Disabled
 public class FieldCentricMecanumTeleop extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
