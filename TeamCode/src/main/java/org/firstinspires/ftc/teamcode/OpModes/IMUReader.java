@@ -12,12 +12,17 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
+import org.firstinspires.ftc.teamcode.wrappers.JoystickWrapper;
 import org.opencv.core.Mat;
 
 @TeleOp
 public class IMUReader extends LinearOpMode {
 
     IMU imu;
+
+    boolean cosineThing = false;
+
+    JoystickWrapper joystickWrapper;
 
     double pitch;
     double roll;
@@ -35,6 +40,7 @@ public class IMUReader extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+        joystickWrapper = new JoystickWrapper(gamepad1,gamepad2);
         //0
         frontLeftMotor =  hardwareMap.dcMotor.get("fL");
         //1
@@ -43,20 +49,18 @@ public class IMUReader extends LinearOpMode {
         backLeftMotor = hardwareMap.dcMotor.get("bL");
         //3
         backRightMotor = hardwareMap.dcMotor.get("bR");
-
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
         RevHubOrientationOnRobot.UsbFacingDirection usbDirection = RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD;
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
-
         // Now initialize the IMU with this mounting orientation
         // This sample expects the IMU to be in a REV Hub and named "imu".
         imu = hardwareMap.get(IMU.class, "imu");
         imu.initialize(new IMU.Parameters(orientationOnRobot));
-
         imu.resetYaw();
-        waitForStart();
+
+
         while (!isStopRequested()) {
- 
+
             YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
 
             pitch = orientation.getPitch(AngleUnit.DEGREES);
@@ -83,14 +87,23 @@ public class IMUReader extends LinearOpMode {
             telemetry.addData("Error", headingError);
             telemetry.addData("Range",Range.clip(headingError * PGain, -1, 1));
             telemetry.addData("correction angle",yaw);
+            telemetry.addData("Cosine Movement",cosineThing);
 
 
             Translation2d translation2d =RotateAngle(gamepad1.left_stick_x,gamepad1.left_stick_y,yaw);
 
 
+            if (joystickWrapper.gamepad1GetA()) {
+                cosineThing = !cosineThing;
+            }
 
 
-            MoveMecanum( translation2d.getX(),translation2d.getY(),Range.clip(headingError * PGain, -1, 1));
+            if (cosineThing) {
+                MoveMecanum(translation2d.getX(),translation2d.getY()*Math.cos(Math.toRadians(headingError)),Range.clip(headingError * PGain, -1, 1));
+            } else {
+                MoveMecanum(translation2d.getX(),translation2d.getY(),Range.clip(headingError * PGain, -1, 1));
+            }
+
 
             telemetry.update();
 
