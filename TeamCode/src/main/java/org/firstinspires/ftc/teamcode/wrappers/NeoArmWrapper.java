@@ -23,7 +23,8 @@ public class NeoArmWrapper {
     float maxExtensionLength;
     float minExtensionLength;
 
-    public Servo armServo;
+    public Servo armServo0;
+    public Servo armServo1;
     public Servo wristServo;
 
     public NeoArmWrapper(Telemetry inTelemetry, HardwareMap inHardwareMap, Gamepad inGamepad1, Gamepad inGamepad2){
@@ -35,8 +36,8 @@ public class NeoArmWrapper {
         //ActuatorMotorEx = hardwareMap.get(DcMotorEx.class,"ActuatorMotor");
         IntakeMotorEx = hardwareMap.get(DcMotorEx.class, "IntakeMotor");
 
-        armServo = hardwareMap.get(Servo.class, "armServo0");
-        armServo = hardwareMap.get(Servo.class, "armServo1");
+        armServo0 = hardwareMap.get(Servo.class, "armServo0");
+        armServo1 = hardwareMap.get(Servo.class, "armServo1");
         wristServo = hardwareMap.get(Servo.class, "wristServo");
     }
 
