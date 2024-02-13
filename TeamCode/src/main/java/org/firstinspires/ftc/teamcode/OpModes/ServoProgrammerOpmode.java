@@ -27,7 +27,8 @@ public class ServoProgrammerOpmode extends LinearOpMode {
 
         waitForStart();
 
-        wrapper.AddServos(hardwareMap.get(Servo.class,"armServo"),"armServo");
+        wrapper.AddServos(hardwareMap.get(Servo.class,"armServo0"),"armServo0");
+        wrapper.AddServos(hardwareMap.get(Servo.class,"armServo1"),"armServo1");
         wrapper.AddServos(hardwareMap.get(Servo.class,"wristServo"),"wristServo");
         
 

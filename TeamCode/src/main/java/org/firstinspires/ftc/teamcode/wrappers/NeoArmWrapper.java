@@ -23,7 +23,8 @@ public class NeoArmWrapper {
     float maxExtensionLength;
     float minExtensionLength;
 
-    public Servo armServo;
+    public Servo armServo0;
+    public Servo armServo1;
     public Servo wristServo;
 
     public NeoArmWrapper(Telemetry inTelemetry, HardwareMap inHardwareMap, Gamepad inGamepad1, Gamepad inGamepad2){
@@ -32,10 +33,11 @@ public class NeoArmWrapper {
         hardwareMap = inHardwareMap;
         gamepad1 = inGamepad1;
         gamepad2 = inGamepad2;
-        ActuatorMotorEx = hardwareMap.get(DcMotorEx.class,"ActuatorMotor");
+        //ActuatorMotorEx = hardwareMap.get(DcMotorEx.class,"ActuatorMotor");
         IntakeMotorEx = hardwareMap.get(DcMotorEx.class, "IntakeMotor");
 
-        armServo = hardwareMap.get(Servo.class, "armServo");
+        armServo0 = hardwareMap.get(Servo.class, "armServo0");
+        armServo1 = hardwareMap.get(Servo.class, "armServo1");
         wristServo = hardwareMap.get(Servo.class, "wristServo");
     }
 
@@ -80,12 +82,18 @@ public class NeoArmWrapper {
         telemetry.update();
     }
 
-    public void IntakePos(){
-        armServo.setPosition(.25);
-        wristServo.setPosition(.2);
+    public void OpenPos(){
+        armServo0.setPosition(.65);
+        armServo1.setPosition(.7);
     }
-    public void DropPos(){
-        armServo.setPosition(.25);
-        wristServo.setPosition(.2);
+    public void ClosePos(){
+        armServo0.setPosition(.95);
+        armServo1.setPosition(.35);
+    }
+    public void WristDown(){
+        wristServo.setPosition(0);
+    }
+    public void WristUp(){
+        wristServo.setPosition(.25);
     }
 }
