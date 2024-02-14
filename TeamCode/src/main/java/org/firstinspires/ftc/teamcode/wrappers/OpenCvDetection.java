@@ -151,10 +151,10 @@ public class OpenCvDetection {
             //Scalar maxValues = new Scalar(255,255,164);
 
 
-            Scalar minValuesRed = new Scalar(0, 50, 50);
-            Scalar maxValuesRed = new Scalar(10, 255, 255);
-            Scalar minValuesBlue = new Scalar(100, 100, 100);
-            Scalar maxValuesBlue = new Scalar(140, 255, 255);
+            Scalar minValuesRed = new Scalar(159, 70, 50);
+            Scalar maxValuesRed = new Scalar(180, 255, 255);
+            Scalar minValuesBlue = new Scalar(90, 50, 70);
+            Scalar maxValuesBlue = new Scalar(128, 255, 255);
 
             Imgproc.cvtColor(input, cvtMat, Imgproc.COLOR_RGB2HSV);
             Imgproc.GaussianBlur(cvtMat,cvtMat,new Size(3,3),0);
@@ -184,7 +184,7 @@ public class OpenCvDetection {
                 Point center = new Point();
                 float[] radius = new float[1];
                 Imgproc.minEnclosingCircle(contoursPoly, center, radius);
-                if(boundRect.size().width>50.0){
+                if(boundRect.size().width>50.0 && boundRect.size().height > boundRect.size().width){ // stuff after && added recently probably bs but we'll see
                     loc = center;
                     if (loc.x<(cameraWidth/3)){
                         barcodeInt = 1;
