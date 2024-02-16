@@ -33,12 +33,15 @@ public class NeoArmWrapper {
         hardwareMap = inHardwareMap;
         gamepad1 = inGamepad1;
         gamepad2 = inGamepad2;
-        //ActuatorMotorEx = hardwareMap.get(DcMotorEx.class,"ActuatorMotor");
+        ExtensionMotorEx1 = hardwareMap.get(DcMotorEx.class,"");
+        ExtensionMotorEx2 = hardwareMap.get(DcMotorEx.class, " ");
+        ActuatorMotorEx = hardwareMap.get(DcMotorEx.class,"ActuatorMotor");
         IntakeMotorEx = hardwareMap.get(DcMotorEx.class, "IntakeMotor");
 
         armServo0 = hardwareMap.get(Servo.class, "armServo0");
         armServo1 = hardwareMap.get(Servo.class, "armServo1");
         wristServo = hardwareMap.get(Servo.class, "wristServo");
+
     }
 
     public enum ePosition{
