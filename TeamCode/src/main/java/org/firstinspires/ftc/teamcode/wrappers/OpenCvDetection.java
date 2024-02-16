@@ -51,6 +51,8 @@ public class OpenCvDetection {
 
     Mat cvtMat = new Mat();
     Mat mask = new Mat();
+    Mat mask1 = new Mat();
+    Mat mask2 = new Mat();
     Mat hierarchy = new Mat();
 
     int cameraHeight = 600;
@@ -151,15 +153,19 @@ public class OpenCvDetection {
             //Scalar maxValues = new Scalar(255,255,164);
 
 
-            Scalar minValuesRed = new Scalar(159, 70, 50);
-            Scalar maxValuesRed = new Scalar(180, 255, 255);
-            Scalar minValuesBlue = new Scalar(90, 50, 70);
-            Scalar maxValuesBlue = new Scalar(128, 255, 255);
+            Scalar minValuesRed1 = new Scalar(159, 70, 50);
+            Scalar minValuesRed2 = new Scalar(0, 70, 50);
+            Scalar maxValuesRed1 = new Scalar(180, 255, 255);
+            Scalar maxValuesRed2 = new Scalar(10, 255, 255);
+            Scalar minValuesBlue = new Scalar(85, 40, 60);
+            Scalar maxValuesBlue = new Scalar(135, 255, 255);
 
             Imgproc.cvtColor(input, cvtMat, Imgproc.COLOR_RGB2HSV);
             Imgproc.GaussianBlur(cvtMat,cvtMat,new Size(3,3),0);
             if (red) {
-                Core.inRange(cvtMat, minValuesRed, maxValuesRed, mask);
+                Core.inRange(cvtMat, minValuesRed1, maxValuesRed1, mask1);
+                Core.inRange(cvtMat, minValuesRed2, maxValuesRed2, mask2);
+                Core.bitwise_or(mask1,mask2,mask);
                 telemetry.addData("Color: ", "Red");
             } else {
                 Core.inRange(cvtMat, minValuesBlue, maxValuesBlue, mask);
@@ -184,7 +190,7 @@ public class OpenCvDetection {
                 Point center = new Point();
                 float[] radius = new float[1];
                 Imgproc.minEnclosingCircle(contoursPoly, center, radius);
-                if(boundRect.size().width>50.0 && boundRect.size().height > boundRect.size().width){ // stuff after && added recently probably bs but we'll see
+                if((boundRect.size().width>50.0&&boundRect.size().height>10.0) || (boundRect.size().width>10.0 && boundRect.size().width>50.0)){
                     loc = center;
                     if (loc.x<(cameraWidth/3)){
                         barcodeInt = 1;
