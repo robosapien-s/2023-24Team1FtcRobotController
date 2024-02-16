@@ -60,6 +60,23 @@ public class NewDrive extends LinearOpMode {
 
             telemetry.addData("LinearActuator Position",linearActuator.getTargetPosition());
 
+            if(joystickWrapper.gamepad1GetA()){
+                armWrapper.MoveExtensionMotors(0);
+                armWrapper.MoveActuatorMotor(0);
+            }
+            if(joystickWrapper.gamepad1GetDDown()){
+                armWrapper.MoveExtensionMotors(0);
+            }
+            if(joystickWrapper.gamepad1GetDRight()){
+                armWrapper.MoveExtensionMotors(5250);
+            }
+            if(joystickWrapper.gamepad1GetDRight()){
+                armWrapper.MoveExtensionMotors(3500);
+            }
+            if(joystickWrapper.gamepad1GetDLeft()){
+                armWrapper.MoveExtensionMotors(1750);
+            }
+
             if(tasks.size()>0) {
 
                 boolean isStarted = tasks.get(0).hasStarted();

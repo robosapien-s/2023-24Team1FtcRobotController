@@ -76,6 +76,8 @@ public class NeoArmWrapper {
         IntakeMotorEx.setPower(power);
     }
 
+
+
     public void MoveMotorWithTelemetry(int Move){
         telemetry.addData("current",ActuatorMotorEx.getCurrent(CurrentUnit.AMPS));
         ActuatorMotorEx.setTargetPosition(ActuatorMotorEx.getCurrentPosition()+Move);
@@ -96,4 +98,20 @@ public class NeoArmWrapper {
     public void WristUp(){
         wristServo.setPosition(.25);
     }
+
+    public void MoveExtensionMotors(int pos){
+        ExtensionMotorEx1.setPower(1);
+        ExtensionMotorEx2.setPower(1);
+        ExtensionMotorEx1.setTargetPosition(pos);
+        ExtensionMotorEx2.setTargetPosition(pos);
+        ExtensionMotorEx1.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        ExtensionMotorEx2.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+    }
+
+    public void MoveActuatorMotor(int pos){
+        ActuatorMotorEx.setPower(1);
+        ActuatorMotorEx.setTargetPosition(pos);
+        ActuatorMotorEx.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+    }
+
 }
