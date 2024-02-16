@@ -28,7 +28,7 @@ public class NewDrive extends LinearOpMode {
 
     boolean isDrop;
 
-    DcMotorEx linearActuator;
+    DcMotorEx ActuatorMotorEx;
 
 
     ArrayList<IRobotTask> tasks = new ArrayList<IRobotTask>();
@@ -41,10 +41,6 @@ public class NewDrive extends LinearOpMode {
 
         waitForStart();
 
-        linearActuator = hardwareMap.get(DcMotorEx.class, "linearActuator");
-        linearActuator.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        linearActuator.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        linearActuator.setTargetPosition(0);
 
 
         joystickWrapper = new JoystickWrapper(gamepad1,gamepad2);
@@ -54,12 +50,11 @@ public class NewDrive extends LinearOpMode {
             wrapper.Update();
             armWrapper.UpdateIntakePower(gamepad2.right_trigger-gamepad2.left_trigger);
             //armWrapper.MoveMotorWithTelemetry(Math.round((gamepad2.right_trigger-gamepad2.left_trigger)*100));
+            armWrapper.ResetMotorPositions(); 
+            if(joystickWrapper.gamepad1GetB()){
+                armWrapper.MoveExtensionMotors(1000);
 
-            linearActuator.setPower(1);
-            linearActuator.setTargetPosition(linearActuator.getTargetPosition()+Math.round((gamepad1.right_trigger-gamepad1.left_trigger)*50));
-            linearActuator.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-
-            telemetry.addData("LinearActuator Position",linearActuator.getTargetPosition());
+            }
 
             if(joystickWrapper.gamepad1GetA()){
                 armWrapper.MoveExtensionMotors(0);

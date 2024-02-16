@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.wrappers;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -33,8 +34,8 @@ public class NeoArmWrapper {
         hardwareMap = inHardwareMap;
         gamepad1 = inGamepad1;
         gamepad2 = inGamepad2;
-        ExtensionMotorEx1 = hardwareMap.get(DcMotorEx.class,"");
-        ExtensionMotorEx2 = hardwareMap.get(DcMotorEx.class, " ");
+        ExtensionMotorEx1 = hardwareMap.get(DcMotorEx.class,"ExtensionMotorEx0");
+        ExtensionMotorEx2 = hardwareMap.get(DcMotorEx.class, "ExtensionMotorEx1");
         ActuatorMotorEx = hardwareMap.get(DcMotorEx.class,"ActuatorMotor");
         IntakeMotorEx = hardwareMap.get(DcMotorEx.class, "IntakeMotor");
 
@@ -116,5 +117,19 @@ public class NeoArmWrapper {
         ActuatorMotorEx.setTargetPosition(pos);
         ActuatorMotorEx.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
     }
+
+    public void ResetMotorPositions(){
+        ActuatorMotorEx.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        ExtensionMotorEx1.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        ExtensionMotorEx2.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        ExtensionMotorEx2.setDirection(DcMotorSimple.Direction.REVERSE);
+        ActuatorMotorEx.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        ExtensionMotorEx1.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        ExtensionMotorEx2.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        ActuatorMotorEx.setTargetPosition(0);
+        ExtensionMotorEx1.setTargetPosition(0);
+        ExtensionMotorEx2.setTargetPosition(0);
+    }
+
 
 }
