@@ -48,6 +48,7 @@ public class NewDrive extends LinearOpMode {
         armWrapper = new NeoArmWrapper(telemetry,hardwareMap,gamepad2,gamepad2);
         while(!isStopRequested()){
             wrapper.Update();
+            armWrapper.ManualExtention(joystickWrapper,true,10);
             armWrapper.UpdateIntakePower(gamepad2.right_trigger-gamepad2.left_trigger);
             //armWrapper.MoveMotorWithTelemetry(Math.round((gamepad2.right_trigger-gamepad2.left_trigger)*100));
             armWrapper.ResetMotorPositions(); 

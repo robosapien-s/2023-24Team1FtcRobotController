@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.wrappers;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -103,13 +104,37 @@ public class NeoArmWrapper {
         wristServo.setPosition(.25);
     }
 
-    public void MoveExtensionMotors(int pos){
+    public void ManualExtention(JoystickWrapper joystickWrapper, boolean limit, int slideEncoderFactor){
+        int slidePos = ExtensionMotorEx1.getCurrentPosition() + (int)((joystickWrapper.gamepad1GetRightTrigger()-joystickWrapper.gamepad1GetLeftTrigger())*slideEncoderFactor);
+        if (joystickWrapper.gamepad2GetRightBumperDown()){
+            if(limit){
+                limit=false;
+            }else {
+                limit=true;
+            }
+        }
+
+        if (slidePos<5 && limit) {
+            slidePos = 10;
+        }
+        if (slidePos>3000 && limit) {
+            slidePos = 3000;
+        }
         ExtensionMotorEx1.setPower(1);
         ExtensionMotorEx2.setPower(1);
-        ExtensionMotorEx1.setTargetPosition(pos);
-        ExtensionMotorEx2.setTargetPosition(pos);
-        ExtensionMotorEx1.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        ExtensionMotorEx2.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        ExtensionMotorEx1.setTargetPosition(slidePos);
+        ExtensionMotorEx2.setTargetPosition(slidePos);
+        ExtensionMotorEx1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        ExtensionMotorEx2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
+    public void MoveExtensionMotors(int position) {
+        ExtensionMotorEx1.setPower(1);
+        ExtensionMotorEx2.setPower(1);
+        ExtensionMotorEx1.setTargetPosition(position);
+        ExtensionMotorEx2.setTargetPosition(position);
+        ExtensionMotorEx1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        ExtensionMotorEx2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
     public void MoveActuatorMotor(int pos){

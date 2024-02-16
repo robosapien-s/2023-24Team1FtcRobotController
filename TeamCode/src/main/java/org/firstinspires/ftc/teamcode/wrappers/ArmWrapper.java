@@ -59,6 +59,13 @@ public class ArmWrapper {
             }
         }
 
+        if (slidePos<5 && limit) {
+            slidePos = 10;
+        }
+        if (slidePos>3000 && limit) {
+            slidePos = 3000;
+        }
+
        /* if (joystickWrapper.gamepad2GetDDown()) {
             clawBase.setPower(-.5);
             servoPos = clawBase.getPosition() - .01;
@@ -91,12 +98,7 @@ public class ArmWrapper {
         }
 */
 
-        if (slidePos<5 && limit) {
-            slidePos = 10;
-        }
-        if (slidePos>3000 && limit) {
-            slidePos = 3000;
-        }
+
 
 
 
