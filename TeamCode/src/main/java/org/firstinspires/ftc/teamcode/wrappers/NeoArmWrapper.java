@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.wrappers;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -17,10 +18,10 @@ public class NeoArmWrapper {
     Gamepad gamepad1;
     Gamepad gamepad2;
 
-    DcMotorEx IntakeMotorEx;
-    DcMotorEx ActuatorMotorEx;
-    DcMotorEx ExtensionMotorEx1;
-    DcMotorEx ExtensionMotorEx2;
+    public DcMotorEx IntakeMotorEx;
+    public DcMotorEx ActuatorMotorEx;
+    public DcMotorEx ExtensionMotorEx1;
+    public DcMotorEx ExtensionMotorEx2;
 
     float maxExtensionLength;
     float minExtensionLength;
@@ -28,6 +29,7 @@ public class NeoArmWrapper {
     public Servo armServo0;
     public Servo armServo1;
     public Servo wristServo;
+    public CRServo armWheel;
 
     public NeoArmWrapper(Telemetry inTelemetry, HardwareMap inHardwareMap, Gamepad inGamepad1, Gamepad inGamepad2){
         //Set Values
@@ -43,6 +45,7 @@ public class NeoArmWrapper {
         armServo0 = hardwareMap.get(Servo.class, "armServo0");
         armServo1 = hardwareMap.get(Servo.class, "armServo1");
         wristServo = hardwareMap.get(Servo.class, "wristServo");
+        armWheel = hardwareMap.get(CRServo.class, "armWheel");
 
     }
 
@@ -104,15 +107,14 @@ public class NeoArmWrapper {
         wristServo.setPosition(.25);
     }
 
-    public void ManualExtention(JoystickWrapper joystickWrapper, boolean limit, int slideEncoderFactor){
-        int slidePos = ExtensionMotorEx1.getCurrentPosition() + (int)((joystickWrapper.gamepad1GetRightTrigger()-joystickWrapper.gamepad1GetLeftTrigger())*slideEncoderFactor);
-        if (joystickWrapper.gamepad2GetRightBumperDown()){
-            if(limit){
-                limit=false;
-            }else {
-                limit=true;
-            }
-        }
+    public void ManualExtention(JoystickWrapper joystickWrapper, int slideEncoderFactor){
+
+        boolean limit = true;
+        int slidePos=ExtensionMotorEx1.getCurrentPosition() + (int)(-joystickWrapper.gamepad2GetRightStickY()*slideEncoderFactor);
+
+       // if (joystickWrapper.gamepad2GetRightBumperDown()){
+        //    limit = !limit;
+       // }
 
         if (slidePos<5 && limit) {
             slidePos = 10;
@@ -120,21 +122,70 @@ public class NeoArmWrapper {
         if (slidePos>3000 && limit) {
             slidePos = 3000;
         }
-        ExtensionMotorEx1.setPower(1);
-        ExtensionMotorEx2.setPower(1);
+        //ExtensionMotorEx1.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        //ExtensionMotorEx2.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+
+
         ExtensionMotorEx1.setTargetPosition(slidePos);
         ExtensionMotorEx2.setTargetPosition(slidePos);
         ExtensionMotorEx1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         ExtensionMotorEx2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        ExtensionMotorEx1.setPower(joystickWrapper.gamepad2GetRightStickY());
+        ExtensionMotorEx2.setPower(joystickWrapper.gamepad2GetRightStickY());
+        telemetry.addData("Slide Pos:", slidePos);
+    }
+
+
+
+    public void setOuttake() {
+
+        ActuatorMotorEx.setTargetPosition(1000);
+        ExtensionMotorEx1.setTargetPosition(2000);
+        ExtensionMotorEx2.setTargetPosition(2000);
+
+        ActuatorMotorEx.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        ExtensionMotorEx1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        ExtensionMotorEx2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        ActuatorMotorEx.setPower(1);
+        ExtensionMotorEx1.setPower(1);
+        ExtensionMotorEx2.setPower(1);
+
+    }
+
+
+    public void setIntake() {
+
+        ActuatorMotorEx.setTargetPosition(0);
+        ExtensionMotorEx1.setTargetPosition(0);
+        ExtensionMotorEx2.setTargetPosition(0);
+
+        ActuatorMotorEx.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        ExtensionMotorEx1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        ExtensionMotorEx2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        ActuatorMotorEx.setPower(1);
+        ExtensionMotorEx1.setPower(.5);
+        ExtensionMotorEx2.setPower(.5);
+
     }
 
     public void MoveExtensionMotors(int position) {
-        ExtensionMotorEx1.setPower(1);
-        ExtensionMotorEx2.setPower(1);
-        ExtensionMotorEx1.setTargetPosition(position);
-        ExtensionMotorEx2.setTargetPosition(position);
-        ExtensionMotorEx1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        ExtensionMotorEx2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //ExtensionMotorEx1.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        //ExtensionMotorEx2.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+
+
+        ActuatorMotorEx.setTargetPosition(position);
+        //ExtensionMotorEx1.setTargetPosition(position);
+        //ExtensionMotorEx2.setTargetPosition(position);
+
+        ActuatorMotorEx.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //ExtensionMotorEx1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //ExtensionMotorEx2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        ActuatorMotorEx.setPower(.5);
+        //ExtensionMotorEx1.setPower(.1);
+        //ExtensionMotorEx2.setPower(.1);
     }
 
     public void MoveActuatorMotor(int pos){
@@ -147,13 +198,25 @@ public class NeoArmWrapper {
         ActuatorMotorEx.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         ExtensionMotorEx1.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         ExtensionMotorEx2.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        ExtensionMotorEx2.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        ActuatorMotorEx.setDirection(DcMotorEx.Direction.FORWARD);
+        ExtensionMotorEx1.setDirection(DcMotorEx.Direction.FORWARD);
+        ExtensionMotorEx2.setDirection(DcMotorEx.Direction.REVERSE);
+
         ActuatorMotorEx.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         ExtensionMotorEx1.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         ExtensionMotorEx2.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        ActuatorMotorEx.setTargetPosition(0);
+
+        //ActuatorMotorEx.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        //ExtensionMotorEx1.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        //ExtensionMotorEx2.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+
+        /*ActuatorMotorEx.setTargetPosition(0);
         ExtensionMotorEx1.setTargetPosition(0);
-        ExtensionMotorEx2.setTargetPosition(0);
+        ExtensionMotorEx2.setTargetPosition(0);*/
+    }
+    public void SetWheelSpin(double Power){
+        armWheel.setPower(Power);
     }
 
 

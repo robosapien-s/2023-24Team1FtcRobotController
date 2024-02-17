@@ -26,7 +26,8 @@ public class NewDrive extends LinearOpMode {
 
     JoystickWrapper joystickWrapper;
 
-    boolean isDrop;
+    boolean isDown;
+    boolean isOpen;
 
     DcMotorEx ActuatorMotorEx;
 
@@ -38,42 +39,76 @@ public class NewDrive extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         wrapper = new IMUWrapper();
         wrapper.Initialize(telemetry,hardwareMap,gamepad1, gamepad2);
-
+        joystickWrapper = new JoystickWrapper(gamepad1,gamepad2);
+        armWrapper = new NeoArmWrapper(telemetry,hardwareMap,gamepad2,gamepad2);
+        armWrapper.ResetMotorPositions();
         waitForStart();
 
 
 
-        joystickWrapper = new JoystickWrapper(gamepad1,gamepad2);
 
-        armWrapper = new NeoArmWrapper(telemetry,hardwareMap,gamepad2,gamepad2);
+
         while(!isStopRequested()){
             wrapper.Update();
-            armWrapper.ManualExtention(joystickWrapper,true,10);
-            armWrapper.UpdateIntakePower(gamepad2.right_trigger-gamepad2.left_trigger);
+            armWrapper.SetWheelSpin(gamepad2.left_trigger-gamepad2.right_trigger);
+            armWrapper.UpdateIntakePower(gamepad1.right_trigger-gamepad1.left_trigger);
+            //armWrapper.ManualExtention(joystickWrapper, 100);
             //armWrapper.MoveMotorWithTelemetry(Math.round((gamepad2.right_trigger-gamepad2.left_trigger)*100));
-            armWrapper.ResetMotorPositions(); 
-            if(joystickWrapper.gamepad1GetB()){
+            /*if(joystickWrapper.gamepad2GetX()){
                 armWrapper.MoveExtensionMotors(1000);
+            }
+            */
 
+
+            if(joystickWrapper.gamepad2GetY()){
+                armWrapper.setOuttake();
+            }
+            /*
+            if(joystickWrapper.gamepad2GetB()){
+                armWrapper.MoveExtensionMotors(1000);
+            }
+*/
+            if(joystickWrapper.gamepad2GetA()){
+                armWrapper.setIntake();
             }
 
-            if(joystickWrapper.gamepad1GetA()){
-                armWrapper.MoveExtensionMotors(0);
-                armWrapper.MoveActuatorMotor(0);
+            /*
+            if(joystickWrapper.gamepad2GetDDown()){
+                armWrapper.MoveExtensionMotors(5);
             }
-            if(joystickWrapper.gamepad1GetDDown()){
-                armWrapper.MoveExtensionMotors(0);
+            if(joystickWrapper.gamepad2GetDRight()){
+                armWrapper.MoveExtensionMotors(1500);
             }
-            if(joystickWrapper.gamepad1GetDRight()){
-                armWrapper.MoveExtensionMotors(5250);
+            if(joystickWrapper.gamepad2GetDRight()){
+                armWrapper.MoveExtensionMotors(2700);
             }
-            if(joystickWrapper.gamepad1GetDRight()){
-                armWrapper.MoveExtensionMotors(3500);
-            }
-            if(joystickWrapper.gamepad1GetDLeft()){
+            if(joystickWrapper.gamepad2GetDLeft()){
                 armWrapper.MoveExtensionMotors(1750);
+            }*/
+            if(joystickWrapper.gamepad1GetRightBumperDown()){
+                if(isOpen){
+                    armWrapper.ClosePos();
+                    isOpen = false;
+                }else {
+                    armWrapper.OpenPos();
+                    isOpen = true;
+                }
             }
-
+            if(joystickWrapper.gamepad1GetLeftBumperDown()){
+                if(isDown){
+                    armWrapper.WristUp();
+                    isDown = false;
+                }else {
+                    armWrapper.WristDown();
+                    isDown = true;
+                }
+            }
+            telemetry.addData("Actuator Pos", armWrapper.ActuatorMotorEx.getCurrentPosition());
+            telemetry.addData("Extension1 Pos", armWrapper.ExtensionMotorEx1.getCurrentPosition());
+            telemetry.addData("Extension2 Pos", armWrapper.ExtensionMotorEx2.getCurrentPosition());
+            telemetry.addData("Actuator Target Pos", armWrapper.ActuatorMotorEx.getTargetPosition());
+            telemetry.addData("Extension1 Target Pos", armWrapper.ExtensionMotorEx1.getTargetPosition());
+            telemetry.addData("Extension2 Target Pos", armWrapper.ExtensionMotorEx2.getTargetPosition());
             if(tasks.size()>0) {
 
                 boolean isStarted = tasks.get(0).hasStarted();
