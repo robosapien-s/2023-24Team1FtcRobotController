@@ -42,7 +42,7 @@ public class Red_Far {
                     // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                     .setConstraints(52.48291908330528, 52.48291908330528, Math.toRadians(197.5918273305535), Math.toRadians(222.7444266666667), 13.26)
                     .followTrajectorySequence(drive ->
-                            drive.trajectorySequenceBuilder(new Pose2d(-36, -62, Math.toRadians(-90)))
+                                drive.trajectorySequenceBuilder(new Pose2d(-36, -62, Math.toRadians(-90)))
                                     .setReversed(true)
                                     .splineTo(new Vector2d(-40, -36), Math.toRadians(135))
                                     .setReversed(false)
