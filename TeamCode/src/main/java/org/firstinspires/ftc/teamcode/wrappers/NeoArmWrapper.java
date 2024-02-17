@@ -95,13 +95,14 @@ public class NeoArmWrapper {
         telemetry.update();
     }
 
-    public void OpenPos(){
+    public void ClosePos(){
         armServo0.setPosition(.65);
         armServo1.setPosition(.7);
     }
-    public void ClosePos(){
+    public void OpenPos(){
         armServo0.setPosition(.95);
         armServo1.setPosition(.35);
+        telemetry.update();
     }
     public void WristDown(){
         wristServo.setPosition(0);
@@ -121,8 +122,8 @@ public class NeoArmWrapper {
         //    limit = !limit;
        // }
 
-        if (slidePos<5 && limit) {
-            slidePos = 10;
+        if (slidePos<0 && limit) {
+            slidePos = 0;
         }
         if (slidePos>2335 && limit) {
             slidePos = 2335;
@@ -170,16 +171,16 @@ public class NeoArmWrapper {
         //ExtensionMotorEx2.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
 
-        ActuatorMotorEx.setTargetPosition(position);
-        //ExtensionMotorEx1.setTargetPosition(position);
+        //ActuatorMotorEx.setTargetPosition(position);
+        ExtensionMotorEx1.setTargetPosition(position);
         //ExtensionMotorEx2.setTargetPosition(position);
 
-        ActuatorMotorEx.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        //ExtensionMotorEx1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //ActuatorMotorEx.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        ExtensionMotorEx1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         //ExtensionMotorEx2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        ActuatorMotorEx.setPower(.5);
-        //ExtensionMotorEx1.setPower(.1);
+        //ActuatorMotorEx.setPower(.5);
+        ExtensionMotorEx1.setPower(1);
         //ExtensionMotorEx2.setPower(.1);
     }
 
@@ -212,6 +213,7 @@ public class NeoArmWrapper {
     }
     public void SetWheelSpin(double Power){
         armWheel.setPower(Power);
+        telemetry.addData("Wheel Power", Power);
     }
 
 

@@ -9,4 +9,5 @@ public interface IRobotTask {
     boolean hasStarted();
     boolean isRunning();
     boolean isComplete();
+    void stopTask();
 }

@@ -64,4 +64,9 @@ public class ServoTask extends RobotTaskTimed {
 
         }
     }
+
+    @Override
+    public void stopTask() {
+        super.stopTask();
+    }
 }
