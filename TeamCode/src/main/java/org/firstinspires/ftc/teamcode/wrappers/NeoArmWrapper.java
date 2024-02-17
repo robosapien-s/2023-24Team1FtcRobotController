@@ -31,6 +31,9 @@ public class NeoArmWrapper {
     public Servo wristServo;
     public CRServo armWheel;
 
+    int slidePos;
+    boolean limit = true;
+
     public NeoArmWrapper(Telemetry inTelemetry, HardwareMap inHardwareMap, Gamepad inGamepad1, Gamepad inGamepad2){
         //Set Values
         telemetry = inTelemetry;
@@ -107,10 +110,12 @@ public class NeoArmWrapper {
         wristServo.setPosition(.25);
     }
 
-    public void ManualExtention(JoystickWrapper joystickWrapper, int slideEncoderFactor){
+    public void UpdateExtensionPlusInput(JoystickWrapper joystickWrapper, int slideEncoderFactor){
 
-        boolean limit = true;
-        int slidePos=ExtensionMotorEx1.getCurrentPosition() + (int)(-joystickWrapper.gamepad2GetRightStickY()*slideEncoderFactor);
+        if(Math.abs(joystickWrapper.gamepad2GetRightStickY())>.5){
+            slidePos = ExtensionMotorEx1.getCurrentPosition() + (int)(-joystickWrapper.gamepad2GetRightStickY()*slideEncoderFactor);
+        }
+
 
        // if (joystickWrapper.gamepad2GetRightBumperDown()){
         //    limit = !limit;
@@ -119,8 +124,8 @@ public class NeoArmWrapper {
         if (slidePos<5 && limit) {
             slidePos = 10;
         }
-        if (slidePos>3000 && limit) {
-            slidePos = 3000;
+        if (slidePos>2335 && limit) {
+            slidePos = 2335;
         }
         //ExtensionMotorEx1.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         //ExtensionMotorEx2.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
@@ -130,8 +135,8 @@ public class NeoArmWrapper {
         ExtensionMotorEx2.setTargetPosition(slidePos);
         ExtensionMotorEx1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         ExtensionMotorEx2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        ExtensionMotorEx1.setPower(joystickWrapper.gamepad2GetRightStickY());
-        ExtensionMotorEx2.setPower(joystickWrapper.gamepad2GetRightStickY());
+        ExtensionMotorEx1.setPower(1);
+        ExtensionMotorEx2.setPower(1);
         telemetry.addData("Slide Pos:", slidePos);
     }
 
@@ -140,33 +145,23 @@ public class NeoArmWrapper {
     public void setOuttake() {
 
         ActuatorMotorEx.setTargetPosition(1000);
-        ExtensionMotorEx1.setTargetPosition(2000);
-        ExtensionMotorEx2.setTargetPosition(2000);
-
         ActuatorMotorEx.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        ExtensionMotorEx1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        ExtensionMotorEx2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
         ActuatorMotorEx.setPower(1);
-        ExtensionMotorEx1.setPower(1);
-        ExtensionMotorEx2.setPower(1);
+
+        slidePos = 2000;
+
+
 
     }
 
 
     public void setIntake() {
-
         ActuatorMotorEx.setTargetPosition(0);
-        ExtensionMotorEx1.setTargetPosition(0);
-        ExtensionMotorEx2.setTargetPosition(0);
-
         ActuatorMotorEx.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        ExtensionMotorEx1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        ExtensionMotorEx2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
         ActuatorMotorEx.setPower(1);
-        ExtensionMotorEx1.setPower(.5);
-        ExtensionMotorEx2.setPower(.5);
+
+        slidePos = 0;
+
 
     }
 
@@ -200,8 +195,8 @@ public class NeoArmWrapper {
         ExtensionMotorEx2.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
 
         ActuatorMotorEx.setDirection(DcMotorEx.Direction.FORWARD);
-        ExtensionMotorEx1.setDirection(DcMotorEx.Direction.FORWARD);
-        ExtensionMotorEx2.setDirection(DcMotorEx.Direction.REVERSE);
+        ExtensionMotorEx1.setDirection(DcMotorEx.Direction.REVERSE);
+        ExtensionMotorEx2.setDirection(DcMotorEx.Direction.FORWARD);
 
         ActuatorMotorEx.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         ExtensionMotorEx1.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
