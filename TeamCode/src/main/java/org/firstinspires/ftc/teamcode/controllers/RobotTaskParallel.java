@@ -5,13 +5,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.ArrayList;
 
-public class RobotTaskParallel extends RobotTaskImpl{
-
-    ArrayList<IRobotTask> tasks = new ArrayList<IRobotTask>();
-
-    public void add(IRobotTask task) {
-        tasks.add(task);
-    }
+public class RobotTaskParallel extends RobotTaskListImpl {
 
     @Override
     public void execute(Telemetry telemetry) {
@@ -29,34 +23,5 @@ public class RobotTaskParallel extends RobotTaskImpl{
         return false;
     }
 
-    @Override
-    public boolean hasStarted() {
-        if(tasks.size()>0) {
-            return tasks.get(0).hasStarted();
-        } else {
-            return true;
-        }
-    }
 
-    @Override
-    public boolean isRunning() {
-
-        if(!hasStarted()) {
-            return false;
-        } else {
-            return !isComplete();
-        }
-    }
-
-    @Override
-    public boolean isComplete() {
-        boolean isComplete = true;
-        for (IRobotTask task : tasks) {
-            if(!task.isComplete()) {
-                isComplete = false;
-                break;
-            }
-        };
-        return isComplete;
-    }
 }

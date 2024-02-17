@@ -10,13 +10,26 @@ import org.firstinspires.ftc.teamcode.wrappers.JoystickWrapper;
 @TeleOp
 public class CRSTest extends LinearOpMode {
     JoystickWrapper joystickWrapper;
-    CRServo crServo = hardwareMap.crservo.get("crServo");
+    CRServo crServo;
+    CRServo crServo2;
 
     @Override
     public void runOpMode() throws InterruptedException {
         joystickWrapper = new JoystickWrapper(gamepad1, gamepad2);
+        crServo = hardwareMap.crservo.get("cr1");
+        crServo2 = hardwareMap.crservo.get("cr2");
+
         while (!isStopRequested()) {
-            crServo.setPower(-joystickWrapper.gamepad1GetRightStickY());
+
+            if(joystickWrapper.gamepad1GetLeftBumperRaw()) {
+                crServo.setPower(-1);
+                crServo2.setPower(1);
+            }
+
+            if(joystickWrapper.gamepad1GetRightBumperRaw()) {
+                crServo.setPower(1);
+                crServo2.setPower(-1);
+            }
         }
     }
 }
