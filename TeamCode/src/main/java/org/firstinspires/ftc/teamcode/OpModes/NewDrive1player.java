@@ -20,6 +20,7 @@ public class NewDrive1player extends LinearOpMode {
 
     boolean isDown;
     boolean isOpen;
+    float speed = 0;
 
     DcMotorEx ActuatorMotorEx;
 
@@ -41,10 +42,9 @@ public class NewDrive1player extends LinearOpMode {
 
 
         while(!isStopRequested()){
-            float speed;
             wrapper.Update();
             if(gamepad1.dpad_left){
-                if(gamepad1.right_bumper){
+                if(gamepad1.dpad_right){
                     speed = 0;
                 }else {
                     speed = -1;
