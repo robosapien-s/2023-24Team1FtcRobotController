@@ -7,16 +7,21 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.teamcode.wrappers.NeoArmWrapper;
 
 @Autonomous
 public class Red_Close extends LinearOpMode {
     Pose2d startPose = new Pose2d(12,-62, Math.toRadians(-90));
+
+    NeoArmWrapper neoArmWrapper;
 
     static int barcodeInt = 3;
 
     @Override
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+
+        neoArmWrapper = new NeoArmWrapper(telemetry, hardwareMap, gamepad1, gamepad2);
 
         drive.setPoseEstimate(startPose);
 
@@ -37,10 +42,10 @@ public class Red_Close extends LinearOpMode {
                     .waitSeconds(.5)
                     .setReversed(false)
                     .splineTo(new Vector2d(24, -12), Math.toRadians(0))
-                    .splineTo(new Vector2d(51, -30), Math.toRadians(0))
+                    .splineTo(new Vector2d(51, -42), Math.toRadians(0))
                     .waitSeconds(.5)
-                    .lineToLinearHeading(new Pose2d(48,-12, Math.toRadians(0)))
-                    .lineToLinearHeading(new Pose2d(60,-12, Math.toRadians(0)))
+                    .lineToLinearHeading(new Pose2d(48,-60, Math.toRadians(0)))
+                    .lineToLinearHeading(new Pose2d(60,-60, Math.toRadians(0)))
                     .build();
         } else if (barcodeInt == 2) {
             trajectory1 = drive.trajectorySequenceBuilder(new Pose2d(12, -62, Math.toRadians(-90)))
@@ -51,14 +56,18 @@ public class Red_Close extends LinearOpMode {
                     .setReversed(true)
                     .waitSeconds(.5)
                     .splineTo(new Vector2d(24, -12), Math.toRadians(180))
+                    .UNSTABLE_addTemporalMarkerOffset(.3, () ->
+                            neoArmWrapper.armWheel.setPower(1))
+                    .UNSTABLE_addTemporalMarkerOffset(1, () ->
+                            neoArmWrapper.armWheel.setPower(0))
                     .splineTo(new Vector2d(-60, -12), Math.toRadians(180))
                     .waitSeconds(.5)
                     .setReversed(false)
                     .splineTo(new Vector2d(24, -12), Math.toRadians(0))
-                    .splineTo(new Vector2d(51, -30), Math.toRadians(0))
+                    .splineTo(new Vector2d(51, -42), Math.toRadians(0))
                     .waitSeconds(.5)
-                    .lineToLinearHeading(new Pose2d(48,-12, Math.toRadians(0)))
-                    .lineToLinearHeading(new Pose2d(60,-12, Math.toRadians(0)))
+                    .lineToLinearHeading(new Pose2d(48,-60, Math.toRadians(0)))
+                    .lineToLinearHeading(new Pose2d(60,-60, Math.toRadians(0)))
                     .build();
         } else {
             trajectory1 = drive.trajectorySequenceBuilder(new Pose2d(12, -62, Math.toRadians(-90)))
@@ -75,10 +84,10 @@ public class Red_Close extends LinearOpMode {
                     .waitSeconds(.5)
                     .setReversed(false)
                     .splineTo(new Vector2d(24, -12), Math.toRadians(0))
-                    .splineTo(new Vector2d(51, -30), Math.toRadians(0))
+                    .splineTo(new Vector2d(51, -42), Math.toRadians(0))
                     .waitSeconds(.5)
-                    .lineToLinearHeading(new Pose2d(48,-12, Math.toRadians(0)))
-                    .lineToLinearHeading(new Pose2d(60,-12, Math.toRadians(0)))
+                    .lineToLinearHeading(new Pose2d(48,-60, Math.toRadians(0)))
+                    .lineToLinearHeading(new Pose2d(60,-60, Math.toRadians(0)))
                     .build();
         }
 
