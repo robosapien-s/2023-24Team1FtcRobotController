@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
@@ -31,8 +32,33 @@ public class NeoArmWrapper {
     public Servo wristServo;
     public CRServo armWheel;
 
-    int slidePos;
     boolean limit = true;
+
+
+
+    ElapsedTime ext_timer = new ElapsedTime();
+    private double ext_lastError = 0;
+    private double ext_intergralSum = 0;
+
+    private double ext_Kp = 0.004;
+    private double ext_Ki = 0.0000001;
+    private double ext_Kd = 0.00004;
+    private double ext_targetPosition = 0;
+
+
+
+
+
+    ElapsedTime act_timer = new ElapsedTime();
+    private double act_lastError = 0;
+    private double act_intergralSum = 0;
+
+    private double act_Kp = 0.008;
+    private double act_Ki = 0.000001;
+    private double act_Kd = 0.0004;
+    private double act_targetPosition = 0;
+
+
 
     public NeoArmWrapper(Telemetry inTelemetry, HardwareMap inHardwareMap, Gamepad inGamepad1, Gamepad inGamepad2){
         //Set Values
@@ -111,58 +137,107 @@ public class NeoArmWrapper {
         wristServo.setPosition(.25);
     }
 
-    public void UpdateExtensionPlusInput(JoystickWrapper joystickWrapper, int slideEncoderFactor){
+    public void UpdateExtensionPlusInput(JoystickWrapper joystickWrapper, int slideEncoderFactor, int actuatorEncoderFactor){
 
         if(Math.abs(joystickWrapper.gamepad2GetRightStickY())>.5){
-            slidePos = ExtensionMotorEx1.getCurrentPosition() + (int)(-joystickWrapper.gamepad2GetRightStickY()*slideEncoderFactor);
+            ext_targetPosition = ExtensionMotorEx1.getCurrentPosition() + (int)(-joystickWrapper.gamepad2GetRightStickY()*slideEncoderFactor);
         }
 
+        if(Math.abs(joystickWrapper.gamepad2GetLeftStickY())>.5){
+            act_targetPosition = ActuatorMotorEx.getCurrentPosition() + (int)(-joystickWrapper.gamepad2GetLeftStickY()*actuatorEncoderFactor);
+        }
 
        // if (joystickWrapper.gamepad2GetRightBumperDown()){
         //    limit = !limit;
        // }
 
-        if (slidePos<0 && limit) {
-            slidePos = 0;
+        if (ext_targetPosition<0 && limit) {
+            ext_targetPosition = 0;
         }
-        if (slidePos>2335 && limit) {
-            slidePos = 2335;
+        if (ext_targetPosition>2335 && limit) {
+            ext_targetPosition = 2335;
         }
-        //ExtensionMotorEx1.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        //ExtensionMotorEx2.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
+        if (act_targetPosition<0 && limit) {
+            act_targetPosition = 0;
+        }
+        if (act_targetPosition>6500 && limit) {
+            act_targetPosition = 6500;
+        }
 
-        ExtensionMotorEx1.setTargetPosition(slidePos);
-        ExtensionMotorEx2.setTargetPosition(slidePos);
-        ExtensionMotorEx1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        ExtensionMotorEx2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        ExtensionMotorEx1.setPower(1);
-        ExtensionMotorEx2.setPower(1);
-        telemetry.addData("Slide Pos:", slidePos);
+        double power = returnPower(ext_targetPosition, ExtensionMotorEx1.getCurrentPosition());
+        ExtensionMotorEx1.setPower(power);
+        ExtensionMotorEx2.setPower(power);
+
+        telemetry.addData("Slide Pos:", ext_targetPosition);
+        telemetry.addData("Slide power:", power);
+
+        double act_power = act_returnPower(act_targetPosition, ActuatorMotorEx.getCurrentPosition());
+        ActuatorMotorEx.setPower(act_power);
+        ActuatorMotorEx.setPower(act_power);
     }
 
+
+    public double returnPower(double reference, double state) {
+        double error = reference - state;
+        double seconds = ext_timer.seconds();
+        ext_intergralSum += error * seconds;
+
+        double errorDiff = error - ext_lastError;
+        double derivative = errorDiff / ext_timer.seconds();
+
+        derivative = (error - ext_lastError) / seconds;
+
+        ext_lastError = error;
+        ext_timer.reset();
+        double output = (error*ext_Kp) + (derivative*ext_Kd) + (ext_intergralSum*ext_Ki);
+
+        if(output>1) {
+            output = 1;
+        }
+        return  output;
+    }
+
+    public double act_returnPower(double reference, double state) {
+        double error = reference - state;
+        double seconds = act_timer.seconds();
+        act_intergralSum += error * seconds;
+
+        double errorDiff = error - act_lastError;
+        double derivative = errorDiff / ext_timer.seconds();
+
+        derivative = (error - act_lastError) / seconds;
+
+        act_lastError = error;
+        act_timer.reset();
+        double output = (error*act_Kp) + (derivative*act_Kd) + (act_intergralSum*ext_Ki);
+
+        if(output>1) {
+            output = 1;
+        }
+        return  output;
+    }
 
 
     public void setOuttake() {
 
-        ActuatorMotorEx.setTargetPosition(1000);
-        ActuatorMotorEx.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        ActuatorMotorEx.setPower(1);
+        act_lastError = 0;
+        act_targetPosition = 1000;
 
-        slidePos = 2000;
-
-
+        ext_lastError = 0;
+        ext_targetPosition = 500;
 
     }
 
 
     public void setIntake() {
-        ActuatorMotorEx.setTargetPosition(0);
-        ActuatorMotorEx.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        ActuatorMotorEx.setPower(1);
 
-        slidePos = 0;
+        act_lastError = 0;
+        act_targetPosition = 0;
 
+
+        ext_lastError = 0;
+        ext_targetPosition = 0;
 
     }
 
@@ -191,17 +266,21 @@ public class NeoArmWrapper {
     }
 
     public void ResetMotorPositions(){
-        ActuatorMotorEx.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        ExtensionMotorEx1.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        ExtensionMotorEx2.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
 
         ActuatorMotorEx.setDirection(DcMotorEx.Direction.FORWARD);
-        ExtensionMotorEx1.setDirection(DcMotorEx.Direction.REVERSE);
-        ExtensionMotorEx2.setDirection(DcMotorEx.Direction.FORWARD);
+        ActuatorMotorEx.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        ActuatorMotorEx.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        ActuatorMotorEx.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        ActuatorMotorEx.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        ExtensionMotorEx1.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        ExtensionMotorEx2.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        ExtensionMotorEx1.setDirection(DcMotorEx.Direction.REVERSE);
+        ExtensionMotorEx1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        ExtensionMotorEx1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        ExtensionMotorEx1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        ExtensionMotorEx2.setDirection(DcMotorEx.Direction.FORWARD);
+        ExtensionMotorEx2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        ExtensionMotorEx2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        ExtensionMotorEx2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         //ActuatorMotorEx.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         //ExtensionMotorEx1.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);

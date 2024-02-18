@@ -52,7 +52,7 @@ public class NewDrive extends LinearOpMode {
             wrapper.Update();
             armWrapper.SetWheelSpin(gamepad2.left_trigger-gamepad2.right_trigger);
             armWrapper.UpdateIntakePower(gamepad1.right_trigger-gamepad1.left_trigger);
-            armWrapper.UpdateExtensionPlusInput(joystickWrapper, 100);
+            armWrapper.UpdateExtensionPlusInput(joystickWrapper, 300, 300);
 
             /*if(joystickWrapper.gamepad2GetX()){
                 armWrapper.MoveExtensionMotors(1000);
