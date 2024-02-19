@@ -81,16 +81,17 @@ public class IMUWrapper{
 
 
         if (length(joystickWrapper.gamepad1GetRightStickX(), joystickWrapper.gamepad1GetRightStickY()) > .5) {
-            targetHeading = Math.toDegrees(Math.atan2(joystickWrapper.gamepad1GetRightStickY(), -joystickWrapper.gamepad1GetRightStickX())) + 90;
+            targetHeading = Math.toDegrees(Math.atan2(-joystickWrapper.gamepad1GetRightStickY(), joystickWrapper.gamepad1GetRightStickX())) + 90;
         }  // Save for telemetry
 
         // Determine the heading current error
         double headingError = targetHeading - yaw;
 
-
         // Normalize the error to be within +/- 180 degrees
         while (headingError > 180) headingError -= 360;
         while (headingError <= -180) headingError += 360;
+
+
 
         telemetry.addData("Joystick Left Angle", targetHeading);
         telemetry.addData("Joystick Right Angle", Math.toDegrees(Math.atan2(joystickWrapper.gamepad1GetRightStickY(), joystickWrapper.gamepad1GetRightStickX())));

@@ -12,6 +12,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
+import java.sql.Time;
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class NeoArmWrapper {
 
     Telemetry telemetry;
@@ -46,6 +50,7 @@ public class NeoArmWrapper {
     private double ext_targetPosition = 0;
 
 
+    Timer loopTimer = null;
 
 
 
@@ -139,11 +144,11 @@ public class NeoArmWrapper {
 
     public void UpdateExtensionPlusInput(JoystickWrapper joystickWrapper, int slideEncoderFactor, int actuatorEncoderFactor){
 
-        if(Math.abs(joystickWrapper.gamepad2GetRightStickY())>.5){
+        if(joystickWrapper != null && Math.abs(joystickWrapper.gamepad2GetRightStickY())>.5){
             ext_targetPosition = ExtensionMotorEx1.getCurrentPosition() + (int)(-joystickWrapper.gamepad2GetRightStickY()*slideEncoderFactor);
         }
 
-        if(Math.abs(joystickWrapper.gamepad2GetLeftStickY())>.5){
+        if(joystickWrapper != null && Math.abs(joystickWrapper.gamepad2GetLeftStickY())>.5){
             act_targetPosition = ActuatorMotorEx.getCurrentPosition() + (int)(-joystickWrapper.gamepad2GetLeftStickY()*actuatorEncoderFactor);
         }
 
@@ -222,7 +227,7 @@ public class NeoArmWrapper {
     public void setOuttake() {
 
         act_lastError = 0;
-        act_targetPosition = 1270;
+        act_targetPosition = 2400;
 
         ext_lastError = 0;
         ext_targetPosition = 2335;
@@ -302,6 +307,25 @@ public class NeoArmWrapper {
     public void SetWheelSpin(double Power){
         armWheel.setPower(Power);
         telemetry.addData("Wheel Power", Power);
+    }
+    public void ActivateLoop(){
+        if(loopTimer == null) {
+            loopTimer = new Timer();
+        }
+        loopTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                UpdateExtensionPlusInput(null, 200, 200);
+            }
+        }, 100);
+    }
+
+    public void DeactivateLoop(){
+
+        if(loopTimer != null) {
+            loopTimer.cancel();
+            loopTimer = null;
+        }
     }
 
 

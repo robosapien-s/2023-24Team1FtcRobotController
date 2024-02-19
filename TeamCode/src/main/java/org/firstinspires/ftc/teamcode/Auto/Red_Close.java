@@ -24,6 +24,7 @@ public class Red_Close extends LinearOpMode {
 
         neoArmWrapper = new NeoArmWrapper(telemetry, hardwareMap, gamepad1, gamepad2);
         neoArmWrapper.ResetMotorPositions();
+        neoArmWrapper.ActivateLoop();
 
         drive.setPoseEstimate(startPose);
 
@@ -64,7 +65,7 @@ public class Red_Close extends LinearOpMode {
                     .waitSeconds(.5)
                     .UNSTABLE_addTemporalMarkerOffset(.3, () -> {
                         neoArmWrapper.setOuttake();
-                        neoArmWrapper.MoveExtensionMotors(250);
+                        neoArmWrapper.SetLinearExtensionPos(250);
                     })
                     .splineTo(new Vector2d(51, -36), Math.toRadians(0))
                     .UNSTABLE_addTemporalMarkerOffset(-.5, () -> {
@@ -76,7 +77,7 @@ public class Red_Close extends LinearOpMode {
                     .waitSeconds(1.5)
                     .setReversed(true)
                     .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                        neoArmWrapper.MoveExtensionMotors(0);
+                        neoArmWrapper.SetLinearExtensionPos(0);
                         neoArmWrapper.setIntake();
                     })
                     .splineTo(new Vector2d(24, -12), Math.toRadians(180))
@@ -150,7 +151,7 @@ public class Red_Close extends LinearOpMode {
         waitForStart();
 
         drive.followTrajectorySequence(trajectory1);
-
+        neoArmWrapper.DeactivateLoop();
     }
 
 
