@@ -122,8 +122,8 @@ public class NeoArmWrapper {
     }
 
     public void ClosePos(){
-        armServo0.setPosition(.65);
-        armServo1.setPosition(.7);
+        armServo0.setPosition(.75);
+        armServo1.setPosition(.57);
     }
     public void OpenPos(){
         armServo0.setPosition(.95);
@@ -134,7 +134,7 @@ public class NeoArmWrapper {
         wristServo.setPosition(0);
     }
     public void WristUp(){
-        wristServo.setPosition(.25);
+        wristServo.setPosition(.5);
     }
 
     public void UpdateExtensionPlusInput(JoystickWrapper joystickWrapper, int slideEncoderFactor, int actuatorEncoderFactor){
@@ -222,10 +222,10 @@ public class NeoArmWrapper {
     public void setOuttake() {
 
         act_lastError = 0;
-        act_targetPosition = 1000;
+        act_targetPosition = 1270;
 
         ext_lastError = 0;
-        ext_targetPosition = 500;
+        ext_targetPosition = 2335;
 
     }
 
@@ -239,6 +239,15 @@ public class NeoArmWrapper {
         ext_lastError = 0;
         ext_targetPosition = 0;
 
+    }
+
+    public void SetLinearExtensionPos(int pos) {
+        ext_lastError = 0;
+        ext_targetPosition = pos;
+    }
+    public void SetLinearActuator(int pos){
+        act_lastError = 0;
+        act_targetPosition = pos;
     }
 
     public void MoveExtensionMotors(int position) {
