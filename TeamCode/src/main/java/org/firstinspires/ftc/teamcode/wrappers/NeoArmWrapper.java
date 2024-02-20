@@ -315,7 +315,9 @@ public class NeoArmWrapper {
         loopTimer.schedule(new TimerTask() {
             @Override
             public void run() {
+                telemetry.addData("aaaa","yo");
                 UpdateExtensionPlusInput(null, 200, 200);
+                telemetry.update();
             }
         }, 100);
     }
