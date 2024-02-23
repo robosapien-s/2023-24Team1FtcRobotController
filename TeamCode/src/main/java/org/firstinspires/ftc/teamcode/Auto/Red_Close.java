@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder;
 import org.firstinspires.ftc.teamcode.wrappers.NeoArmWrapper;
+import org.firstinspires.ftc.teamcode.wrappers.OpenCvDetection;
 
 @Autonomous
 public class Red_Close extends LinearOpMode {
@@ -16,10 +17,22 @@ public class Red_Close extends LinearOpMode {
 
     NeoArmWrapper neoArmWrapper;
 
+    OpenCvDetection OpenCVWrapper;
+
+    boolean red = true;
+
     static int barcodeInt = 2;
 
     @Override
     public void runOpMode() throws InterruptedException {
+        OpenCVWrapper = new OpenCvDetection(telemetry, hardwareMap);
+
+        OpenCVWrapper.initColor(red);
+
+        OpenCVWrapper.init();
+
+        barcodeInt = OpenCVWrapper.barcodeInt;
+
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         neoArmWrapper = new NeoArmWrapper(telemetry, hardwareMap, gamepad1, gamepad2);
