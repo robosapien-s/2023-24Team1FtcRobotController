@@ -19,8 +19,8 @@ public class LedTest extends LinearOpMode {
 
         int index = 0;
 
-        LED led = hardwareMap.get(LED.class, "led1");
-        LED led2 = hardwareMap.get(LED.class, "led2");
+        LED led0 = hardwareMap.get(LED.class, "led1");
+        LED led1 = hardwareMap.get(LED.class, "led2");
 
         if (opModeIsActive()) {
             while (opModeIsActive()) {
@@ -42,17 +42,17 @@ public class LedTest extends LinearOpMode {
 
 
                 if(index == 0) {
-                    led.enableLight(true);
-                    led2.enableLight(false);
+                    led0.enableLight(true);
+                    led1.enableLight(false);
                 } else if(index == 1) {
-                    led.enableLight(true);
-                    led2.enableLight(true);
+                    led0.enableLight(true);
+                    led1.enableLight(true);
                 } else if (index == 2){
-                    led.enableLight(false);
-                    led2.enableLight(false);
+                    led0.enableLight(false);
+                    led1.enableLight(false);
                 } else {
-                    led.enableLight(false);
-                    led2.enableLight(true);                }
+                    led0.enableLight(false);
+                    led1.enableLight(true);                }
 
 
 

@@ -58,8 +58,8 @@ public class NewDrive extends LinearOpMode {
     public static double targetPosition_dist = 10;
 
 
-    public static boolean tune_y = false;
-    public static boolean tune_x = false;
+    public static boolean tune_y = true;
+    public static boolean tune_x = true;
 
 
 

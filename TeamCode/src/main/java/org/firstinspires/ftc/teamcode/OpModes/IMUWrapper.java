@@ -97,15 +97,15 @@ public class IMUWrapper{
 
 
 
-        telemetry.addData("Joystick Left Angle", targetHeading);
-        telemetry.addData("Joystick Right Angle", Math.toDegrees(Math.atan2(joystickWrapper.gamepad1GetRightStickY(), joystickWrapper.gamepad1GetRightStickX())));
-        telemetry.addData("Pitch", pitch);
-        telemetry.addData("Roll", roll);
-        telemetry.addData("Yaw", yaw);
-        telemetry.addData("Error", headingError);
-        telemetry.addData("Range",Range.clip(headingError * PGain, -1, 1));
-        telemetry.addData("correction angle",yaw);
-        telemetry.addData("Cosine Movement",cosineThing);
+        //telemetry.addData("Joystick Left Angle", targetHeading);
+        //telemetry.addData("Joystick Right Angle", Math.toDegrees(Math.atan2(joystickWrapper.gamepad1GetRightStickY(), joystickWrapper.gamepad1GetRightStickX())));
+        //telemetry.addData("Pitch", pitch);
+        //telemetry.addData("Roll", roll);
+        //telemetry.addData("Yaw", yaw);
+        //telemetry.addData("Error", headingError);
+        //telemetry.addData("Range",Range.clip(headingError * PGain, -1, 1));
+        //telemetry.addData("correction angle",yaw);
+        //telemetry.addData("Cosine Movement",cosineThing);
 
 
         Translation2d translation2d =RotateAngle(joystickWrapper.gamepad1GetLeftStickX(),joystickWrapper.gamepad1GetLeftStickY(),yaw);

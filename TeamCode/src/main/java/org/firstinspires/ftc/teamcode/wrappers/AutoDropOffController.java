@@ -140,6 +140,8 @@ public class AutoDropOffController {
 
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
         telemetry.addData("# AprilTags Detected", currentDetections.size());
+        telemetry.addLine(String.format("Current Location P: %d",currentDropLocation));
+        telemetry.addLine(String.format("Current Level P: %d", currentDropLevel));
 
         double closest = 10000;
 
@@ -154,13 +156,14 @@ public class AutoDropOffController {
         for (AprilTagDetection detection : currentDetections) {
             if (detection.metadata != null) {
 
-                if(detection.id == 1) {
+                if(detection.id == 1 || detection.id == 4) {
                     found1 = true;
-                } else if (detection.id == 2) {
+                } else if (detection.id == 2 || detection.id == 5) {
                     found2 = true;
-                } else if( detection.id == 3) {
+                } else if(detection.id == 3 || detection.id == 6) {
                     found3 = true;
                 }
+
 
                 if(closetsDetection ==  null) {
                     closetsDetection = detection;
@@ -172,9 +175,9 @@ public class AutoDropOffController {
 
 
                 telemetry.addLine(String.format("\n==== (ID %d) %s", detection.id, detection.metadata.name));
-                telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)", detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.z));
-                telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)", detection.ftcPose.pitch, detection.ftcPose.roll, detection.ftcPose.yaw));
-                telemetry.addLine(String.format("RBE %6.1f %6.1f %6.1f  (inch, deg, deg)", detection.ftcPose.range, detection.ftcPose.bearing, detection.ftcPose.elevation));
+                //telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)", detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.z));
+                //telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)", detection.ftcPose.pitch, detection.ftcPose.roll, detection.ftcPose.yaw));
+                //telemetry.addLine(String.format("RBE %6.1f %6.1f %6.1f  (inch, deg, deg)", detection.ftcPose.range, detection.ftcPose.bearing, detection.ftcPose.elevation));
 
 
             } else {
@@ -216,6 +219,7 @@ public class AutoDropOffController {
 
                     double xTargetLocation =  getTargetLocation();
                     double xCurrentLocation = getCurrentLocation(closetsDetection);
+
 
                     double xDistanceNeededToTravel = xTargetLocation - xCurrentLocation;
 
@@ -262,13 +266,13 @@ public class AutoDropOffController {
             //Needs to be set based on alliance side
             //double power = distanceController.getPower(closetsDetection.ftcPose.y);
             double power = distanceController.getPowerWithStates(NewDrive.Kp_y, NewDrive.Ki_y, NewDrive.Kd_y) * yPowerFactor;
-            telemetry.addLine(String.format("Current Level P: %d", currentDropLevel));
-            telemetry.addLine(String.format("Dist - Cur: %6.3f   Des: %6.3f   P: %6.3f", distanceController.getCurrentPosition(), distanceController.getTargetPosition(), power));
+
+            //telemetry.addLine(String.format("Dist - Cur: %6.3f   Des: %6.3f   P: %6.3f", distanceController.getCurrentPosition(), distanceController.getTargetPosition(), power));
 
 
 
             double locationPower = locationController.getPowerWithStates(NewDrive.Kp_x, NewDrive.Ki_x, NewDrive.Kd_x) * xPowerFactor;
-            telemetry.addLine(String.format("Loc - Cur: %6.3f   Des: %6.3f   P: %6.3f", locationController.getCurrentPosition(), getTargetLocation(), locationPower));
+            //telemetry.addLine(String.format("Loc - Cur: %6.3f   Des: %6.3f   P: %6.3f", locationController.getCurrentPosition(), getTargetLocation(), locationPower));
 
 
             packet.put("power", power);
@@ -304,7 +308,7 @@ public class AutoDropOffController {
 
 
             packet.put("Y pos",yEncoder.getCurrentPosition());
-            telemetry.addLine(String.format("Current Y Pos %d",yEncoder.getCurrentPosition()));
+            //telemetry.addLine(String.format("Current Y Pos %d",yEncoder.getCurrentPosition()));
 
             dashboard.sendTelemetryPacket(packet);
             driveController.disableAutoMode();
@@ -363,11 +367,11 @@ public class AutoDropOffController {
 
         double currentLocation = 0;
 
-        if(closetsDetection.id == 1) {
+        if(closetsDetection.id == 1 || closetsDetection.id == 4) {
             currentLocation = location1 - closetsDetection.ftcPose.x;
-        } else if(closetsDetection.id == 2) {
+        } else if(closetsDetection.id == 2 || closetsDetection.id == 5) {
             currentLocation = location2 - closetsDetection.ftcPose.x;
-        } else if(closetsDetection.id == 3) {
+        } else if(closetsDetection.id == 3 || closetsDetection.id == 6) {
             currentLocation = location3 - closetsDetection.ftcPose.x;
         }
 
