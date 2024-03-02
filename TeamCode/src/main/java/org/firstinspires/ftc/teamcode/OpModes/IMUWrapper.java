@@ -42,6 +42,10 @@ public class IMUWrapper{
     DcMotor frontRightMotor;
     DcMotor backRightMotor;
 
+    boolean isAutoMode = false;
+    double autoModeX = 0;
+    double autoModeY = 0;
+
 
     public void Initialize(Telemetry inTelemetry,HardwareMap hardwareMap, Gamepad inGamepad1, Gamepad inGamepad2) {
 
@@ -62,8 +66,8 @@ public class IMUWrapper{
         backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.RIGHT;
-        RevHubOrientationOnRobot.UsbFacingDirection usbDirection = RevHubOrientationOnRobot.UsbFacingDirection.UP;
+        RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
+        RevHubOrientationOnRobot.UsbFacingDirection usbDirection = RevHubOrientationOnRobot.UsbFacingDirection.RIGHT;
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
         // Now initialize the IMU with this mounting orientation
         // This sample expects the IMU to be in a REV Hub and named "imu".
@@ -106,6 +110,10 @@ public class IMUWrapper{
 
         Translation2d translation2d =RotateAngle(joystickWrapper.gamepad1GetLeftStickX(),joystickWrapper.gamepad1GetLeftStickY(),yaw);
 
+        if(isAutoMode && joystickWrapper.gamepad1GetLeftStick()) {
+            translation2d =RotateAngle(autoModeX,autoModeY,yaw);
+        }
+
 
         if (joystickWrapper.gamepad1GetA()) {
             cosineThing = !cosineThing;
@@ -139,5 +147,17 @@ public class IMUWrapper{
         double rotatedX = x*Math.cos(rAngle) - y*Math.sin(rAngle);
         double rotatedY = x*Math.sin(rAngle) + y*Math.cos(rAngle);
         return new Translation2d(rotatedX,rotatedY);
+    }
+
+    public void setAutoMode(double inX, double inY) {
+        isAutoMode = true;
+        autoModeX = inX;
+        autoModeY = inY;
+    }
+
+    public void disableAutoMode() {
+        isAutoMode = false;
+        autoModeX = 0;
+        autoModeY = 0;
     }
 }
