@@ -21,6 +21,7 @@ import org.openftc.easyopencv.OpenCvWebcam;
 //import org.outoftheboxrobotics.tensorflowapi.ImageClassification.TensorImageClassifier;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -183,34 +184,46 @@ public class OpenCvDetection {
             //Rect[] boundRect = new Rect[contours.size()];
             //Point[] centers = new Point[contours.size()];
             //float[][] radius = new float[contours.size()][1];
+            Rect bigBoundRect = new Rect(0,0,0,0);
+            ArrayList<Rect> rects = new ArrayList<>();
+
             for (int i = 0; i < contours.size(); i++) {
                 MatOfPoint2f contoursPoly = new MatOfPoint2f();
                 Imgproc.approxPolyDP(new MatOfPoint2f(contours.get(i).toArray()), contoursPoly, 3, true);
                 Rect boundRect = Imgproc.boundingRect(new MatOfPoint(contoursPoly.toArray()));
+                rects.add(boundRect);
                 Point center = new Point();
                 float[] radius = new float[1];
                 Imgproc.minEnclosingCircle(contoursPoly, center, radius);
-                if((boundRect.size().width>50.0&&boundRect.size().height>10.0) || (boundRect.size().width>10.0 && boundRect.size().width>50.0)){
-                    loc = center;
-                    if (loc.x<(cameraWidth/3)){
-                        barcodeInt = 1;
-                    }else if (loc.x<((cameraWidth*2)/3)){
-                        barcodeInt = 2;
-                    }else {
-                        barcodeInt = 3;
-                    }
-                    telemetry.addData("Test Barcode:", barcodeInt);
-                    telemetry.addData("Position", position[barcodeInt-1]);
-                    telemetry.addData("Location", loc);
-                    telemetry.addData("Size",boundRect.size());
-                    telemetry.update();
-
-                    contoursPoly.release();
-
-
-                    break;
+                if (boundRect.area()> bigBoundRect.area()) {
+                    bigBoundRect = boundRect;
                 }
+
             }
+            rects.sort(new Comparator<Rect>() {
+                @Override
+                public int compare(Rect rect, Rect t1) {
+                    return Double.compare(rect.area(), t1.area());
+                }
+            });
+
+            loc = new Point(bigBoundRect.x+(bigBoundRect.width)/2, bigBoundRect.y - (bigBoundRect.height/2));
+
+            if (loc.x<(cameraWidth/3)){
+                barcodeInt = 1;
+            }else if (loc.x<((cameraWidth*2)/3)){
+                barcodeInt = 2;
+            }else {
+                barcodeInt = 3;
+            }
+            telemetry.addData("Test Barcode:", barcodeInt);
+            telemetry.addData("Position", position[barcodeInt-1]);
+            telemetry.addData("Location", loc);
+            telemetry.addData("Size",bigBoundRect.size());
+            telemetry.update();
+
+
+
 
             //cvtMat.release();
             //input.release();

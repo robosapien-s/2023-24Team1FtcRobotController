@@ -5,6 +5,7 @@ import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.drive.PoseStorage;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder;
@@ -13,7 +14,7 @@ import org.firstinspires.ftc.teamcode.wrappers.OpenCvDetection;
 
 @Autonomous
 public class Red_Close extends LinearOpMode {
-    Pose2d startPose = new Pose2d(12,-62, Math.toRadians(-90));
+    Pose2d startPose = new Pose2d(15,-62, Math.toRadians(-90));
 
     NeoArmWrapper neoArmWrapper;
 
@@ -50,7 +51,7 @@ public class Red_Close extends LinearOpMode {
                     .UNSTABLE_addTemporalMarkerOffset(.5, () -> {
                         neoArmWrapper.WristDown();
                     })
-                    .splineTo(new Vector2d(6, -36), Math.toRadians(135))
+                    .splineTo(new Vector2d(6, -40), Math.toRadians(135))
                     .setReversed(false)
                     .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                         neoArmWrapper.OpenPos();
@@ -127,6 +128,8 @@ public class Red_Close extends LinearOpMode {
 
                     .lineToLinearHeading(new Pose2d(59,-62, Math.toRadians(90)))
                     .build();
+
+            PoseStorage.currentPose = drive.getPoseEstimate();
 
         } else if (barcodeInt == 2) {
             trajectory1 = drive.trajectorySequenceBuilder(new Pose2d(12, -62, Math.toRadians(-90)))
@@ -209,13 +212,15 @@ public class Red_Close extends LinearOpMode {
 
                     .lineToLinearHeading(new Pose2d(59,-62, Math.toRadians(90)))
                     .build();
+
+            PoseStorage.currentPose = drive.getPoseEstimate();
         } else {
             trajectory1 = drive.trajectorySequenceBuilder(new Pose2d(12, -62, Math.toRadians(-90)))
                     .setReversed(true)
                     .UNSTABLE_addTemporalMarkerOffset(.5, () -> {
                         neoArmWrapper.WristDown();
                     })
-                    .splineTo(new Vector2d(18, -36), Math.toRadians(135))
+                    .splineTo(new Vector2d(18, -40), Math.toRadians(135))
                     .setReversed(false)
                     .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                         neoArmWrapper.OpenPos();
@@ -292,6 +297,8 @@ public class Red_Close extends LinearOpMode {
 
                     .lineToLinearHeading(new Pose2d(59,-62, Math.toRadians(90)))
                     .build();
+
+            PoseStorage.currentPose = drive.getPoseEstimate();
 
         }
 

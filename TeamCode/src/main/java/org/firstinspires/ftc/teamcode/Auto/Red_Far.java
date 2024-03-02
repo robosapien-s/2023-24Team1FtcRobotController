@@ -4,6 +4,7 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.drive.PoseStorage;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
@@ -46,6 +47,8 @@ public class Red_Far extends LinearOpMode {
                 .lineToLinearHeading(new Pose2d(48,-12, Math.toRadians(0)))
                 .lineToLinearHeading(new Pose2d(60,-12, Math.toRadians(0)))
                 .build();
+
+            PoseStorage.currentPose = drive.getPoseEstimate();
         } else if (barcodeInt == 2) {
             trajectory1 = drive.trajectorySequenceBuilder(new Pose2d(-36, -62, Math.toRadians(-90)))
                 .lineToLinearHeading(new Pose2d(-36, -32, Math.toRadians(-90)))
@@ -69,6 +72,8 @@ public class Red_Far extends LinearOpMode {
                 .lineToLinearHeading(new Pose2d(48,-12, Math.toRadians(0)))
                 .lineToLinearHeading(new Pose2d(60,-12, Math.toRadians(0)))
                 .build();
+
+            PoseStorage.currentPose = drive.getPoseEstimate();
         } else {
             trajectory1 = drive.trajectorySequenceBuilder(new Pose2d(-36, -62, Math.toRadians(-90)))
                 .setReversed(true)
@@ -94,6 +99,8 @@ public class Red_Far extends LinearOpMode {
                 .lineToLinearHeading(new Pose2d(48,-12, Math.toRadians(0)))
                 .lineToLinearHeading(new Pose2d(60,-12, Math.toRadians(0)))
                 .build();
+
+            PoseStorage.currentPose = drive.getPoseEstimate();
         }
 
         waitForStart();

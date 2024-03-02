@@ -301,6 +301,10 @@ public class JoystickWrapper {
         return gamepad1.left_stick_y;
     }
 
+    public boolean gamepad1GetARaw() {
+        return gamepad1.a;
+    }
+
     public double gamepad1GetLeftStickAngle() {
         if (gamepad1GetLeftStickUsed(.75)) {
             gamepad1leftStickLastDirection = gamepad1GetLeftStickAngleRaw();
