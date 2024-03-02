@@ -195,6 +195,7 @@ public class AutoDropOffController {
         */
         boolean usingEncoders = true;
         double yPowerFactor = 1;
+        double xPowerFactor = -1;
 
         if(joystickWrapper.gamepad1GetLeftStick() && (closetsDetection != null || (distanceController.isEnabled()&&usingEncoders)) ) {
 
@@ -215,8 +216,12 @@ public class AutoDropOffController {
                     distanceController.setTargetPosition(yTargetPosition);
 
 
+                    double xTargetLocation =  getTargetLocation();
+                    double xCurrentLocation = getCurrentLocation(closetsDetection);
 
-                    double xDistanceNeededToTravel = getTargetLocation() - getCurrentLocation(closetsDetection) ;
+                    double xDistanceNeededToTravel = xTargetLocation - xCurrentLocation;
+
+
                     double xDistanceTicks = StandardTrackingWheelLocalizer.inchesToEncoderTicks(xDistanceNeededToTravel);
                     double xTargetPosition = xEncoder.getCurrentPosition() + xDistanceTicks;
                     locationController.setTargetPosition(xTargetPosition);
@@ -248,6 +253,13 @@ public class AutoDropOffController {
                 }
             }
 
+            double yaw = driveController.getYaw();
+            if(driveController.getYaw()<0) {
+                // xDistanceNeededToTravel =  xCurrentLocation - xTargetLocation;
+                xPowerFactor = 1;
+                yPowerFactor = 1;
+            }
+
 
             //Needs to be set based on alliance side
             //double power = distanceController.getPower(closetsDetection.ftcPose.y);
@@ -257,7 +269,7 @@ public class AutoDropOffController {
 
 
 
-            double locationPower = locationController.getPowerWithStates(NewDrive.Kp_x, NewDrive.Ki_x, NewDrive.Kd_x);
+            double locationPower = locationController.getPowerWithStates(NewDrive.Kp_x, NewDrive.Ki_x, NewDrive.Kd_x) * xPowerFactor;
             telemetry.addLine(String.format("Loc - Cur: %6.3f   Des: %6.3f   P: %6.3f", locationController.getCurrentPosition(), getTargetLocation(), locationPower));
 
 
@@ -273,11 +285,11 @@ public class AutoDropOffController {
 
 
             if(NewDrive.tune_y && NewDrive.tune_x) {
-                driveController.setAutoMode(power, -locationPower);
+                driveController.setAutoMode(power, locationPower);
             } else if(NewDrive.tune_y) {
                 driveController.setAutoMode(power, 0);
             } else if(NewDrive.tune_x) {
-                driveController.setAutoMode(0, -locationPower);
+                driveController.setAutoMode(0, locationPower);
             } else {
 
             }

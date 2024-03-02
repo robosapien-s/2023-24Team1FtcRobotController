@@ -149,6 +149,10 @@ public class IMUWrapper{
         return new Translation2d(rotatedX,rotatedY);
     }
 
+    public double getYaw() {
+        return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+    }
+
     public void setAutoMode(double inX, double inY) {
         isAutoMode = true;
         autoModeX = inX;
