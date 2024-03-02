@@ -22,7 +22,7 @@ public class Red_Close extends LinearOpMode {
 
     boolean red = true;
 
-    static int barcodeInt = 2;
+    static int barcodeInt;
 
     @Override
     public void runOpMode() throws InterruptedException {
