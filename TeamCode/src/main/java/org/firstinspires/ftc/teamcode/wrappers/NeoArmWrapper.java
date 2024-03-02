@@ -75,12 +75,13 @@ public class NeoArmWrapper {
     private double act_Ki = 0.000001;
     private double act_Kd = 0.0004;
     private double act_targetPosition = 0;
+    boolean isAuto;
 
 
     private long wrist_servo_close_time = -1;
     private  boolean isIntakeMode = false;
 
-    public NeoArmWrapper(Telemetry inTelemetry, HardwareMap inHardwareMap, Gamepad inGamepad1, Gamepad inGamepad2){
+    public NeoArmWrapper(Telemetry inTelemetry, HardwareMap inHardwareMap, Gamepad inGamepad1, Gamepad inGamepad2, Boolean inIsAuto){
         //Set Values
         telemetry = inTelemetry;
         hardwareMap = inHardwareMap;
@@ -99,6 +100,7 @@ public class NeoArmWrapper {
 
         armTouch = hardwareMap.get(DigitalChannel.class, "armTouch");
 
+        isAuto = inIsAuto;
     }
 
     public enum ePosition{
@@ -153,10 +155,10 @@ public class NeoArmWrapper {
         armServo1.setPosition(.35);
         telemetry.update();
     }
-    public void WristDown(){
+    public void WristUp(){
         wristServo.setPosition(.15);
     }
-    public void WristUp(){
+    public void WristDown(){
         wristServo.setPosition(.78);
     }
 
@@ -300,6 +302,7 @@ public class NeoArmWrapper {
             double armWristSeverSpread = arm_wrist_floor - arm_wrist_ceiling;
             double newArmServoPos = arm_wrist_floor - (armWristSeverSpread * percentActuator) - fudgeFactor;
 
+
             if(newArmServoPos < 0) {
                 newArmServoPos = 0;
             } else if (newArmServoPos > .3) {
@@ -315,7 +318,10 @@ public class NeoArmWrapper {
                 isIntakeMode = true;
                 wrist_servo_close_time = System.currentTimeMillis();
             }
-            armWristServo.setPosition(arm_wrist_intake_pos);
+
+            if(!isAuto) {
+                armWristServo.setPosition(arm_wrist_intake_pos);
+            }
         }
 
 

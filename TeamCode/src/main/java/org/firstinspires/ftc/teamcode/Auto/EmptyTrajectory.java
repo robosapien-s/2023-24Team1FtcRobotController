@@ -25,7 +25,7 @@ public class EmptyTrajectory extends LinearOpMode {
 
         TrajectorySequence trajectory1;
 
-        neoArmWrapper = new NeoArmWrapper(telemetry, hardwareMap, gamepad1, gamepad2);
+        neoArmWrapper = new NeoArmWrapper(telemetry, hardwareMap, gamepad1, gamepad2,true);
         neoArmWrapper.ResetMotorPositions();
 
         neoArmWrapper.ActivateLoop();

@@ -69,7 +69,7 @@ public class NewDrive extends LinearOpMode {
         wrapper = new IMUWrapper();
         wrapper.Initialize(telemetry,hardwareMap,gamepad1, gamepad2);
         joystickWrapper = new JoystickWrapper(gamepad1,gamepad2);
-        armWrapper = new NeoArmWrapper(telemetry,hardwareMap,gamepad2,gamepad2);
+        armWrapper = new NeoArmWrapper(telemetry,hardwareMap,gamepad2,gamepad2,false);
         armWrapper.ResetMotorPositions();
         autoDropOffController = new AutoDropOffController(wrapper, armWrapper);
         autoDropOffController.initAprilTag(hardwareMap);

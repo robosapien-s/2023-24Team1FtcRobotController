@@ -106,7 +106,7 @@ public class RedPropWrapper {
     /**
      * Initialize the TensorFlow Object Detection processor.
      */
-    private void initTfod() {
+    public void initTfod() {
 
         // Create the TensorFlow processor by using a builder.
         tfod = new TfodProcessor.Builder()
@@ -170,7 +170,7 @@ public class RedPropWrapper {
     /**
      * Add telemetry about TensorFlow Object Detection (TFOD) recognitions.
      */
-    private void updateTfod() {
+    public int updateTfod() {
 
         List<Recognition> currentRecognitions = tfod.getRecognitions();
         telemetry.addData("# Objects Detected", currentRecognitions.size());
@@ -209,7 +209,7 @@ public class RedPropWrapper {
             lastUpdate = false;
         }
 
-
+        return barcodeInt;
 
     }   // end method telemetryTfod()
 

@@ -30,7 +30,7 @@ public class Red_Close extends LinearOpMode {
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        neoArmWrapper = new NeoArmWrapper(telemetry, hardwareMap, gamepad1, gamepad2);
+        neoArmWrapper = new NeoArmWrapper(telemetry, hardwareMap, gamepad1, gamepad2, true);
         neoArmWrapper.ResetMotorPositions();
 
         neoArmWrapper.ActivateLoop();
@@ -46,18 +46,19 @@ public class Red_Close extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(.5, () -> {
                     neoArmWrapper.WristDown();
                 })
-                .splineTo(new Vector2d(6, -40), Math.toRadians(135))
+                .splineTo(new Vector2d(6, -40),Math.toRadians(135))
                 .setReversed(false)
-                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                    neoArmWrapper.OpenPos();
+                .UNSTABLE_addTemporalMarkerOffset(-1, () -> {
+                    neoArmWrapper.ClosePos();
                 })
-                .UNSTABLE_addTemporalMarkerOffset(.3, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(-.7, () -> {
                     neoArmWrapper.WristUp();
                 })
                 .waitSeconds(1)
                 .UNSTABLE_addTemporalMarkerOffset(.5, () -> {
-                    neoArmWrapper.MoveExtensionMotors(250);
+                    neoArmWrapper.MoveExtensionMotors(650);
                     neoArmWrapper.MoveActuatorMotor(1000);
+                    neoArmWrapper.armWristServo.setPosition(.15);
                 })
                 .splineTo(new Vector2d(51, -30), Math.toRadians(0))
                 .UNSTABLE_addTemporalMarkerOffset(-.7, () -> {
@@ -71,20 +72,20 @@ public class Red_Close extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     neoArmWrapper.MoveExtensionMotors(0);
                     neoArmWrapper.MoveActuatorMotor(0);
-                    neoArmWrapper.setIntake();
+                    neoArmWrapper.armWristServo.setPosition(.15);
                 })
                 .splineTo(new Vector2d(24, -12), Math.toRadians(180))
                 .UNSTABLE_addTemporalMarkerOffset(-0.5, () -> {
                     neoArmWrapper.SetWheelSpin(1);
+                    neoArmWrapper.WristDown();
+                    neoArmWrapper.ClosePos();
                 })
                 .UNSTABLE_addTemporalMarkerOffset(1.2, () -> {
                     neoArmWrapper.SetWheelSpin(0);
-                    neoArmWrapper.WristDown();
                 })
-                .splineTo(new Vector2d(-57.5, -12), Math.toRadians(180))
+                .splineTo(new Vector2d(-59.5, -10), Math.toRadians(180))
                 .UNSTABLE_addTemporalMarkerOffset(.1, () -> {
                     neoArmWrapper.UpdateIntakePower(1);
-                    neoArmWrapper.ClosePos();
                 })
                 .UNSTABLE_addTemporalMarkerOffset(1.1, () -> {
                     neoArmWrapper.OpenPos();
@@ -103,9 +104,10 @@ public class Red_Close extends LinearOpMode {
                     neoArmWrapper.WristUp();
                 })
                 .splineTo(new Vector2d(24, -12), Math.toRadians(0))
-                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                    neoArmWrapper.MoveExtensionMotors(250);
+                .UNSTABLE_addTemporalMarkerOffset(.5, () -> {
+                    neoArmWrapper.MoveExtensionMotors(700);
                     neoArmWrapper.MoveActuatorMotor(1000);
+                    neoArmWrapper.armWristServo.setPosition(.2);
                 })
                 .splineTo(new Vector2d(51, -42), Math.toRadians(0))
                 .UNSTABLE_addTemporalMarkerOffset(-.7, () -> {
@@ -120,27 +122,27 @@ public class Red_Close extends LinearOpMode {
                     neoArmWrapper.MoveExtensionMotors(0);
                 })
                 .lineToLinearHeading(new Pose2d(48,-60, Math.toRadians(90)))
-
-                .lineToLinearHeading(new Pose2d(59,-62, Math.toRadians(90)))
                 .build();
 
 
-
         trajectory2 = drive.trajectorySequenceBuilder(new Pose2d(12, -62, Math.toRadians(-90)))
+                .setReversed(true)
                 .UNSTABLE_addTemporalMarkerOffset(.5, () -> {
                     neoArmWrapper.WristDown();
                 })
-                .lineToLinearHeading(new Pose2d(12, -38, Math.toRadians(-90)))
-                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                    neoArmWrapper.OpenPos();
+                .splineTo(new Vector2d(11, -38),Math.toRadians(100))
+                .setReversed(false)
+                .UNSTABLE_addTemporalMarkerOffset(-1, () -> {
+                    neoArmWrapper.ClosePos();
                 })
-                .UNSTABLE_addTemporalMarkerOffset(.3, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(-.7, () -> {
                     neoArmWrapper.WristUp();
                 })
                 .waitSeconds(1)
                 .UNSTABLE_addTemporalMarkerOffset(.5, () -> {
-                    neoArmWrapper.MoveExtensionMotors(250);
+                    neoArmWrapper.MoveExtensionMotors(650);
                     neoArmWrapper.MoveActuatorMotor(1000);
+                    neoArmWrapper.armWristServo.setPosition(.15);
                 })
                 .splineTo(new Vector2d(51, -36), Math.toRadians(0))
                 .UNSTABLE_addTemporalMarkerOffset(-.7, () -> {
@@ -154,20 +156,20 @@ public class Red_Close extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     neoArmWrapper.MoveExtensionMotors(0);
                     neoArmWrapper.MoveActuatorMotor(0);
-                    neoArmWrapper.setIntake();
+                    neoArmWrapper.armWristServo.setPosition(.15);
                 })
                 .splineTo(new Vector2d(24, -12), Math.toRadians(180))
                 .UNSTABLE_addTemporalMarkerOffset(-0.5, () -> {
                         neoArmWrapper.SetWheelSpin(1);
+                        neoArmWrapper.WristDown();
+                        neoArmWrapper.ClosePos();
                         })
                 .UNSTABLE_addTemporalMarkerOffset(1.2, () -> {
                         neoArmWrapper.SetWheelSpin(0);
-                        neoArmWrapper.WristDown();
                         })
-                .splineTo(new Vector2d(-57.5, -12), Math.toRadians(180))
+                .splineTo(new Vector2d(-59.5, -10), Math.toRadians(180))
                 .UNSTABLE_addTemporalMarkerOffset(.1, () -> {
                     neoArmWrapper.UpdateIntakePower(1);
-                    neoArmWrapper.ClosePos();
                 })
                 .UNSTABLE_addTemporalMarkerOffset(1.1, () -> {
                     neoArmWrapper.OpenPos();
@@ -186,9 +188,10 @@ public class Red_Close extends LinearOpMode {
                     neoArmWrapper.WristUp();
                 })
                 .splineTo(new Vector2d(24, -12), Math.toRadians(0))
-                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                    neoArmWrapper.MoveExtensionMotors(250);
+                .UNSTABLE_addTemporalMarkerOffset(.5, () -> {
+                    neoArmWrapper.MoveExtensionMotors(700);
                     neoArmWrapper.MoveActuatorMotor(1000);
+                    neoArmWrapper.armWristServo.setPosition(.2);
                 })
                 .splineTo(new Vector2d(51, -42), Math.toRadians(0))
                 .UNSTABLE_addTemporalMarkerOffset(-.7, () -> {
@@ -203,8 +206,6 @@ public class Red_Close extends LinearOpMode {
                     neoArmWrapper.MoveExtensionMotors(0);
                 })
                 .lineToLinearHeading(new Pose2d(48,-60, Math.toRadians(90)))
-
-                .lineToLinearHeading(new Pose2d(59,-62, Math.toRadians(90)))
                 .build();
 
 
@@ -213,20 +214,21 @@ public class Red_Close extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(.5, () -> {
                     neoArmWrapper.WristDown();
                 })
-                .splineTo(new Vector2d(18, -40), Math.toRadians(135))
+                .splineTo(new Vector2d(18, -40),Math.toRadians(45))
                 .setReversed(false)
-                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                    neoArmWrapper.OpenPos();
+                .UNSTABLE_addTemporalMarkerOffset(-1, () -> {
+                    neoArmWrapper.ClosePos();
                 })
-                .UNSTABLE_addTemporalMarkerOffset(.3, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(-.7, () -> {
                     neoArmWrapper.WristUp();
                 })
                 .waitSeconds(1)
                 .UNSTABLE_addTemporalMarkerOffset(.5, () -> {
-                    neoArmWrapper.MoveExtensionMotors(250);
+                    neoArmWrapper.MoveExtensionMotors(650);
                     neoArmWrapper.MoveActuatorMotor(1000);
+                    neoArmWrapper.armWristServo.setPosition(.15);
                 })
-                .splineTo(new Vector2d(51, -42), Math.toRadians(0))
+                .splineTo(new Vector2d(51, -36), Math.toRadians(0))
                 .UNSTABLE_addTemporalMarkerOffset(-.7, () -> {
                     neoArmWrapper.SetWheelSpin(-1);
                 })
@@ -238,20 +240,20 @@ public class Red_Close extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     neoArmWrapper.MoveExtensionMotors(0);
                     neoArmWrapper.MoveActuatorMotor(0);
-                    neoArmWrapper.setIntake();
+                    neoArmWrapper.armWristServo.setPosition(.15);
                 })
                 .splineTo(new Vector2d(24, -12), Math.toRadians(180))
                 .UNSTABLE_addTemporalMarkerOffset(-0.5, () -> {
                     neoArmWrapper.SetWheelSpin(1);
+                    neoArmWrapper.WristDown();
+                    neoArmWrapper.ClosePos();
                 })
                 .UNSTABLE_addTemporalMarkerOffset(1.2, () -> {
                     neoArmWrapper.SetWheelSpin(0);
-                    neoArmWrapper.WristDown();
                 })
-                .splineTo(new Vector2d(-57.5, -12), Math.toRadians(180))
+                .splineTo(new Vector2d(-59.5, -10), Math.toRadians(180))
                 .UNSTABLE_addTemporalMarkerOffset(.1, () -> {
                     neoArmWrapper.UpdateIntakePower(1);
-                    neoArmWrapper.ClosePos();
                 })
                 .UNSTABLE_addTemporalMarkerOffset(1.1, () -> {
                     neoArmWrapper.OpenPos();
@@ -270,9 +272,10 @@ public class Red_Close extends LinearOpMode {
                     neoArmWrapper.WristUp();
                 })
                 .splineTo(new Vector2d(24, -12), Math.toRadians(0))
-                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                    neoArmWrapper.MoveExtensionMotors(250);
+                .UNSTABLE_addTemporalMarkerOffset(.5, () -> {
+                    neoArmWrapper.MoveExtensionMotors(700);
                     neoArmWrapper.MoveActuatorMotor(1000);
+                    neoArmWrapper.armWristServo.setPosition(.2);
                 })
                 .splineTo(new Vector2d(51, -42), Math.toRadians(0))
                 .UNSTABLE_addTemporalMarkerOffset(-.7, () -> {
@@ -287,14 +290,15 @@ public class Red_Close extends LinearOpMode {
                     neoArmWrapper.MoveExtensionMotors(0);
                 })
                 .lineToLinearHeading(new Pose2d(48,-60, Math.toRadians(90)))
-
-                .lineToLinearHeading(new Pose2d(59,-62, Math.toRadians(90)))
                 .build();
 
 
+        redPropWrapper = new RedPropWrapper(hardwareMap,telemetry);
+        redPropWrapper.initTfod();
+        while (!isStarted()){
+            barcodeInt = redPropWrapper.updateTfod();
+        }
         waitForStart();
-        redPropWrapper.detect();
-        barcodeInt = redPropWrapper.getBarcodeInt();
 
         if (barcodeInt == 1) {
             drive.followTrajectorySequence(trajectory1);

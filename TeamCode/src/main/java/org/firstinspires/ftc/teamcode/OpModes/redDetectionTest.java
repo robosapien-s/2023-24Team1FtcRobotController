@@ -50,10 +50,13 @@ public class redDetectionTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         redPropWrapper = new RedPropWrapper(hardwareMap,telemetry);
+        redPropWrapper.initTfod();
+        while (!isStarted()){
+            barcodeInt = redPropWrapper.updateTfod();
+        }
         waitForStart();
         long a = System.currentTimeMillis();
-        redPropWrapper.detect();
-        barcodeInt = redPropWrapper.getBarcodeInt();
+
         telemetry.addData("TeleOp int", barcodeInt);
         telemetry.addData("Time", System.currentTimeMillis()-a);
         telemetry.update();
