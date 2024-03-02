@@ -46,7 +46,7 @@ public class Red_Close extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(.5, () -> {
                     neoArmWrapper.WristDown();
                 })
-                .splineTo(new Vector2d(6, -40),Math.toRadians(135))
+                .splineTo(new Vector2d(6, -42),Math.toRadians(135))
                 .setReversed(false)
                 .UNSTABLE_addTemporalMarkerOffset(-1, () -> {
                     neoArmWrapper.ClosePos();
@@ -55,10 +55,12 @@ public class Red_Close extends LinearOpMode {
                     neoArmWrapper.WristUp();
                 })
                 .waitSeconds(1)
+                .lineToLinearHeading(new Pose2d(8,-40,Math.toRadians(-45)))
+                .waitSeconds(.1)
                 .UNSTABLE_addTemporalMarkerOffset(.5, () -> {
                     neoArmWrapper.MoveExtensionMotors(650);
                     neoArmWrapper.MoveActuatorMotor(1000);
-                    neoArmWrapper.armWristServo.setPosition(.15);
+                    neoArmWrapper.armWristServo.setPosition(.1);
                 })
                 .splineTo(new Vector2d(51, -30), Math.toRadians(0))
                 .UNSTABLE_addTemporalMarkerOffset(-.7, () -> {
@@ -105,12 +107,12 @@ public class Red_Close extends LinearOpMode {
                 })
                 .splineTo(new Vector2d(24, -12), Math.toRadians(0))
                 .UNSTABLE_addTemporalMarkerOffset(.5, () -> {
-                    neoArmWrapper.MoveExtensionMotors(700);
+                    neoArmWrapper.MoveExtensionMotors(650);
                     neoArmWrapper.MoveActuatorMotor(1000);
                     neoArmWrapper.armWristServo.setPosition(.2);
                 })
                 .splineTo(new Vector2d(51, -42), Math.toRadians(0))
-                .UNSTABLE_addTemporalMarkerOffset(-.7, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(-.4, () -> {
                     neoArmWrapper.SetWheelSpin(-1);
                 })
                 .UNSTABLE_addTemporalMarkerOffset(2, () -> {
@@ -194,7 +196,7 @@ public class Red_Close extends LinearOpMode {
                     neoArmWrapper.armWristServo.setPosition(.2);
                 })
                 .splineTo(new Vector2d(51, -42), Math.toRadians(0))
-                .UNSTABLE_addTemporalMarkerOffset(-.7, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(-.4, () -> {
                     neoArmWrapper.SetWheelSpin(-1);
                 })
                 .UNSTABLE_addTemporalMarkerOffset(2, () -> {
@@ -214,7 +216,7 @@ public class Red_Close extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(.5, () -> {
                     neoArmWrapper.WristDown();
                 })
-                .splineTo(new Vector2d(18, -40),Math.toRadians(45))
+                .splineTo(new Vector2d(18, -42),Math.toRadians(45))
                 .setReversed(false)
                 .UNSTABLE_addTemporalMarkerOffset(-1, () -> {
                     neoArmWrapper.ClosePos();
@@ -226,9 +228,9 @@ public class Red_Close extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(.5, () -> {
                     neoArmWrapper.MoveExtensionMotors(650);
                     neoArmWrapper.MoveActuatorMotor(1000);
-                    neoArmWrapper.armWristServo.setPosition(.15);
+                    neoArmWrapper.armWristServo.setPosition(.1);
                 })
-                .splineTo(new Vector2d(51, -36), Math.toRadians(0))
+                .splineTo(new Vector2d(51, -42), Math.toRadians(0))
                 .UNSTABLE_addTemporalMarkerOffset(-.7, () -> {
                     neoArmWrapper.SetWheelSpin(-1);
                 })
@@ -277,7 +279,7 @@ public class Red_Close extends LinearOpMode {
                     neoArmWrapper.MoveActuatorMotor(1000);
                     neoArmWrapper.armWristServo.setPosition(.2);
                 })
-                .splineTo(new Vector2d(51, -42), Math.toRadians(0))
+                .splineTo(new Vector2d(51, -36), Math.toRadians(0))
                 .UNSTABLE_addTemporalMarkerOffset(-.7, () -> {
                     neoArmWrapper.SetWheelSpin(-1);
                 })
