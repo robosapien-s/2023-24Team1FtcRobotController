@@ -53,13 +53,17 @@ import java.util.List;
 public class blueDetectionTest extends LinearOpMode {
     int barcodeInt;
 
+
     BluePropWrapper bluePropWrapper;
     @Override
     public void runOpMode() throws InterruptedException {
         bluePropWrapper = new BluePropWrapper(hardwareMap,telemetry);
-        barcodeInt = bluePropWrapper.detect();
         waitForStart();
-        telemetry.addData("TeleOp int", barcodeInt);
-        telemetry.update();
+        bluePropWrapper.detect();
+        barcodeInt = bluePropWrapper.getBarcodeInt();
+        while (!isStopRequested()) {
+            telemetry.addData("TeleOp int", barcodeInt);
+            telemetry.update();
+        }
     }
 }

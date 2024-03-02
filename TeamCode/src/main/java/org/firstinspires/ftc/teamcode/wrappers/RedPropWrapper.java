@@ -51,6 +51,8 @@ import java.util.List;
  */
 public class RedPropWrapper {
 
+    boolean lastUpdate = false;
+
     HardwareMap hardwareMap;
     Telemetry telemetry;
 
@@ -84,19 +86,23 @@ public class RedPropWrapper {
      */
     private VisionPortal visionPortal;
 
-    public int detect() {
+    public void detect() {
 
         initTfod();
 
-        long a = System.currentTimeMillis();
 
-        while(updateTfod() == false && (System.currentTimeMillis()-a)<10000) {
+        lastUpdate = false;
+
+        while(!lastUpdate) {
             updateTfod();
         }
 
-        return barcodeInt;
 
     }   // end runOpMode()
+
+    public int getBarcodeInt() {
+        return barcodeInt;
+    }
     /**
      * Initialize the TensorFlow Object Detection processor.
      */
@@ -164,7 +170,7 @@ public class RedPropWrapper {
     /**
      * Add telemetry about TensorFlow Object Detection (TFOD) recognitions.
      */
-    private boolean updateTfod() {
+    private void updateTfod() {
 
         List<Recognition> currentRecognitions = tfod.getRecognitions();
         telemetry.addData("# Objects Detected", currentRecognitions.size());
@@ -197,9 +203,10 @@ public class RedPropWrapper {
             }
             telemetry.addData("barcodeInt",barcodeInt);
             telemetry.update();
-            return true;
+            lastUpdate = true;
         } else  {
-            return false;
+            telemetry.update();
+            lastUpdate = false;
         }
 
 
