@@ -23,7 +23,7 @@ public class DriveConstants {
     /*
      * These are motor constants that should be listed online for your motors.
      */
-    public static final double TICKS_PER_REV = 537.6;
+    public static final double TICKS_PER_REV = 2000;
     public static final double MAX_RPM = 312;
 
     /*
@@ -87,7 +87,7 @@ public class DriveConstants {
      *
      * Maximum Angular Velocity is calculated as: maximum velocity / trackWidth * (180 / Math.PI) but capped at 360°/s.
      * You are free to raise this on your own if you would like. It is best determined through experimentation.
-     
+
      */
     public static double MAX_VEL = 52.48291908330528;
     public static double MAX_ACCEL = 52.48291908330528;
@@ -106,6 +106,10 @@ public class DriveConstants {
 
     public static double encoderTicksToInches(double ticks) {
         return WHEEL_RADIUS * 2 * Math.PI * GEAR_RATIO * ticks / TICKS_PER_REV;
+    }
+
+    public static double inchesToEncoderTicks(double inches) {
+        return (inches * TICKS_PER_REV) /  (WHEEL_RADIUS * 2 * Math.PI * GEAR_RATIO);
     }
 
     public static double rpmToVelocity(double rpm) {
