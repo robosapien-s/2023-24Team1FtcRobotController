@@ -73,10 +73,8 @@ public class AutoDropOffController {
     NeoArmWrapper armWrapper;
 
 
-
-
-    SimplePIDController distanceController = new SimplePIDController(0.0004, 0.000008, 0.0004);
-    SimplePIDController locationController = new SimplePIDController(0.0004, 0.00000008, .00003);
+    SimplePIDController distanceController = new SimplePIDController(0.00035, 0.0, .00006);
+    SimplePIDController locationController = new SimplePIDController(0.00046, 0.00000008, 0.00006);
 
 
     final double locationStepSize = 1.5;
