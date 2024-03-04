@@ -88,6 +88,8 @@ public class LedController {
         ledMap.put(12, new ArrayList<DigitalChannel>(Arrays.asList(leds.get(6))));
         ledMap.put(13, new ArrayList<DigitalChannel>(Arrays.asList(leds.get(6), leds.get(7))));
 
+        evaluate();
+
     }
 
 

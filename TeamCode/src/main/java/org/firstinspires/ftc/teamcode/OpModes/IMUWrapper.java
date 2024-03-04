@@ -84,10 +84,10 @@ public class IMUWrapper{
         yaw = orientation.getYaw(AngleUnit.DEGREES);
 
         if(joystickWrapper.gamepad1.dpad_right){
-            targetHeading = 90;
+            targetHeading = -90;
         }
         if(joystickWrapper.gamepad1.dpad_left){
-            targetHeading = -90;
+            targetHeading = 90;
         }
         if (length(joystickWrapper.gamepad1GetRightStickX(), joystickWrapper.gamepad1GetRightStickY()) > .5) {
             targetHeading = Math.toDegrees(Math.atan2(-joystickWrapper.gamepad1GetRightStickY(), joystickWrapper.gamepad1GetRightStickX())) + 90;

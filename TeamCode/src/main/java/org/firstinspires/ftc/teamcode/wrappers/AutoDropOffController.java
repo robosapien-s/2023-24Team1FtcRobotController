@@ -77,7 +77,7 @@ public class AutoDropOffController {
     SimplePIDController locationController = new SimplePIDController(0.00046, 0.00000008, 0.00006);
 
 
-    final double locationStepSize = 1.5;
+    final double locationStepSize = 1.65;
     final double location1 = 4.5;
     final double location2 = 10.5;
     final double location3 = 16.5;
@@ -88,7 +88,6 @@ public class AutoDropOffController {
 
 
     private  Integer currentDropLocation = 0;
-    private HashMap<Integer, EDropLocation> dropLocations = new HashMap<Integer, EDropLocation>();
 
 
     private final FtcDashboard dashboard = FtcDashboard.getInstance();
@@ -105,20 +104,6 @@ public class AutoDropOffController {
         dropDistances.add( new DropData(2660, 2005, 9));
         dropDistances.add( new DropData(1000, 1000, 24));
         dropDistances.add( new DropData(1200, 1200, 28));
-
-        dropLocations.put(0, EDropLocation.P_0_1);
-        dropLocations.put(1, EDropLocation.P_1);
-        dropLocations.put(2, EDropLocation.P_1_2);
-        dropLocations.put(3, EDropLocation.P_2);
-        dropLocations.put(4, EDropLocation.P_2_3);
-        dropLocations.put(5, EDropLocation.P_3);
-        dropLocations.put(6, EDropLocation.P_3_4);
-        dropLocations.put(7, EDropLocation.P_4);
-        dropLocations.put(8, EDropLocation.P_4_5);
-        dropLocations.put(9, EDropLocation.P_5);
-        dropLocations.put(10, EDropLocation.P_5_6);
-        dropLocations.put(11, EDropLocation.P_6);
-        dropLocations.put(12, EDropLocation.P_6_7);
 
     }
 
@@ -365,7 +350,8 @@ public class AutoDropOffController {
     */
 
     public double getTargetLocation() {
-        return currentDropLocation*locationStepSize;
+
+        return currentDropLocation*locationStepSize + locationStepSize;
     }
     public double getCurrentLocation(AprilTagDetection closetsDetection) {
 

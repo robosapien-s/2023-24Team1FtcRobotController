@@ -171,7 +171,7 @@ public class NeoArmWrapper {
 
 
         double actuatorLimit = 6500;
-        double actuatorTransitionPoint = 250;
+        double actuatorTransitionPoint = 300;
         double actuatorDelayTime = 500;
 
         double newExtTargetPositionRequest = ext_targetPosition;
