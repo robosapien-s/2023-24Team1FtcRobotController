@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.usefulStuff.QuikMaths;
 
 public class JoystickWrapper {
 
-    Gamepad gamepad1;  //setting a variable gamepad of type Gamepad
+    public Gamepad gamepad1;  //setting a variable gamepad of type Gamepad
     Gamepad gamepad2;
 
 
