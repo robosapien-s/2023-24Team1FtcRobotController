@@ -35,18 +35,6 @@ public class LedTest extends LinearOpMode {
         JoystickWrapper joystickWrapper = new JoystickWrapper(gamepad1, gamepad2);
 
 
-        DigitalChannel led = hardwareMap.get(DigitalChannel.class, "led0");
-        led.setMode(DigitalChannel.Mode.OUTPUT);
-        led.setState(false);
-
-        DigitalChannel led2 = hardwareMap.get(DigitalChannel.class, "led1");
-        led2.setMode(DigitalChannel.Mode.OUTPUT);
-        led2.setState(false);
-
-
-
-        /*
-
         leds.add(configureLed("led0"));
         leds.add(configureLed("led1"));
         leds.add(configureLed("led2"));
@@ -78,7 +66,7 @@ public class LedTest extends LinearOpMode {
 
         ledMap.put(12, new ArrayList<DigitalChannel>(Arrays.asList(leds.get(6))));
         ledMap.put(13, new ArrayList<DigitalChannel>(Arrays.asList(leds.get(6), leds.get(7))));
-        */
+
         waitForStart();
 
 
@@ -88,8 +76,6 @@ public class LedTest extends LinearOpMode {
             while (opModeIsActive()) {
 
 
-
-                /*
                 if(joystickWrapper.gamepad1GetRightBumperDown()) {
                     currIndex++;
                     if(currIndex > 12) {
@@ -110,18 +96,16 @@ public class LedTest extends LinearOpMode {
 
                 for(int i = 0; i < leds.size(); i++) {
 
-                    leds.get(i).setState(false);
+                    leds.get(i).setState(true);
 
                 }
 
 
                 for (DigitalChannel led: ledMap.get(currIndex)) {
-                    led.setState(true);
+                    led.setState(false);
                 }
 
                 telemetry.update();
-*/
-
 
 
             }
