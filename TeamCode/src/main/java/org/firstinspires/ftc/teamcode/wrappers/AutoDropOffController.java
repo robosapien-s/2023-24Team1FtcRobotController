@@ -94,6 +94,8 @@ public class AutoDropOffController {
     private final FtcDashboard dashboard = FtcDashboard.getInstance();
     TelemetryPacket packet  = new TelemetryPacket();
 
+    LedController ledController;
+
     public AutoDropOffController(IMUWrapper inDriveController, NeoArmWrapper inArmWrapper) {
         driveController = inDriveController;
         armWrapper = inArmWrapper;
@@ -122,6 +124,8 @@ public class AutoDropOffController {
 
 
     public void initAprilTag(HardwareMap hardwareMap) {
+
+        ledController =  new LedController(hardwareMap);
 
         // Create the AprilTag processor the easy way.
         aprilTag = AprilTagProcessor.easyCreateWithDefaults();
@@ -230,8 +234,8 @@ public class AutoDropOffController {
 
                     packet.put("target location", getTargetLocation());
 
-                    //armWrapper.SetLinearActuator(dropData.armActuator);
-                    //armWrapper.SetLinearExtensionPos(dropData.armExtension);
+                    armWrapper.SetLinearActuator(dropData.armActuator);
+                    armWrapper.SetLinearExtensionPos(dropData.armExtension);
                 }
 
                 distanceController.setCurrentPosition(yEncoder.getCurrentPosition());
@@ -250,8 +254,8 @@ public class AutoDropOffController {
                     locationController.setTargetPosition(getTargetLocation());
                     locationController.setCurrentPosition(getCurrentLocation(closetsDetection));
 
-                    //armWrapper.SetLinearActuator(dropData.armActuator);
-                    //armWrapper.SetLinearExtensionPos(dropData.armExtension);
+                    armWrapper.SetLinearActuator(dropData.armActuator);
+                    armWrapper.SetLinearExtensionPos(dropData.armExtension);
                 }
             }
 
@@ -384,6 +388,8 @@ public class AutoDropOffController {
         if(currentDropLocation > 12) {
             currentDropLocation = 0;
         }
+
+        ledController.setCurrentIndex(currentDropLocation);
     }
 
     public void setPreviousDropLocation() {
@@ -391,6 +397,8 @@ public class AutoDropOffController {
         if(currentDropLocation < 0) {
             currentDropLocation = 12;
         }
+
+        ledController.setCurrentIndex(currentDropLocation);
     }
 
 

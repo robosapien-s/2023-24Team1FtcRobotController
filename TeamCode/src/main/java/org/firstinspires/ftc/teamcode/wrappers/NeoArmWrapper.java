@@ -99,7 +99,7 @@ public class NeoArmWrapper {
         armWristServo = hardwareMap.get(Servo.class, "armWrist");
         armWheel = hardwareMap.get(CRServo.class, "armWheel");
 
-        armTouch = hardwareMap.get(DigitalChannel.class, "armTouch");
+        //armTouch = hardwareMap.get(DigitalChannel.class, "armTouch");
 
         isAuto = inIsAuto;
     }
@@ -239,7 +239,7 @@ public class NeoArmWrapper {
             }
         }
 
-        if(armTouch.getState() || ext_targetPosition < ExtensionMotorEx1.getCurrentPosition()) {
+        if(true/*armTouch.getState() || ext_targetPosition < ExtensionMotorEx1.getCurrentPosition()*/) {
 
             double requestPower = returnPower(requestedExt, ExtensionMotorEx1.getCurrentPosition());
             double power = requestPower;
@@ -265,6 +265,12 @@ public class NeoArmWrapper {
             ExtensionMotorEx2.setPower(0);
         }
 
+
+        double act_power = act_returnPower(requestedAct, ActuatorMotorEx.getCurrentPosition());
+        ActuatorMotorEx.setPower(act_power);
+
+
+        /*
         if(armTouch.getState() || act_targetPosition > ActuatorMotorEx.getCurrentPosition()) {
 
             double act_power = act_returnPower(requestedAct, ActuatorMotorEx.getCurrentPosition());
@@ -275,6 +281,7 @@ public class NeoArmWrapper {
             act_targetPosition = ActuatorMotorEx.getCurrentPosition();
             ActuatorMotorEx.setPower(0);
         }
+        */
 
 
 
