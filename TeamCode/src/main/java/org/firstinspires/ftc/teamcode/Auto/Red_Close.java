@@ -13,6 +13,9 @@ import org.firstinspires.ftc.teamcode.wrappers.NeoArmWrapper;
 import org.firstinspires.ftc.teamcode.wrappers.OpenCvDetection;
 import org.firstinspires.ftc.teamcode.wrappers.RedPropWrapper;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 @Autonomous
 public class Red_Close extends LinearOpMode {
     Pose2d startPose = new Pose2d(15,-62, Math.toRadians(-90));
@@ -33,23 +36,24 @@ public class Red_Close extends LinearOpMode {
         neoArmWrapper = new NeoArmWrapper(telemetry, hardwareMap, gamepad1, gamepad2, true);
         neoArmWrapper.ResetMotorPositions();
 
-        neoArmWrapper.ActivateLoop();
-
         drive.setPoseEstimate(startPose);
 
         TrajectorySequence trajectory1;
         TrajectorySequence trajectory2;
         TrajectorySequence trajectory3;
 
+
         trajectory1 = drive.trajectorySequenceBuilder(new Pose2d(12, -62, Math.toRadians(-90)))
                 .setReversed(true)
                 .UNSTABLE_addTemporalMarkerOffset(.5, () -> {
                     neoArmWrapper.WristDown();
+                    //TODO do we need to call this twice
                 })
                 .splineTo(new Vector2d(6, -42),Math.toRadians(135))
                 .setReversed(false)
                 .UNSTABLE_addTemporalMarkerOffset(-1, () -> {
-                    neoArmWrapper.ClosePos();
+                    neoArmWrapper.OpenPos();
+                    neoArmWrapper.OpenPos();
                 })
                 .UNSTABLE_addTemporalMarkerOffset(-.7, () -> {
                     neoArmWrapper.WristUp();
@@ -72,13 +76,14 @@ public class Red_Close extends LinearOpMode {
                 .waitSeconds(1.5)
                 .setReversed(true)
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                    neoArmWrapper.MoveExtensionMotors(0);
-                    neoArmWrapper.MoveActuatorMotor(0);
-                    neoArmWrapper.armWristServo.setPosition(.15);
+                    neoArmWrapper.armWristServo.setPosition(NeoArmWrapper.arm_wrist_intake_pos);
+
                 })
                 .splineTo(new Vector2d(24, -12), Math.toRadians(180))
                 .UNSTABLE_addTemporalMarkerOffset(-0.5, () -> {
                     neoArmWrapper.SetWheelSpin(1);
+                    neoArmWrapper.MoveExtensionMotors(0);
+                    neoArmWrapper.MoveActuatorMotor(0);
                     neoArmWrapper.WristDown();
                     neoArmWrapper.ClosePos();
                 })
@@ -129,22 +134,25 @@ public class Red_Close extends LinearOpMode {
 
         trajectory2 = drive.trajectorySequenceBuilder(new Pose2d(12, -62, Math.toRadians(-90)))
                 .setReversed(true)
-                .UNSTABLE_addTemporalMarkerOffset(.5, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    neoArmWrapper.OpenPos();
                     neoArmWrapper.WristDown();
                 })
                 .splineTo(new Vector2d(11, -38),Math.toRadians(100))
                 .setReversed(false)
-                .UNSTABLE_addTemporalMarkerOffset(-1, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(.1, () -> {
                     neoArmWrapper.ClosePos();
                 })
-                .UNSTABLE_addTemporalMarkerOffset(-.7, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(.5, () -> {
                     neoArmWrapper.WristUp();
                 })
                 .waitSeconds(1)
                 .UNSTABLE_addTemporalMarkerOffset(.5, () -> {
-                    neoArmWrapper.MoveExtensionMotors(650);
-                    neoArmWrapper.MoveActuatorMotor(1000);
-                    neoArmWrapper.armWristServo.setPosition(.15);
+
+ //                   neoArmWrapper.setArmPositions(1000, 650);
+                   neoArmWrapper.MoveExtensionMotors(650);
+                   neoArmWrapper.MoveActuatorMotor(1000);
+                   neoArmWrapper.armWristServo.setPosition(.15);
                 })
                 .splineTo(new Vector2d(51, -36), Math.toRadians(0))
                 .UNSTABLE_addTemporalMarkerOffset(-.7, () -> {
@@ -156,17 +164,19 @@ public class Red_Close extends LinearOpMode {
                 .waitSeconds(1.5)
                 .setReversed(true)
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                    neoArmWrapper.MoveExtensionMotors(0);
-                    neoArmWrapper.MoveActuatorMotor(0);
-                    neoArmWrapper.armWristServo.setPosition(.15);
+                    neoArmWrapper.armWristServo.setPosition(NeoArmWrapper.arm_wrist_intake_pos);
                 })
                 .splineTo(new Vector2d(24, -12), Math.toRadians(180))
                 .UNSTABLE_addTemporalMarkerOffset(-0.5, () -> {
                         neoArmWrapper.SetWheelSpin(1);
                         neoArmWrapper.WristDown();
                         neoArmWrapper.ClosePos();
+
+                        neoArmWrapper.MoveExtensionMotors(-20);
+                        neoArmWrapper.MoveActuatorMotor(0);
+
                         })
-                .UNSTABLE_addTemporalMarkerOffset(1.2, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(3, () -> {
                         neoArmWrapper.SetWheelSpin(0);
                         })
                 .splineTo(new Vector2d(-59.5, -10), Math.toRadians(180))
@@ -205,7 +215,7 @@ public class Red_Close extends LinearOpMode {
                 .waitSeconds(2.5)
                 .UNSTABLE_addTemporalMarkerOffset(.5, () -> {
                     neoArmWrapper.MoveActuatorMotor(0);
-                    neoArmWrapper.MoveExtensionMotors(0);
+                    neoArmWrapper.MoveExtensionMotors(-20);
                 })
                 .lineToLinearHeading(new Pose2d(48,-60, Math.toRadians(90)))
                 .build();
@@ -302,9 +312,13 @@ public class Red_Close extends LinearOpMode {
         }
         waitForStart();
 
+        neoArmWrapper.ActivateLoop();
+
+
         if (barcodeInt == 1) {
             drive.followTrajectorySequence(trajectory1);
         } else if (barcodeInt == 2) {
+            //drive.followTrajectorySequenceAsync(trajectory2);
             drive.followTrajectorySequence(trajectory2);
         } else {
             drive.followTrajectorySequence(trajectory3);

@@ -15,6 +15,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
 import java.sql.Time;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -59,7 +60,7 @@ public class NeoArmWrapper {
 
     private double arm_wrist_floor = .3;
     private  double arm_wrist_ceiling = 0.0;
-    private  double  arm_wrist_intake_pos = .72;
+    public static  double  arm_wrist_intake_pos = .64;
 
     private  double  arm_wrist_tagetPosition = arm_wrist_intake_pos;
 
@@ -75,7 +76,7 @@ public class NeoArmWrapper {
     private double act_Ki = 0.000001;
     private double act_Kd = 0.0004;
     private double act_targetPosition = 0;
-    boolean isAuto;
+    boolean isAuto = false;
 
 
     private long wrist_servo_close_time = -1;
@@ -144,6 +145,10 @@ public class NeoArmWrapper {
         telemetry.addData("current",ActuatorMotorEx.getCurrent(CurrentUnit.AMPS));
         ActuatorMotorEx.setTargetPosition(ActuatorMotorEx.getCurrentPosition()+Move);
         telemetry.update();
+    }
+
+    public void setIsAuto(boolean inIsAuto) {
+        isAuto = inIsAuto;
     }
 
     public void ClosePos(){
@@ -310,7 +315,9 @@ public class NeoArmWrapper {
             }
 
 
-            armWristServo.setPosition(newArmServoPos);
+            if(!isAuto) {
+                armWristServo.setPosition(newArmServoPos);
+            }
             isIntakeMode = false;
         } else {
 
@@ -369,6 +376,14 @@ public class NeoArmWrapper {
         return  output;
     }
 
+
+    public void setArmPositions(double acutator, double extension) {
+        act_lastError = 0;
+        act_targetPosition = acutator;
+
+        ext_lastError = 0;
+        ext_targetPosition = extension;
+    }
 
     public void setOuttake() {
 
@@ -461,11 +476,12 @@ public class NeoArmWrapper {
         loopTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                telemetry.addData("aaaa","yo");
+                telemetry.addData("aaaa", System.currentTimeMillis());
                 UpdateExtensionPlusInput(null, 200, 200);
                 telemetry.update();
             }
         }, 100);
+
     }
 
     public void DeactivateLoop(){
