@@ -24,22 +24,6 @@ import java.util.List;
 
 public class AutoDropOffController {
 
-    public enum EDropLocation {
-        P_0_1,
-        P_1,
-        P_1_2,
-        P_2,
-        P_2_3,
-        P_3,
-        P_3_4,
-        P_4,
-        P_4_5,
-        P_5,
-        P_5_6,
-        P_6,
-        P_6_7
-    }
-
     public class DropData {
 
         public DropData(int inArmActuator, int inArmExtension, double inBoardDistance) {
@@ -84,8 +68,6 @@ public class AutoDropOffController {
 
 
     private  Integer currentDropLevel = 0;
-    private ArrayList<DropData> dropDistances = new ArrayList<DropData>();
-
 
     private  Integer currentDropLocation = 0;
 
@@ -98,13 +80,6 @@ public class AutoDropOffController {
     public AutoDropOffController(IMUWrapper inDriveController, NeoArmWrapper inArmWrapper) {
         driveController = inDriveController;
         armWrapper = inArmWrapper;
-
-        dropDistances.add( new DropData(612, 1945, 12.7));
-        dropDistances.add( new DropData(1141, 2013, 11.3));
-        dropDistances.add( new DropData(2660, 2005, 9));
-        dropDistances.add( new DropData(1000, 1000, 24));
-        dropDistances.add( new DropData(1200, 1200, 28));
-
     }
 
 
@@ -197,7 +172,7 @@ public class AutoDropOffController {
                 yPowerFactor = -1;
                 if (!distanceController.isEnabled()) {
 
-                    DropData dropData = dropDistances.get(currentDropLevel);
+                    DropData dropData = getTargetYData(); //Distance, Ext, Act
 
                     double yDistanceNeededToTravel = closetsDetection.ftcPose.y - dropData.boardDistance;
                     double boardDistanceTicks = StandardTrackingWheelLocalizer.inchesToEncoderTicks(yDistanceNeededToTravel);
@@ -234,7 +209,7 @@ public class AutoDropOffController {
 
 
                 if(closetsDetection != null) {
-                    DropData dropData = dropDistances.get(currentDropLevel);
+                    DropData dropData = getTargetYData(); //distance, act, ext
                     distanceController.setTargetPosition(dropData.boardDistance);
                     distanceController.setCurrentPosition(closetsDetection.ftcPose.y);
 
@@ -307,59 +282,92 @@ public class AutoDropOffController {
         }
     }
 
+    public DropData getTargetYData() {
 
 
-    /*
-    public double returnPower(double reference, double state) {
-        double error = reference - state;
-        double seconds = timer.seconds();
-        intergralSum += error * seconds;
+        DropData dropData = new DropData(NewDrive.height0_Act, NewDrive.height0_Ext, NewDrive.height0_Distance);
 
-        double errorDiff = error - lastError;
-        double derivative = errorDiff / timer.seconds();
-
-        derivative = (error - lastError) / seconds;
-
-        lastError = error;
-        timer.reset();
-        double output = (error*Kp) + (derivative*Kd) + (intergralSum*Ki);
-
-        if(output>1) {
-            output = 1;
+        switch (currentDropLevel) {
+            case 0:
+                dropData = new DropData(NewDrive.height0_Act, NewDrive.height0_Ext, NewDrive.height0_Distance);
+                break;
+            case 1:
+                dropData = new DropData(NewDrive.height1_Act, NewDrive.height1_Ext, NewDrive.height1_Distance);
+                break;
+            case 2:
+                dropData = new DropData(NewDrive.height2_Act, NewDrive.height2_Ext, NewDrive.height2_Distance);
+                break;
+            case 3:
+                dropData = new DropData(NewDrive.height3_Act, NewDrive.height3_Ext, NewDrive.height3_Distance);
+                break;
+            case 4:
+                dropData = new DropData(NewDrive.height4_Act, NewDrive.height4_Ext, NewDrive.height4_Distance);
+                break;
+            default:
+                dropData = new DropData(NewDrive.height0_Act, NewDrive.height0_Ext, NewDrive.height0_Distance);
+                break;
         }
-        return  output;
+
+
+
+        return dropData;
+
     }
-
-    public double returnDropLocationPower(double reference, double state) {
-        double error = reference - state;
-        double seconds = timer.seconds();
-        intergralSum += error * seconds;
-
-        double errorDiff = error - lastError;
-        double derivative = errorDiff / timer.seconds();
-
-        derivative = (error - lastError) / seconds;
-
-        lastError = error;
-        timer.reset();
-        double output = (error*Kp) + (derivative*Kd) + (intergralSum*Ki);
-
-        if(output>1) {
-            output = 1;
-        }
-        return  output;
-    }
-    */
 
     public double getTargetLocation() {
 
-        /*double location;
-        switch (currentDropLevel){
+        //Init in the middle somewhere
+        double location = 5*locationStepSize + locationStepSize;
+
+
+        switch (currentDropLocation){
             case 0:
-                location =
+                location = NewDrive.dropLocation0;
+                break;
+            case 1:
+                location = NewDrive.dropLocation1;
+                break;
+            case 2:
+                location = NewDrive.dropLocation2;
+                break;
+            case 3:
+                location = NewDrive.dropLocation3;
+                break;
+            case 4:
+                location = NewDrive.dropLocation4;
+                break;
+            case 5:
+                location = NewDrive.dropLocation5;
+                break;
+            case 6:
+                location = NewDrive.dropLocation6;
+                break;
+            case 7:
+                location = NewDrive.dropLocation7;
+                break;
+            case 8:
+                location = NewDrive.dropLocation8;
+                break;
+            case 9:
+                location = NewDrive.dropLocation9;
+                break;
+            case 10:
+                location = NewDrive.dropLocation10;
+                break;
+            case 11:
+                location = NewDrive.dropLocation11;
+                break;
+            case 12:
+                location = NewDrive.dropLocation12;
+                break;
+            default:
+                location = NewDrive.dropLocation6;
+                break;
         }
-        return location;*/
-        return currentDropLocation*locationStepSize + locationStepSize;
+        return location;
+
+
+        //return currentDropLocation*locationStepSize + locationStepSize;
     }
     public double getCurrentLocation(AprilTagDetection closetsDetection) {
 

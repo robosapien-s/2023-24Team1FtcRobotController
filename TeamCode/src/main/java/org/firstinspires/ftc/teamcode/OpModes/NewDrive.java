@@ -63,6 +63,51 @@ public class NewDrive extends LinearOpMode {
 
 
 
+    //drop location tuning values
+    public static double dropLocation0 = 1.9;
+    public static double dropLocation1 = 3;
+    public static double dropLocation2 = 4.5;
+    public static double dropLocation3 = 6;
+    public static double dropLocation4 = 7.5;
+    public static double dropLocation5 = 9;
+    public static double dropLocation6 = 10.5;
+    public static double dropLocation7 = 12;
+    public static double dropLocation8 = 13.5;
+    public static double dropLocation9 = 15;
+    public static double dropLocation10 = 16.5;
+    public static double dropLocation11 = 18;
+    public static double dropLocation12 = 19.5;
+    public static double dropLocation_Kick = .15;
+
+
+    //Drop height tuning values
+    public static double height0_Distance = 7;
+    public static int height0_Act = 800;
+    public static int height0_Ext = 1200;
+
+
+    public static double height1_Distance = 16.5;
+    public static int height1_Act = 200;
+    public static int height1_Ext = 200;
+
+
+
+    public static double height2_Distance = 16.5;
+    public static int height2_Act = 200;
+    public static int height2_Ext = 200;
+
+    public static double height3_Distance = 16.5;
+    public static int height3_Act = 200;
+    public static int height3_Ext = 200;
+
+    public static double height4_Distance = 16.5;
+    public static int height4_Act = 200;
+    public static int height4_Ext = 200;
+
+
+
+
+
 
     @Override
     public void runOpMode() throws InterruptedException {

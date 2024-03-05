@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.wrappers.BluePropWrapper;
 
 @Autonomous
-public class Blue_Close extends LinearOpMode {
+public class Blue_Close extends BaseAutoOp {
 
     BluePropWrapper bluePropWrapper;
     Pose2d startPose = new Pose2d(12,62, Math.toRadians(90));
@@ -23,7 +23,7 @@ public class Blue_Close extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         bluePropWrapper = new BluePropWrapper(hardwareMap,telemetry);
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap, this);
 
         drive.setPoseEstimate(startPose);
 

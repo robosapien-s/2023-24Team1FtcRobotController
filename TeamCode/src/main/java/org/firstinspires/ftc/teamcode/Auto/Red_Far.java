@@ -7,10 +7,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.drive.PoseStorage;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder;
 import org.firstinspires.ftc.teamcode.wrappers.RedPropWrapper;
 
 @Autonomous
-public class Red_Far extends LinearOpMode {
+public class Red_Far extends BaseAutoOp {
     Pose2d startPose = new Pose2d(-36,-62, Math.toRadians(-90));
 
     RedPropWrapper redPropWrapper;
@@ -21,7 +22,7 @@ public class Red_Far extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         redPropWrapper = new RedPropWrapper(hardwareMap,telemetry);
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap, this);
 
         drive.setPoseEstimate(startPose);
 
