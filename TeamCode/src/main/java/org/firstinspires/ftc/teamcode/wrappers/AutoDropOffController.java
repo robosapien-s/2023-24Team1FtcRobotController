@@ -126,7 +126,6 @@ public class AutoDropOffController {
     }
 
     public void telemetryAprilTag(Telemetry telemetry, JoystickWrapper joystickWrapper, Encoder yEncoder, Encoder xEncoder) {
-
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
         telemetry.addData("# AprilTags Detected", currentDetections.size());
         telemetry.addLine(String.format("Current Location P: %d",currentDropLocation));
@@ -218,6 +217,9 @@ public class AutoDropOffController {
                     locationController.setTargetPosition(xTargetPosition);
 
                     packet.put("target location", getTargetLocation());
+
+                    telemetry.addData("Target",xTargetPosition);
+                    telemetry.addData("Current",xCurrentLocation);
 
                     armWrapper.SetLinearActuator(dropData.armActuator);
                     armWrapper.SetLinearExtensionPos(dropData.armExtension);
@@ -351,6 +353,12 @@ public class AutoDropOffController {
 
     public double getTargetLocation() {
 
+        /*double location;
+        switch (currentDropLevel){
+            case 0:
+                location =
+        }
+        return location;*/
         return currentDropLocation*locationStepSize + locationStepSize;
     }
     public double getCurrentLocation(AprilTagDetection closetsDetection) {
