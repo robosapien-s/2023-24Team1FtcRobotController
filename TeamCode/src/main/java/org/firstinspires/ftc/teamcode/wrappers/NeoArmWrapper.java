@@ -96,6 +96,7 @@ public class NeoArmWrapper {
         armServo0 = hardwareMap.get(Servo.class, "armServo0");
         armServo1 = hardwareMap.get(Servo.class, "armServo1");
         wristServo = hardwareMap.get(Servo.class, "wristServo");
+
         armWristServo = hardwareMap.get(Servo.class, "armWrist");
         armWheel = hardwareMap.get(CRServo.class, "armWheel");
 

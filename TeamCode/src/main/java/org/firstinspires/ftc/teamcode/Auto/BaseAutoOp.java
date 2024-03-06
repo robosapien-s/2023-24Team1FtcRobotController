@@ -67,6 +67,40 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
                 .waitSeconds(1);
     }
 
+
+    protected TrajectorySequenceBuilder getArmReadyFar( TrajectorySequenceBuilder sequenceBuilder) {
+        return sequenceBuilder
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    neoArmWrapper.OpenPos();
+                    neoArmWrapper.WristDown();
+                });
+    }
+
+    protected TrajectorySequenceBuilder dropPurplePixelFar( TrajectorySequenceBuilder sequenceBuilder, Vector2d endPosition, double heading) {
+        return sequenceBuilder
+                .lineToLinearHeading( new Pose2d(endPosition.getX(), endPosition.getY(), Math.toRadians(heading)))
+                .UNSTABLE_addTemporalMarkerOffset(.1, () -> {
+                    neoArmWrapper.WristDown();
+                })
+                .UNSTABLE_addTemporalMarkerOffset(.1, () -> {
+                    neoArmWrapper.OpenPos();
+                });
+
+    }
+
+    protected TrajectorySequenceBuilder lineUpForSinglePixel( TrajectorySequenceBuilder sequenceBuilder, Vector2d endPosition, double heading) {
+        return sequenceBuilder
+                .waitSeconds(2)
+                .lineToLinearHeading( new Pose2d(endPosition.getX(), endPosition.getY(), Math.toRadians(heading)))
+                .UNSTABLE_addTemporalMarkerOffset(-2, () -> {
+                    neoArmWrapper.ClosePos();
+                })
+                .UNSTABLE_addTemporalMarkerOffset(-1.5, () -> {
+                    neoArmWrapper.WristUp();
+                    neoArmWrapper.armWristServo.setPosition(NeoArmWrapper.arm_wrist_intake_pos);
+                });
+    }
+
     protected TrajectorySequenceBuilder getArmReadyForYellowPixelDrop( TrajectorySequenceBuilder sequenceBuilder, int ext, int act, double wrist) {
         return sequenceBuilder.UNSTABLE_addTemporalMarkerOffset(.5, () -> {
 
@@ -91,11 +125,48 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
                 .setReversed(true);
     }
 
+    protected TrajectorySequenceBuilder pickUpOneFarWhitePixels( TrajectorySequenceBuilder sequenceBuilder,
+                                                            Vector2d secondLocation, double secondHeading) {
+
+
+        return sequenceBuilder.UNSTABLE_addTemporalMarkerOffset(0.3, () -> {
+                    neoArmWrapper.armWristServo.setPosition(NeoArmWrapper.arm_wrist_intake_pos);
+                })
+                .setReversed(true)
+                .waitSeconds(.5)
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    neoArmWrapper.WristDown();
+                    neoArmWrapper.ClosePos();
+                })
+                .splineTo(secondLocation, secondHeading)
+                .UNSTABLE_addTemporalMarkerOffset(.1, () -> {
+                    neoArmWrapper.UpdateIntakePower(1);
+                })
+                .UNSTABLE_addTemporalMarkerOffset(1.1, () -> {
+                    neoArmWrapper.OpenPos();
+                })
+                .UNSTABLE_addTemporalMarkerOffset(1.6, () -> {
+                    neoArmWrapper.ClosePos();
+                })
+                .UNSTABLE_addTemporalMarkerOffset(1.3, () -> {
+                    neoArmWrapper.SetWheelSpin(-0.2);
+                })
+                .waitSeconds(2)
+                .setReversed(false)
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    neoArmWrapper.SetWheelSpin(0);
+                    neoArmWrapper.UpdateIntakePower(0);
+                    neoArmWrapper.ClosePos();
+                    neoArmWrapper.WristUp();
+                });
+    }
+
 
     protected TrajectorySequenceBuilder pickUpWhitePixels( TrajectorySequenceBuilder sequenceBuilder,
                  Vector2d firstLocation, double firstHeading, Vector2d secondLocation, double secondHeading) {
 
-        return sequenceBuilder.UNSTABLE_addTemporalMarkerOffset(0.3, () -> {
+        return sequenceBuilder.setReversed(true)
+                .UNSTABLE_addTemporalMarkerOffset(0.3, () -> {
                     neoArmWrapper.armWristServo.setPosition(NeoArmWrapper.arm_wrist_intake_pos);
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0.7, () -> {
@@ -142,8 +213,8 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
 
     protected TrajectorySequenceBuilder dropOffWhitePixels( TrajectorySequenceBuilder sequenceBuilder,
                                                              Vector2d firstLocation, double firstHeading,
-                                                            Vector2d secondLocation, double secondHeading,
-                                                            Pose2d finalLocation
+                                                            Vector2d secondLocation, double secondHeading/*,
+                                                            Pose2d finalLocation*/
 
                                                             ) {
 
@@ -167,10 +238,22 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
                 })
                 .UNSTABLE_addTemporalMarkerOffset(2, () -> {
                     neoArmWrapper.MoveExtensionMotors(-20);
-                })
-                .lineToLinearHeading(finalLocation)
+                });
+//                .lineToLinearHeading(finalLocation)
+//                .waitSeconds(3);
+    }
+
+
+    protected TrajectorySequenceBuilder park( TrajectorySequenceBuilder sequenceBuilder,
+                                                            Pose2d finalLocation
+
+    ) {
+
+        return sequenceBuilder.lineToLinearHeading(finalLocation)
                 .waitSeconds(3);
     }
+
+
 
 
 
