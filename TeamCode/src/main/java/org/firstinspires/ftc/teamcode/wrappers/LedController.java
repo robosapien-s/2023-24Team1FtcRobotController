@@ -69,9 +69,8 @@ public class LedController {
 
         ledMap.put(0, new ArrayList<DigitalChannel>(Arrays.asList(leds.get(0))));
         ledMap.put(1, new ArrayList<DigitalChannel>(Arrays.asList(leds.get(0), leds.get(1))));
-
-        ledMap.put(2, new ArrayList<DigitalChannel>(Arrays.asList(leds.get(1))));
-        ledMap.put(3, new ArrayList<DigitalChannel>(Arrays.asList(leds.get(1), leds.get(2))));
+        ledMap.put(2, new ArrayList<DigitalChannel>(Arrays.asList(leds.get(0),leds.get(1),leds.get(2))));
+        ledMap.put(3, new ArrayList<DigitalChannel>(Arrays.asList(leds.get(0),leds.get(1),leds.get(2), leds.get(3))));
 
         ledMap.put(4, new ArrayList<DigitalChannel>(Arrays.asList(leds.get(2))));
         ledMap.put(5, new ArrayList<DigitalChannel>(Arrays.asList(leds.get(2), leds.get(3))));

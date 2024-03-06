@@ -141,21 +141,21 @@ public class NewDrive extends LinearOpMode {
                 autoDropOffController.setDropLevel2();
             }
 
-            if(joystickWrapper.gamepad2GetDUp()) {
+            /*if(joystickWrapper.gamepad2GetDUp()) {
                 autoDropOffController.setNextDropLevel();
             }
 
             if(joystickWrapper.gamepad2GetDDown()) {
                 autoDropOffController.setPreviousDropLeve();
-            }
+            }*/
 
 
             if(joystickWrapper.gamepad2GetLeftBumperDown()) {
-                autoDropOffController.setPreviousDropLocation();
+                autoDropOffController.setPreviousDropLeve();
             }
 
             if(joystickWrapper.gamepad2GetRightBumperDown()) {
-                autoDropOffController.setNextDropLocation();
+                autoDropOffController.setNextDropLevel();
             }
 
             autoDropOffController.telemetryAprilTag(telemetry, joystickWrapper, new Encoder(hardwareMap.get(DcMotorEx.class, "fL")),  new Encoder(hardwareMap.get(DcMotorEx.class, "bL")));
@@ -172,19 +172,25 @@ public class NewDrive extends LinearOpMode {
                 armWrapper.setIntake();
             }
 
-            /*
+
             if(joystickWrapper.gamepad2GetDDown()){
-                armWrapper.MoveExtensionMotors(5);
+                autoDropOffController.currentDropLevel = 0;
+                autoDropOffController.ledController.setCurrentIndex(autoDropOffController.currentDropLevel);
             }
             if(joystickWrapper.gamepad2GetDRight()){
-                armWrapper.MoveExtensionMotors(1500);
-            }
-            if(joystickWrapper.gamepad2GetDRight()){
-                armWrapper.MoveExtensionMotors(2700);
+                autoDropOffController.currentDropLevel = 1;
+                autoDropOffController.ledController.setCurrentIndex(autoDropOffController.currentDropLevel);
             }
             if(joystickWrapper.gamepad2GetDLeft()){
-                armWrapper.MoveExtensionMotors(1750);
-            }*/
+                autoDropOffController.currentDropLevel = 3;
+                autoDropOffController.ledController.setCurrentIndex(autoDropOffController.currentDropLevel);
+            }
+            if(joystickWrapper.gamepad2GetDUp()){
+                autoDropOffController.currentDropLevel = 2;
+                autoDropOffController.ledController.setCurrentIndex(autoDropOffController.currentDropLevel);
+            }
+
+
             if(joystickWrapper.gamepad1GetRightBumperDown()){
                 if(isOpen){
                     armWrapper.ClosePos();

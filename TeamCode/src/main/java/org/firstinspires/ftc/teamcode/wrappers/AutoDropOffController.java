@@ -67,7 +67,7 @@ public class AutoDropOffController {
     final double location3 = 16.5;
 
 
-    private  Integer currentDropLevel = 0;
+    public Integer currentDropLevel = 0;
 
     private  Integer currentDropLocation = 0;
 
@@ -75,7 +75,7 @@ public class AutoDropOffController {
     private final FtcDashboard dashboard = FtcDashboard.getInstance();
     TelemetryPacket packet  = new TelemetryPacket();
 
-    LedController ledController;
+    public LedController ledController;
 
     public AutoDropOffController(IMUWrapper inDriveController, NeoArmWrapper inArmWrapper) {
         driveController = inDriveController;
@@ -196,8 +196,9 @@ public class AutoDropOffController {
                     telemetry.addData("Target",xTargetPosition);
                     telemetry.addData("Current",xCurrentLocation);
 
-                    armWrapper.SetLinearActuator(dropData.armActuator);
-                    armWrapper.SetLinearExtensionPos(dropData.armExtension);
+
+                    armWrapper.SetLinearActuator(GetArmActuatorLocation());
+                    armWrapper.SetLinearExtensionPos(GetArmExtensionLocation());
                 }
 
                 distanceController.setCurrentPosition(yEncoder.getCurrentPosition());
@@ -216,8 +217,8 @@ public class AutoDropOffController {
                     locationController.setTargetPosition(getTargetLocation());
                     locationController.setCurrentPosition(getCurrentLocation(closetsDetection));
 
-                    armWrapper.SetLinearActuator(dropData.armActuator);
-                    armWrapper.SetLinearExtensionPos(dropData.armExtension);
+                    armWrapper.SetLinearActuator(GetArmActuatorLocation());
+                    armWrapper.SetLinearExtensionPos(GetArmExtensionLocation());
                 }
             }
 
@@ -289,7 +290,7 @@ public class AutoDropOffController {
 
         DropData dropData = new DropData(NewDrive.height0_Act, NewDrive.height0_Ext, NewDrive.height0_Distance);
 
-        switch (currentDropLevel) {
+        /*switch (currentDropLevel) {
             case 0:
                 dropData = new DropData(NewDrive.height0_Act, NewDrive.height0_Ext, NewDrive.height0_Distance);
                 break;
@@ -308,10 +309,10 @@ public class AutoDropOffController {
             default:
                 dropData = new DropData(NewDrive.height0_Act, NewDrive.height0_Ext, NewDrive.height0_Distance);
                 break;
-        }
+        }*/
 
 
-
+        dropData = new DropData(NewDrive.height0_Act, NewDrive.height0_Ext, NewDrive.height0_Distance);
         return dropData;
 
     }
@@ -322,6 +323,8 @@ public class AutoDropOffController {
         double location = 5*locationStepSize + locationStepSize;
 
 
+        location = NewDrive.dropLocation0;
+        /*
         switch (currentDropLocation){
             case 0:
                 location = NewDrive.dropLocation0;
@@ -365,7 +368,7 @@ public class AutoDropOffController {
             default:
                 location = NewDrive.dropLocation6;
                 break;
-        }
+        }*/
         return location;
 
 
@@ -393,7 +396,7 @@ public class AutoDropOffController {
             currentDropLocation = 0;
         }
 
-        ledController.setCurrentIndex(currentDropLocation);
+        //ledController.setCurrentIndex(currentDropLocation);
     }
 
     public void setPreviousDropLocation() {
@@ -402,9 +405,8 @@ public class AutoDropOffController {
             currentDropLocation = 12;
         }
 
-        ledController.setCurrentIndex(currentDropLocation);
+        //ledController.setCurrentIndex(currentDropLocation);
     }
-
 
 
     public void setNextDropLevel() {
@@ -412,6 +414,7 @@ public class AutoDropOffController {
         if(currentDropLevel > 4) {
             currentDropLevel = 0;
         }
+        ledController.setCurrentIndex(currentDropLevel);
     }
 
     public void setPreviousDropLeve() {
@@ -419,6 +422,7 @@ public class AutoDropOffController {
         if(currentDropLevel < 0) {
             currentDropLevel = 4;
         }
+        ledController.setCurrentIndex(currentDropLevel);
     }
 
 
@@ -446,5 +450,32 @@ public class AutoDropOffController {
         visionPortal.close();
     }
 
+
+    public int GetArmActuatorLocation(){
+        switch (currentDropLevel){
+            case 0:
+                return 1170;
+            case 1:
+                return 1495;
+            case 2:
+                return 2068;
+            case 3:
+                return 2223;
+        }
+        return 0;
+    }
+    public int GetArmExtensionLocation(){
+        switch (currentDropLevel){
+            case 0:
+                return 1580;
+            case 1:
+                return 1700;
+            case 2:
+                return 1994;
+            case 3:
+                return 2299;
+        }
+        return 0;
+    }
 
 }
