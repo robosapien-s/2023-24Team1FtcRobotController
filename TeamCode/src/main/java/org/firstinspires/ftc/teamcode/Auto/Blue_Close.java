@@ -2,17 +2,16 @@ package org.firstinspires.ftc.teamcode.Auto;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.drive.PoseStorage;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-import org.firstinspires.ftc.teamcode.wrappers.BluePropWrapper;
+import org.firstinspires.ftc.teamcode.wrappers.BlueClosePropWrapper;
+import org.firstinspires.ftc.teamcode.wrappers.BlueFarPropWrapper;
 
 @Autonomous
 public class Blue_Close extends BaseAutoOp {
 
-    BluePropWrapper bluePropWrapper;
+    BlueClosePropWrapper blueClosePropWrapper;
     Pose2d startPose = new Pose2d(12,62, Math.toRadians(90));
 
 
@@ -22,7 +21,7 @@ public class Blue_Close extends BaseAutoOp {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        bluePropWrapper = new BluePropWrapper(hardwareMap,telemetry);
+        blueClosePropWrapper = new BlueClosePropWrapper(hardwareMap,telemetry);
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap, this);
 
         drive.setPoseEstimate(startPose);
@@ -89,9 +88,10 @@ public class Blue_Close extends BaseAutoOp {
 
 
 
+        while (!isStarted()){ //TODO: MAKE SURE TO USE updateTfod(), NOT detect()
+            barcodeInt = blueClosePropWrapper.updateTfod();
+        }
         waitForStart();
-        bluePropWrapper.detect();
-        barcodeInt = bluePropWrapper.getBarcodeInt();
 
         if (barcodeInt == 1) {
             drive.followTrajectorySequence(trajectory1);

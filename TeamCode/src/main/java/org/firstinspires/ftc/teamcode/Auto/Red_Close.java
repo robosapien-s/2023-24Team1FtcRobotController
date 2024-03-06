@@ -2,20 +2,11 @@ package org.firstinspires.ftc.teamcode.Auto;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.drive.PoseStorage;
-import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder;
-import org.firstinspires.ftc.teamcode.wrappers.NeoArmWrapper;
-import org.firstinspires.ftc.teamcode.wrappers.OpenCvDetection;
-import org.firstinspires.ftc.teamcode.wrappers.RedPropWrapper;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 @Config
 @Autonomous
@@ -290,10 +281,9 @@ public class Red_Close extends BaseAutoOp {
 
         trajectory3 = park(trajectory2SequenceBuilder3, new Pose2d(T2_final_x,T2_final_y, Math.toRadians(T2_final_heading))).build();
 
-
-        redPropWrapper.initTfod();
-        while (!isStarted()){
-            barcodeInt = redPropWrapper.updateTfod();
+        redClosePropWrapper.initTfod();
+        while (!isStarted()){ //TODO: MAKE SURE TO USE updateTfod(), NOT detect()
+            barcodeInt = redClosePropWrapper.updateTfod();
         }
         waitForStart();
 

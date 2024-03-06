@@ -32,8 +32,7 @@ package org.firstinspires.ftc.teamcode.OpModes;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.wrappers.BluePropWrapper;
-import org.firstinspires.ftc.teamcode.wrappers.RedPropWrapper;
+import org.firstinspires.ftc.teamcode.wrappers.RedClosePropWrapper;
 
 /*
  * This OpMode illustrates the basics of TensorFlow Object Detection,
@@ -46,13 +45,13 @@ import org.firstinspires.ftc.teamcode.wrappers.RedPropWrapper;
 public class redDetectionTest extends LinearOpMode {
     int barcodeInt;
 
-    RedPropWrapper redPropWrapper;
+    RedClosePropWrapper redClosePropWrapper;
     @Override
     public void runOpMode() throws InterruptedException {
-        redPropWrapper = new RedPropWrapper(hardwareMap,telemetry);
-        redPropWrapper.initTfod();
+        redClosePropWrapper = new RedClosePropWrapper(hardwareMap,telemetry);
+        redClosePropWrapper.initTfod();
         while (!isStarted()){
-            barcodeInt = redPropWrapper.updateTfod();
+            barcodeInt = redClosePropWrapper.updateTfod();
         }
         waitForStart();
         long a = System.currentTimeMillis();
