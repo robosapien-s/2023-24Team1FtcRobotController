@@ -19,7 +19,7 @@ public class Red_Far extends BaseAutoOp {
 
 
 
-    public static double start_x = -42;
+    public static double start_x = -43;
     public static double start_y =-62;
     public static double start_heading = 270;
 
@@ -30,12 +30,12 @@ public class Red_Far extends BaseAutoOp {
 
 
     public static double T1_lineUpSingleWhite_x = -40;
-    public static double T1_lineUpSingleWhite_y =-12;
+    public static double T1_lineUpSingleWhite_y =-8.5;
     public static double T1_lineUpSingleWhite_heading = 0;
 
 
-    public static double T1_pickUpWhite2_x = -62.9;
-    public static double T1_pickUpWhite2_y =-12;
+    public static double T1_pickUpWhite2_x = -61;
+    public static double T1_pickUpWhite2_y =-8.5;
     public static double T1_pickUpWhite2_heading = 180;
 
 
