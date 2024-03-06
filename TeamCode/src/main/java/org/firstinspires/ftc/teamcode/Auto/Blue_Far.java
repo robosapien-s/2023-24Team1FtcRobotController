@@ -2,23 +2,22 @@ package org.firstinspires.ftc.teamcode.Auto;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-import org.firstinspires.ftc.teamcode.wrappers.BluePropWrapper;
+import org.firstinspires.ftc.teamcode.wrappers.BlueFarPropWrapper;
 
 @Autonomous
 public class Blue_Far extends BaseAutoOp {
 
-    BluePropWrapper bluePropWrapper;
+    BlueFarPropWrapper blueFarPropWrapper;
     Pose2d startPose = new Pose2d(-36,62, Math.toRadians(90));
 
     static int barcodeInt = 3;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        bluePropWrapper  = new BluePropWrapper(hardwareMap,telemetry);
+        blueFarPropWrapper = new BlueFarPropWrapper(hardwareMap,telemetry);
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap, this);
 
         TrajectorySequence trajectory1;
@@ -99,8 +98,8 @@ public class Blue_Far extends BaseAutoOp {
 
 
         waitForStart();
-        bluePropWrapper.detect();
-        barcodeInt = bluePropWrapper.getBarcodeInt();
+        blueFarPropWrapper.detect();
+        barcodeInt = blueFarPropWrapper.getBarcodeInt();
         if (barcodeInt == 1) {
             drive.followTrajectorySequence(trajectory1);
         } else if (barcodeInt == 2) {
