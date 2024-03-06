@@ -41,7 +41,6 @@ import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 import java.util.List;
-import java.util.Timer;
 
 /*
  * This OpMode illustrates the basics of TensorFlow Object Detection,
@@ -50,31 +49,31 @@ import java.util.Timer;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
-public class BluePropWrapper {
+public class RedFarPropWrapper {
 
-    boolean lastUpdate;
+    boolean lastUpdate = false;
 
     HardwareMap hardwareMap;
     Telemetry telemetry;
 
-    public BluePropWrapper(HardwareMap hardwareMap, Telemetry telemetry) {
+    public RedFarPropWrapper(HardwareMap hardwareMap, Telemetry telemetry) {
         this.hardwareMap = hardwareMap;
         this.telemetry = telemetry;
     }
 
-    public int barcodeInt = 2;
+    public int barcodeInt = 3;
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
     // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
     // this is only used for Android Studio when using models in Assets.
-    private static final String TFOD_MODEL_ASSET = "BlueProp.tflite";
+    private static final String TFOD_MODEL_ASSET = "RedProp.tflite";
     // TFOD_MODEL_FILE points to a model file stored onboard the Robot Controller's storage,
     // this is used when uploading models directly to the RC using the model upload interface.
     private static final String TFOD_MODEL_FILE = "/sdcard/FIRST/tflitemodels/myCustomModel.tflite";
     // Define the labels recognized in the model for TFOD (must be in training order!)
     private static final String[] LABELS = {
-       "Blue_box",
+       "Red Prop",
     };
 
     /**
@@ -91,13 +90,12 @@ public class BluePropWrapper {
 
         initTfod();
 
-        lastUpdate = false;
 
+        lastUpdate = false;
 
         while(!lastUpdate) {
             updateTfod();
         }
-
 
 
     }   // end runOpMode()
@@ -108,7 +106,7 @@ public class BluePropWrapper {
     /**
      * Initialize the TensorFlow Object Detection processor.
      */
-    private void initTfod() {
+    public void initTfod() {
 
         // Create the TensorFlow processor by using a builder.
         tfod = new TfodProcessor.Builder()
@@ -136,7 +134,7 @@ public class BluePropWrapper {
 
         // Set the camera (webcam vs. built-in RC phone camera).
         if (USE_WEBCAM) {
-            builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"));
+            builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam 2"));
         } else {
             builder.setCamera(BuiltinCameraDirection.BACK);
         }
@@ -169,10 +167,11 @@ public class BluePropWrapper {
 
     }   // end method initTfod()
 
+
     /**
      * Add telemetry about TensorFlow Object Detection (TFOD) recognitions.
      */
-    private void updateTfod() {
+    public int updateTfod() {
 
         List<Recognition> currentRecognitions = tfod.getRecognitions();
         telemetry.addData("# Objects Detected", currentRecognitions.size());
@@ -196,23 +195,22 @@ public class BluePropWrapper {
             telemetry.addData("Image", "%s (%.0f %% Conf.)", theRecognition.getLabel(), theRecognition.getConfidence() * 100);
             telemetry.addData("- Position", "%.0f / %.0f", x, y);
             telemetry.addData("- Size", "%.0f x %.0f", theRecognition.getWidth(), theRecognition.getHeight());
-            if (x<800/3) {
+            if (x<400) {
                 barcodeInt = 1;
-            } else if (x<1600/3) {
-                barcodeInt = 2;
             } else {
-                barcodeInt = 3;
+                barcodeInt = 2;
             }
             telemetry.addData("barcodeInt",barcodeInt);
             telemetry.update();
-            lastUpdate =  true;
+            lastUpdate = true;
         } else  {
+            barcodeInt = 3;
+            telemetry.addData("No Objects Detected", "Barcode Int default = 3");
             telemetry.update();
-            lastUpdate =  false;
+            lastUpdate = false;
         }
 
-
+        return barcodeInt;
 
     }   // end method telemetryTfod()
-
 }   // end class

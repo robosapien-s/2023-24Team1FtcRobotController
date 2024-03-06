@@ -49,31 +49,31 @@ import java.util.List;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
-public class RedPropWrapper {
+public class BlueClosePropWrapper {
 
     boolean lastUpdate = false;
 
     HardwareMap hardwareMap;
     Telemetry telemetry;
 
-    public RedPropWrapper(HardwareMap hardwareMap, Telemetry telemetry) {
+    public BlueClosePropWrapper(HardwareMap hardwareMap, Telemetry telemetry) {
         this.hardwareMap = hardwareMap;
         this.telemetry = telemetry;
     }
 
-    public int barcodeInt = 2;
+    public int barcodeInt = 3;
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
     // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
     // this is only used for Android Studio when using models in Assets.
-    private static final String TFOD_MODEL_ASSET = "RedProp.tflite";
+    private static final String TFOD_MODEL_ASSET = "BlueProp.tflite";
     // TFOD_MODEL_FILE points to a model file stored onboard the Robot Controller's storage,
     // this is used when uploading models directly to the RC using the model upload interface.
     private static final String TFOD_MODEL_FILE = "/sdcard/FIRST/tflitemodels/myCustomModel.tflite";
     // Define the labels recognized in the model for TFOD (must be in training order!)
     private static final String[] LABELS = {
-       "Red Prop",
+       "Blue_box",
     };
 
     /**
@@ -167,6 +167,7 @@ public class RedPropWrapper {
 
     }   // end method initTfod()
 
+
     /**
      * Add telemetry about TensorFlow Object Detection (TFOD) recognitions.
      */
@@ -194,17 +195,17 @@ public class RedPropWrapper {
             telemetry.addData("Image", "%s (%.0f %% Conf.)", theRecognition.getLabel(), theRecognition.getConfidence() * 100);
             telemetry.addData("- Position", "%.0f / %.0f", x, y);
             telemetry.addData("- Size", "%.0f x %.0f", theRecognition.getWidth(), theRecognition.getHeight());
-            if (x<800/3) {
+            if (x<400) {
                 barcodeInt = 1;
-            } else if (x<1600/3) {
-                barcodeInt = 2;
             } else {
-                barcodeInt = 3;
+                barcodeInt = 2;
             }
             telemetry.addData("barcodeInt",barcodeInt);
             telemetry.update();
             lastUpdate = true;
         } else  {
+            barcodeInt = 3;
+            telemetry.addData("No Objects Detected", "Barcode Int default = 3");
             telemetry.update();
             lastUpdate = false;
         }
@@ -212,5 +213,4 @@ public class RedPropWrapper {
         return barcodeInt;
 
     }   // end method telemetryTfod()
-
 }   // end class

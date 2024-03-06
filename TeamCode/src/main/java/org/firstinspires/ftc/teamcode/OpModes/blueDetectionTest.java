@@ -29,18 +29,10 @@
 
 package org.firstinspires.ftc.teamcode.OpModes;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.teamcode.wrappers.BluePropWrapper;
-import org.firstinspires.ftc.vision.VisionPortal;
-import org.firstinspires.ftc.vision.tfod.TfodProcessor;
-
-import java.util.List;
+import org.firstinspires.ftc.teamcode.wrappers.BlueFarPropWrapper;
 
 /*
  * This OpMode illustrates the basics of TensorFlow Object Detection,
@@ -54,13 +46,13 @@ public class blueDetectionTest extends LinearOpMode {
     int barcodeInt;
 
 
-    BluePropWrapper bluePropWrapper;
+    BlueFarPropWrapper blueFarPropWrapper;
     @Override
     public void runOpMode() throws InterruptedException {
-        bluePropWrapper = new BluePropWrapper(hardwareMap,telemetry);
+        blueFarPropWrapper = new BlueFarPropWrapper(hardwareMap,telemetry);
         waitForStart();
-        bluePropWrapper.detect();
-        barcodeInt = bluePropWrapper.getBarcodeInt();
+        blueFarPropWrapper.detect();
+        barcodeInt = blueFarPropWrapper.getBarcodeInt();
         while (!isStopRequested()) {
             telemetry.addData("TeleOp int", barcodeInt);
             telemetry.update();
