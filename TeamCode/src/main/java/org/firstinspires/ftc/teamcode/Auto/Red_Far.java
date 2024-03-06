@@ -1,4 +1,6 @@
 package org.firstinspires.ftc.teamcode.Auto;
+import android.graphics.drawable.VectorDrawable;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -40,9 +42,18 @@ public class Red_Far extends BaseAutoOp {
 
 
 
-    public static double T1_dropWhite_x = 49;
-    public static double T1_dropWhite_y =-36;
+    public static double T1_dropWhite_x = 47;
+
+    public static double T1_dropWhite_y =-34;
+    public static double T1_second_dropWhite_y =-32.69;
+
     public static double T1_dropWhite_heading = 0;
+
+
+    public static double final_x = 42;
+    public static double final_close_y =-63;
+    public static double final_far_y =-20;
+    public static double final_heading = 88;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -71,11 +82,13 @@ public class Red_Far extends BaseAutoOp {
 
         dropOffWhitePixels(trajectory2SequenceBuilder1,
                 new Vector2d(24, -12), Math.toRadians(0),
-                new Vector2d(T1_dropWhite_x, T1_dropWhite_y), Math.toRadians(T1_dropWhite_heading));
+                new Vector2d(T1_dropWhite_x, T1_dropWhite_y), Math.toRadians(T1_dropWhite_heading),
+                new Vector2d(T1_dropWhite_x, T1_second_dropWhite_y)
+        );
 
 
         trajectory1 = park(trajectory2SequenceBuilder1,
-                new Pose2d(T1_dropWhite_x-6, T1_dropWhite_y, Math.toRadians(T1_dropWhite_heading))).build();
+                new Pose2d(final_x, final_far_y, Math.toRadians(final_heading))).build();
 
 
 //        trajectory1 = pickUpWhitePixels(trajectory2SequenceBuilder1,

@@ -60,7 +60,7 @@ public class Red_Close extends BaseAutoOp {
 
 
     public static double T2_purplePixelLocation_x = 11;
-    public static double T2_purplePixelLocation_y =-37.5;
+    public static double T2_purplePixelLocation_y =-35.5;
     public static double T2_purplePixelLocation_heading = 120;
 
     public static double T2_dropYellow_x = 50;
@@ -270,7 +270,7 @@ public class Red_Close extends BaseAutoOp {
                 new Vector2d(T2_dropWhite_x, T2_dropWhite_y), Math.toRadians(T2_dropWhite_heading));
 
 
-        trajectory2 = park(trajectory2SequenceBuilder1, new Pose2d(T2_final_x,T2_final_y, Math.toRadians(T2_final_heading))).build();
+        trajectory2 = park(trajectory2SequenceBuilder, new Pose2d(T2_final_x,T2_final_y, Math.toRadians(T2_final_heading))).build();
 
 
         TrajectorySequenceBuilder trajectory2SequenceBuilder3 = setInitialPose(new Pose2d(12, -62, Math.toRadians(-90)));
@@ -288,7 +288,7 @@ public class Red_Close extends BaseAutoOp {
                 new Vector2d(24, -12), Math.toRadians(0),
                 new Vector2d(T3_dropWhite_x, T3_dropWhite_y), Math.toRadians(T3_dropWhite_heading) );
 
-        trajectory3 = park(trajectory2SequenceBuilder1, new Pose2d(T2_final_x,T2_final_y, Math.toRadians(T2_final_heading))).build();
+        trajectory3 = park(trajectory2SequenceBuilder3, new Pose2d(T2_final_x,T2_final_y, Math.toRadians(T2_final_heading))).build();
 
 
         redPropWrapper.initTfod();
