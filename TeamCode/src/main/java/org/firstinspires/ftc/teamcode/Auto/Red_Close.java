@@ -77,13 +77,13 @@ public class Red_Close extends BaseAutoOp {
 
 
 
-    public static double T1_purplePixelLocation_x = 6;
-    public static double T1_purplePixelLocation_y =-42;
-    public static double T1_purplePixelLocation_heading = 135;
+    public static double T1_purplePixelLocation_x = 9;
+    public static double T1_purplePixelLocation_y =-38;
+    public static double T1_purplePixelLocation_heading = 150;
 
 
-    public static double T1_dropYellow_x = 50;
-    public static double T1_dropYellow_y =-42;
+    public static double T1_dropYellow_x = 51;
+    public static double T1_dropYellow_y =-30;
     public static double T1_dropYellow_heading = 0;
 
 
@@ -103,7 +103,7 @@ public class Red_Close extends BaseAutoOp {
 
 
 
-    public static double T1_dropWhite_x = 48.5;
+    public static double T1_dropWhite_x = 49.5;
     public static double T1_dropWhite_y =-36;
     public static double T1_dropWhite_heading = 0;
 
