@@ -72,7 +72,7 @@ public class Blue_Close extends BaseAutoOp {
 
 
     public static double T3_purplePixelLocation_x = 6;
-    public static double T3_purplePixelLocation_y =42;
+    public static double T3_purplePixelLocation_y =30;
     public static double T3_purplePixelLocation_heading = -45;
 
 
