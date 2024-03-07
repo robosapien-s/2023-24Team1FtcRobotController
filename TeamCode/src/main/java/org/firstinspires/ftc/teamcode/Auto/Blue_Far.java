@@ -95,11 +95,12 @@ public class Blue_Far extends BaseAutoOp {
                 .lineToLinearHeading(new Pose2d(48,12, Math.toRadians(0)))
                 .lineToLinearHeading(new Pose2d(60,12, Math.toRadians(0)))
                 .build();
-
+        blueFarPropWrapper.initTfod();
+        while (!isStarted()){
+            barcodeInt = blueFarPropWrapper.updateTfod();
+        }
 
         waitForStart();
-        blueFarPropWrapper.detect();
-        barcodeInt = blueFarPropWrapper.getBarcodeInt();
         if (barcodeInt == 1) {
             drive.followTrajectorySequence(trajectory1);
         } else if (barcodeInt == 2) {

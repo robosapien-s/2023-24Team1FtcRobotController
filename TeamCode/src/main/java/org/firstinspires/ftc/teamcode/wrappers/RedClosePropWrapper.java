@@ -205,9 +205,10 @@ public class RedClosePropWrapper {
             telemetry.update();
             lastUpdate = true;
         } else  {
+            barcodeInt = 1;
+            telemetry.addData("No Objects Detected", "Barcode Int default = 1");
             telemetry.update();
             lastUpdate = false;
-            barcodeInt = 1;
         }
 
         return barcodeInt;

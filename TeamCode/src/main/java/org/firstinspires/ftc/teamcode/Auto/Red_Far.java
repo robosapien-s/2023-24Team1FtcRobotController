@@ -185,9 +185,9 @@ public class Red_Far extends BaseAutoOp {
         TrajectorySequence trajectory2 = buildTragectory2();
         TrajectorySequence trajectory3 = buildTragectory3();
 
-        redClosePropWrapper.initTfod();
+        redFarPropWrapper.initTfod();
         while (!isStarted()){
-            barcodeInt = redClosePropWrapper.updateTfod();
+            barcodeInt = redFarPropWrapper.updateTfod();
         }
         waitForStart();
 

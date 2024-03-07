@@ -88,6 +88,7 @@ public class Blue_Close extends BaseAutoOp {
 
 
 
+        blueClosePropWrapper.initTfod();
         while (!isStarted()){ //TODO: MAKE SURE TO USE updateTfod(), NOT detect()
             barcodeInt = blueClosePropWrapper.updateTfod();
         }
