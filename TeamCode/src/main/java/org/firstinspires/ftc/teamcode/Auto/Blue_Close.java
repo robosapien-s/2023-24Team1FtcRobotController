@@ -72,13 +72,13 @@ public class Blue_Close extends BaseAutoOp {
 
 
 
-    public static double T3_purplePixelLocation_x = 6;
-    public static double T3_purplePixelLocation_y =30;
-    public static double T3_purplePixelLocation_heading = -45;
+    public static double T3_purplePixelLocation_x = 9;
+    public static double T3_purplePixelLocation_y =38;
+    public static double T3_purplePixelLocation_heading = -30;
 
 
-    public static double T3_dropYellow_x = 50;
-    public static double T3_dropYellow_y =42;
+    public static double T3_dropYellow_x = 51;
+    public static double T3_dropYellow_y =30;
     public static double T3_dropYellow_heading = 0;
 
 
@@ -98,7 +98,7 @@ public class Blue_Close extends BaseAutoOp {
 
 
 
-    public static double T3_dropWhite_x = 48.5;
+    public static double T3_dropWhite_x = 49.5;
     public static double T3_dropWhite_y =36;
     public static double T3_dropWhite_heading = 0;
 
