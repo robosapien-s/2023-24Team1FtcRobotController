@@ -61,7 +61,7 @@ public class RedClosePropWrapper {
         this.telemetry = telemetry;
     }
 
-    public int barcodeInt = 2;
+    public int barcodeInt = 1;
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
@@ -207,6 +207,7 @@ public class RedClosePropWrapper {
         } else  {
             telemetry.update();
             lastUpdate = false;
+            barcodeInt = 1;
         }
 
         return barcodeInt;

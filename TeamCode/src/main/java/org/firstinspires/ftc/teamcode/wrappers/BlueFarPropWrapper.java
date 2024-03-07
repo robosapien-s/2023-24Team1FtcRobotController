@@ -61,7 +61,7 @@ public class BlueFarPropWrapper {
         this.telemetry = telemetry;
     }
 
-    public int barcodeInt = 2;
+    public int barcodeInt = 3;
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
