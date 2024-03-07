@@ -18,6 +18,21 @@ public class Red_Close extends BaseAutoOp {
 
 
 
+
+
+        /*trajectory1 = drive.trajectorySequenceBuilder(new Pose2d(12, -62, Math.toRadians(-90)))
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                neoArmWrapper.SetWheelSpin(1);
+                telemetry.addData("First Marker", "Reached");})
+                .UNSTABLE_addTemporalMarkerOffset(5, () -> {
+                neoArmWrapper.SetWheelSpin(0);
+                telemetry.addData("Second Marker", "Reached");
+                telemetry.update();})
+                .strafeRight(.1)
+                .waitSeconds(10)
+                .build();*/
+
+
     public static double T3_purplePixelLocation_x = 16;
     public static double T3_purplePixelLocation_y =-44;
     public static double T3_purplePixelLocation_heading = 45;
@@ -136,7 +151,7 @@ public class Red_Close extends BaseAutoOp {
         dropOffWhitePixels(trajectory2SequenceBuilder1,
                 new Vector2d(24, -12), Math.toRadians(0),
                 new Vector2d(T1_dropWhite_x, T1_dropWhite_y), Math.toRadians(T1_dropWhite_heading)
-                 );
+        );
 
         trajectory1 = park(trajectory2SequenceBuilder1, new Pose2d(T2_final_x,T2_final_y, Math.toRadians(T2_final_heading))).build();
 
@@ -300,21 +315,6 @@ public class Red_Close extends BaseAutoOp {
         PoseStorage.currentPose = drive.getPoseEstimate();
         neoArmWrapper.DeactivateLoop();
     }
-
-
-        /*trajectory1 = drive.trajectorySequenceBuilder(new Pose2d(12, -62, Math.toRadians(-90)))
-                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                neoArmWrapper.SetWheelSpin(1);
-                telemetry.addData("First Marker", "Reached");})
-                .UNSTABLE_addTemporalMarkerOffset(5, () -> {
-                neoArmWrapper.SetWheelSpin(0);
-                telemetry.addData("Second Marker", "Reached");
-                telemetry.update();})
-                .strafeRight(.1)
-                .waitSeconds(10)
-                .build();*/
-
-
 
 
 
