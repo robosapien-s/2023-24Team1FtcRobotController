@@ -165,11 +165,11 @@ public class NewDrive extends LinearOpMode {
             if(joystickWrapper.gamepad2GetY()){
                 armWrapper.setOuttake();
             }
-            /*
+
             if(joystickWrapper.gamepad2GetB()){
-                armWrapper.MoveExtensionMotors(1000);
+                armWrapper.setPlaneServo(1);
             }
-*/
+
             if(joystickWrapper.gamepad2GetA()){
                 armWrapper.setIntake();
             }
