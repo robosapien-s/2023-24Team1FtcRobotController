@@ -24,7 +24,7 @@ public class Red_Far extends BaseAutoOp {
 
 
     public static double T1_purplePixelLocation_x = -39;
-    public static double T1_purplePixelLocation_y =-36;
+    public static double T1_purplePixelLocation_y =-35.5;
     public static double T1_purplePixelLocation_heading = 0;
 
 
@@ -42,7 +42,7 @@ public class Red_Far extends BaseAutoOp {
     public static double T1_dropWhite_x = 47;
 
     public static double T1_dropWhite_y =-34;
-    public static double T1_second_dropWhite_y =-32.69;
+    public static double T1_second_dropWhite_y =-32.25;
 
     public static double T1_dropWhite_heading = 0;
 

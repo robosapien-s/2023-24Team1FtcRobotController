@@ -239,8 +239,8 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
                 .UNSTABLE_addTemporalMarkerOffset(2.5, () -> {
                     neoArmWrapper.SetWheelSpin(0);
                 })
-                .waitSeconds(2)
-                .UNSTABLE_addTemporalMarkerOffset(2, () -> {
+                .waitSeconds(1.7)
+                .UNSTABLE_addTemporalMarkerOffset(2.3, () -> {
                     neoArmWrapper.armWristServo.setPosition(NeoArmWrapper.arm_wrist_intake_pos);
                     neoArmWrapper.MoveActuatorMotor(0);
                 })
@@ -248,7 +248,7 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
                     neoArmWrapper.MoveExtensionMotors(-20);
                 })
                 .lineToLinearHeading(new Pose2d(thirdLocation.getX(),thirdLocation.getY(),secondHeading))
-                .waitSeconds(1.5);
+                .waitSeconds(2.5);
 
 //                .waitSeconds(3);
     }
