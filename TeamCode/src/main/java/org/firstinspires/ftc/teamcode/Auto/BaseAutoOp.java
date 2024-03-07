@@ -9,8 +9,11 @@ import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.ITrajectorySequenceUpdateCallback;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder;
+import org.firstinspires.ftc.teamcode.wrappers.BlueClosePropWrapper;
+import org.firstinspires.ftc.teamcode.wrappers.BlueFarPropWrapper;
 import org.firstinspires.ftc.teamcode.wrappers.NeoArmWrapper;
 import org.firstinspires.ftc.teamcode.wrappers.RedClosePropWrapper;
+import org.firstinspires.ftc.teamcode.wrappers.RedFarPropWrapper;
 
 public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequenceUpdateCallback {
 
@@ -18,6 +21,12 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
     Pose2d startPose = new Pose2d(15,-62, Math.toRadians(-90));
 
     RedClosePropWrapper redClosePropWrapper;
+
+    RedFarPropWrapper redFarPropWrapper;
+
+    BlueClosePropWrapper blueClosePropWrapper;
+
+    BlueFarPropWrapper blueFarPropWrapper;
 
     NeoArmWrapper neoArmWrapper;
 
@@ -30,6 +39,13 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
         startPose = inStartPose;
 
         redClosePropWrapper = new RedClosePropWrapper(hardwareMap,telemetry);
+
+        redFarPropWrapper = new RedFarPropWrapper(hardwareMap, telemetry);
+
+        blueClosePropWrapper = new BlueClosePropWrapper(hardwareMap, telemetry);
+
+        blueFarPropWrapper = new BlueFarPropWrapper(hardwareMap, telemetry);
+
 
         drive = new SampleMecanumDrive(hardwareMap, this);
 
