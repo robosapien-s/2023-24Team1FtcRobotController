@@ -1,4 +1,5 @@
 package org.firstinspires.ftc.teamcode.Auto;
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -7,6 +8,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.wrappers.BlueFarPropWrapper;
 
+@Config
 @Autonomous
 public class Blue_Far extends BaseAutoOp {
 

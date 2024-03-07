@@ -1,4 +1,5 @@
 package org.firstinspires.ftc.teamcode.Auto;
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -8,7 +9,7 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder;
 import org.firstinspires.ftc.teamcode.wrappers.BlueClosePropWrapper;
 import org.firstinspires.ftc.teamcode.wrappers.BlueFarPropWrapper;
-
+@Config
 @Autonomous
 public class Blue_Close extends BaseAutoOp {
 
@@ -57,7 +58,7 @@ public class Blue_Close extends BaseAutoOp {
     public static double T2_dropYellow_wrist = .1;
 
     public static double T2_pickUpWhite_x = -59.5;
-    public static double T2_pickUpWhite_y =11;
+    public static double T2_pickUpWhite_y =10;
     public static double T2_pickUpWhite_heading = 180;
 
     public static double T2_dropWhite_x = 49;
@@ -114,7 +115,7 @@ public class Blue_Close extends BaseAutoOp {
         TrajectorySequence trajectory2;
         TrajectorySequence trajectory3;
 
-
+/*
 
         TrajectorySequenceBuilder trajectory2SequenceBuilder1 = setInitialPose(new Pose2d(12, 62, Math.toRadians(90)));
         getArmReady(trajectory2SequenceBuilder1);
@@ -133,6 +134,7 @@ public class Blue_Close extends BaseAutoOp {
         );
 
         trajectory1 = park(trajectory2SequenceBuilder1, new Pose2d(T2_final_x,T2_final_y, Math.toRadians(T2_final_heading))).build();
+*/
 
 
 //        trajectory1 = drive.trajectorySequenceBuilder(new Pose2d(12, -62, Math.toRadians(-90)))
@@ -258,6 +260,8 @@ public class Blue_Close extends BaseAutoOp {
         trajectory2 = park(trajectory2SequenceBuilder, new Pose2d(T2_final_x,T2_final_y, Math.toRadians(T2_final_heading))).build();
 
 
+
+        /*
         TrajectorySequenceBuilder trajectory2SequenceBuilder3 = setInitialPose(new Pose2d(12, 62, Math.toRadians(90)));
         getArmReady(trajectory2SequenceBuilder3);
         dropPurplePixel(trajectory2SequenceBuilder3,
@@ -274,7 +278,7 @@ public class Blue_Close extends BaseAutoOp {
                 new Vector2d(T3_dropWhite_x, T3_dropWhite_y), Math.toRadians(T3_dropWhite_heading) );
 
         trajectory3 = park(trajectory2SequenceBuilder3, new Pose2d(T2_final_x,T2_final_y, Math.toRadians(T2_final_heading))).build();
-
+*/
 
 
         blueClosePropWrapper.initTfod();
@@ -284,11 +288,11 @@ public class Blue_Close extends BaseAutoOp {
         waitForStart();
 
         if (barcodeInt == 1) {
-            drive.followTrajectorySequence(trajectory1);
+            //drive.followTrajectorySequence(trajectory1);
         } else if (barcodeInt == 2) {
             drive.followTrajectorySequence(trajectory2);
         } else {
-            drive.followTrajectorySequence(trajectory3);
+            //drive.followTrajectorySequence(trajectory3);
         }
 
     }
