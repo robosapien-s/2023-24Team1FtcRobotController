@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -8,7 +9,7 @@ import org.firstinspires.ftc.teamcode.wrappers.JoystickWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Disabled
 public class ServoProgrammer {
 
     int servoCounter = 0;

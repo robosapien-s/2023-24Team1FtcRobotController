@@ -1,4 +1,5 @@
 package org.firstinspires.ftc.teamcode.OpModes;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -6,6 +7,7 @@ import org.firstinspires.ftc.teamcode.wrappers.JoystickWrapper;
 import org.firstinspires.ftc.teamcode.wrappers.OpenCvDetection;
 
 @TeleOp
+@Disabled
 public class testOpenCVRed extends LinearOpMode{
 
 

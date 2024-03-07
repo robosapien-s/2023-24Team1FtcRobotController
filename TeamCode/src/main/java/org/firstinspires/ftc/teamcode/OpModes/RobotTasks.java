@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -14,6 +15,7 @@ import org.firstinspires.ftc.teamcode.wrappers.JoystickWrapper;
 import java.util.ArrayList;
 
 @TeleOp
+@Disabled
 public class RobotTasks extends LinearOpMode {
 
     JoystickWrapper joystickWrapper;
