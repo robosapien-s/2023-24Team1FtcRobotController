@@ -60,7 +60,7 @@ public class NeoArmWrapper {
 
     public static double arm_wrist_floor = .2;
     public static double arm_wrist_ceiling = 0.0;
-    public static  double  arm_wrist_intake_pos = .64;
+    public static  double  arm_wrist_intake_pos = .61;
 
     private  double  arm_wrist_tagetPosition = arm_wrist_intake_pos;
 
