@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @TeleOp
+@Disabled
 public class TestMecanumDrive extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

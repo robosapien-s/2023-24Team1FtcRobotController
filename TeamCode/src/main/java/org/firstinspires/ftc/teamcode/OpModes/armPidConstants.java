@@ -1,8 +1,10 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 @Config
+@Disabled
 public class armPidConstants {
     public static double Kp = 1;
     public static double Ki = 0;
