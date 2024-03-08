@@ -174,6 +174,10 @@ public class NewDrive extends LinearOpMode {
                 armWrapper.setIntake();
             }
 
+            if(joystickWrapper.gamepad2GetX()) {
+                armWrapper.setHangPos();
+            }
+
 
             if(joystickWrapper.gamepad2GetDDown()){
                 autoDropOffController.currentDropLevel = 0;

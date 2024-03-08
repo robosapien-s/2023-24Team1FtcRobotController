@@ -509,6 +509,12 @@ public class NeoArmWrapper {
     }
 
 
+    public void setHangPos() {
+        SetLinearActuator(5653);
+        SetLinearExtensionPos(1417);
+    }
+
+
 
 
 }
