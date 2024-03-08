@@ -78,7 +78,7 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
                  .splineTo(
                          endPosition,
                          heading,
-                         SampleMecanumDrive.getVelocityConstraint(15,15,DriveConstants.TRACK_WIDTH),
+                         SampleMecanumDrive.getVelocityConstraint(20,20,DriveConstants.TRACK_WIDTH),
                          SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)).setReversed(false)
                  .UNSTABLE_addTemporalMarkerOffset(.1, () -> {
             neoArmWrapper.ClosePos();
