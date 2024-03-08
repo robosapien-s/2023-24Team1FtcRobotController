@@ -21,6 +21,8 @@ import java.util.TimerTask;
 
 public class NeoArmWrapper {
 
+    Servo planeServo;
+
     Telemetry telemetry;
     HardwareMap hardwareMap;
     Gamepad gamepad1;
@@ -92,6 +94,8 @@ public class NeoArmWrapper {
         ExtensionMotorEx2 = hardwareMap.get(DcMotorEx.class, "ExtensionMotorEx1");
         ActuatorMotorEx = hardwareMap.get(DcMotorEx.class,"ActuatorMotor");
         IntakeMotorEx = hardwareMap.get(DcMotorEx.class, "IntakeMotor");
+
+        planeServo = hardwareMap.get(Servo.class, "planeServo");
 
         armServo0 = hardwareMap.get(Servo.class, "armServo0");
         armServo1 = hardwareMap.get(Servo.class, "armServo1");
@@ -499,6 +503,12 @@ public class NeoArmWrapper {
             loopTimer = null;
         }
     }
+
+    public void setPlaneServo(double position) {
+        planeServo.setPosition(position);
+    }
+
+
 
 
 }
