@@ -3,6 +3,7 @@ package com.example.meepmeep;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.noahbres.meepmeep.MeepMeep;
+import com.noahbres.meepmeep.core.colorscheme.scheme.ColorSchemeBlueLight;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
@@ -10,10 +11,11 @@ public class Blue_Close {
     static int barcodeInt = 3;
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(800);
-        RoadRunnerBotEntity myBot = null;
+        RoadRunnerBotEntity blueCloseBot = null;
 
         if (barcodeInt == 2) {
-            myBot = new DefaultBotBuilder(meepMeep)
+            blueCloseBot = new DefaultBotBuilder(meepMeep)
+                    .setColorScheme(new ColorSchemeBlueLight())
                     // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                     .setConstraints(52.48291908330528, 52.48291908330528, Math.toRadians(197.5918273305535), Math.toRadians(222.7444266666667), 13.26)
                     .followTrajectorySequence(drive ->
@@ -36,7 +38,8 @@ public class Blue_Close {
                                     .build()
                     );
         } else if (barcodeInt ==3) {
-            myBot = new DefaultBotBuilder(meepMeep)
+            blueCloseBot = new DefaultBotBuilder(meepMeep)
+                    .setColorScheme(new ColorSchemeBlueLight())
                     // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                     .setConstraints(52.48291908330528, 52.48291908330528, Math.toRadians(197.5918273305535), Math.toRadians(222.7444266666667), 13.26)
                     .followTrajectorySequence(drive ->
@@ -61,7 +64,8 @@ public class Blue_Close {
                                     .build()
                     );
         } else {
-            myBot = new DefaultBotBuilder(meepMeep)
+            blueCloseBot = new DefaultBotBuilder(meepMeep)
+                    .setColorScheme(new ColorSchemeBlueLight())
                     // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                     .setConstraints(52.48291908330528, 52.48291908330528, Math.toRadians(197.5918273305535), Math.toRadians(222.7444266666667), 13.26)
                     .followTrajectorySequence(drive ->
@@ -90,7 +94,7 @@ public class Blue_Close {
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
-                .addEntity(myBot)
+                .addEntity(blueCloseBot)
                 .start();
     }
 }

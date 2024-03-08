@@ -34,6 +34,8 @@ public class NewDrive extends LinearOpMode {
 
     AutoDropOffController autoDropOffController;
 
+    boolean planeShot = false;
+
     boolean isDown;
     boolean isOpen;
 
@@ -166,7 +168,13 @@ public class NewDrive extends LinearOpMode {
             }
 
             if(joystickWrapper.gamepad2GetB()){
-                armWrapper.setPlaneServo(1);
+                if (!planeShot) {
+                    armWrapper.setPlaneServo(1);
+                } else {
+                    armWrapper.setPlaneServo(0);
+                }
+
+                planeShot = !planeShot;
             }
 
             if(joystickWrapper.gamepad2GetA()){

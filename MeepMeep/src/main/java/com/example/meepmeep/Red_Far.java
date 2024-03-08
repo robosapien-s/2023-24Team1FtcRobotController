@@ -10,9 +10,9 @@ public class Red_Far {
     static int barcodeInt = 3;
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(800);
-        RoadRunnerBotEntity myBot = null;
+        RoadRunnerBotEntity redFarBot = null;
         if (barcodeInt ==2) {
-            myBot = new DefaultBotBuilder(meepMeep)
+            redFarBot = new DefaultBotBuilder(meepMeep)
                     // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                     .setConstraints(52.48291908330528, 52.48291908330528, Math.toRadians(197.5918273305535), Math.toRadians(222.7444266666667), 13.26)
                     .followTrajectorySequence(drive ->
@@ -40,7 +40,7 @@ public class Red_Far {
                                     .build()
                     );
         } else if (barcodeInt == 1) {
-            myBot = new DefaultBotBuilder(meepMeep)
+            redFarBot = new DefaultBotBuilder(meepMeep)
                     // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                     .setConstraints(52.48291908330528, 52.48291908330528, Math.toRadians(197.5918273305535), Math.toRadians(222.7444266666667), 13.26)
                     .followTrajectorySequence(drive ->
@@ -70,7 +70,7 @@ public class Red_Far {
                                     .build()
                     );
         } else {
-            myBot = new DefaultBotBuilder(meepMeep)
+            redFarBot = new DefaultBotBuilder(meepMeep)
                     // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                     .setConstraints(52.48291908330528, 52.48291908330528, Math.toRadians(197.5918273305535), Math.toRadians(222.7444266666667), 13.26)
                     .followTrajectorySequence(drive ->
@@ -104,7 +104,7 @@ public class Red_Far {
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
-                .addEntity(myBot)
+                .addEntity(redFarBot)
                 .start();
     }
 }
