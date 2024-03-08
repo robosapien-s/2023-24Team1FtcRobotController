@@ -122,7 +122,7 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
                 .UNSTABLE_addTemporalMarkerOffset(1.5, () -> {
                     neoArmWrapper.ResetMotorPositions();
                 })
-                .lineToLinearHeading( new Pose2d(endPosition.getX(), endPosition.getY(), Math.toRadians(heading)),
+                .lineToLinearHeading( new Pose2d(endPosition.getX(), endPosition.getY(), heading),
                         SampleMecanumDrive.getVelocityConstraint(40,40,DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .UNSTABLE_addTemporalMarkerOffset(.1, () -> {
@@ -145,6 +145,22 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
                     neoArmWrapper.WristUp();
                     neoArmWrapper.armWristServo.setPosition(NeoArmWrapper.arm_wrist_intake_pos);
                 });
+    }
+
+    protected TrajectorySequenceBuilder lineUpForSinglePixelFarBackBoard( TrajectorySequenceBuilder sequenceBuilder, Vector2d endPosition, double heading) {
+        return sequenceBuilder
+                .waitSeconds(2)
+                .forward(4)
+                .waitSeconds(.1)
+                .UNSTABLE_addTemporalMarkerOffset(-2, () -> {
+                    neoArmWrapper.ClosePos();
+                })
+                .UNSTABLE_addTemporalMarkerOffset(-1.5, () -> {
+                    neoArmWrapper.WristUp();
+                    neoArmWrapper.armWristServo.setPosition(NeoArmWrapper.arm_wrist_intake_pos);
+                })
+                .lineToLinearHeading( new Pose2d(endPosition.getX(), endPosition.getY(), Math.toRadians(heading)));
+
     }
 
     protected TrajectorySequenceBuilder getArmReadyForYellowPixelDrop( TrajectorySequenceBuilder sequenceBuilder, int ext, int act, double wrist) {

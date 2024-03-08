@@ -18,9 +18,7 @@ public class InitActuator extends LinearOpMode {
         waitForStart();
         neoArmWrapper.ResetMotorPositions();
         while(!isStopRequested()) {
-            if (joystickWrapper.gamepad1GetA()) {
-                neoArmWrapper.MoveActuatorMotor(InitActuatorPos.actuatorPos);
-            }
+            neoArmWrapper.MoveActuatorMotor(InitActuatorPos.actuatorPos);
         }
     }
 }
