@@ -83,10 +83,12 @@ public class Red_Far extends BaseAutoOp {
 
     public static double T2_dropWhite_x = 47;
 
-    public static double T2_dropWhite_y =-34;
+    public static double T2_dropWhite_y =-31;
     public static double T2_second_dropWhite_y =-29;
 
     public static double T2_dropWhite_heading = 0;
+
+    public static double T2_final_heading = 88;
 
     public static double T3_dropWhite_x = 47;
 
@@ -101,6 +103,7 @@ public class Red_Far extends BaseAutoOp {
     public static double final_close_y =-63;
     public static double final_far_y =-20;
     public static double final_heading = 87;
+
 
 
     public TrajectorySequence buildTragectory1() {
