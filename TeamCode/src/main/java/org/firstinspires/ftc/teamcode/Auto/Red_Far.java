@@ -24,7 +24,7 @@ public class Red_Far extends BaseAutoOp {
 
 
     //Purple pixel location
-    public static double T1_purplePixelLocation_x = -39;
+    public static double T1_purplePixelLocation_x = -38;
     public static double T1_purplePixelLocation_y =-35.5;
     public static double T1_purplePixelLocation_heading = 0;
 
@@ -41,7 +41,7 @@ public class Red_Far extends BaseAutoOp {
 
 
     //lineup for single white
-    public static double T1_lineUpSingleWhite_x = -40;
+    public static double T1_lineUpSingleWhite_x = -38;
     public static double T1_lineUpSingleWhite_y =-8.5;
     public static double T1_lineUpSingleWhite_heading = 0;
 
@@ -74,7 +74,7 @@ public class Red_Far extends BaseAutoOp {
     public static double T1_dropWhite_x = 47;
 
     public static double T1_dropWhite_y =-34;
-    public static double T1_second_dropWhite_y =-32.25;
+    public static double T1_second_dropWhite_y =-42;
     public static double T1_dropWhite_heading = 0;
 
 
@@ -94,7 +94,7 @@ public class Red_Far extends BaseAutoOp {
     public static double final_x = 42;
     public static double final_close_y =-63;
     public static double final_far_y =-20;
-    public static double final_heading = 88;
+    public static double final_heading = 87;
 
 
     public TrajectorySequence buildTragectory1() {

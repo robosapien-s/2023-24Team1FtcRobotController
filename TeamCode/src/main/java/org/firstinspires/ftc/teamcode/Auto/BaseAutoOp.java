@@ -172,16 +172,18 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
                 .UNSTABLE_addTemporalMarkerOffset(1.6, () -> {
                     neoArmWrapper.ClosePos();
                 })
-                .UNSTABLE_addTemporalMarkerOffset(1.3, () -> {
-                    neoArmWrapper.SetWheelSpin(-0.2);
-                })
                 .waitSeconds(2)
                 .setReversed(false)
+                .UNSTABLE_addTemporalMarkerOffset(2, () -> {
+                    neoArmWrapper.SetWheelSpin(-0.2);
+                })
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                    neoArmWrapper.SetWheelSpin(0);
-                    neoArmWrapper.UpdateIntakePower(0);
                     neoArmWrapper.ClosePos();
                     neoArmWrapper.WristUp();
+                })
+                .UNSTABLE_addTemporalMarkerOffset(2, () -> {
+                    neoArmWrapper.UpdateIntakePower(0);
+                    neoArmWrapper.SetWheelSpin(0);
                 });
     }
 
@@ -242,31 +244,41 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
 
                                                             ) {
 
-        return sequenceBuilder.splineTo(firstLocation, firstHeading)
-                .UNSTABLE_addTemporalMarkerOffset(.5, () -> {
+        return sequenceBuilder
+                .splineTo(firstLocation, firstHeading)
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     neoArmWrapper.MoveExtensionMotors(1100);
                     neoArmWrapper.MoveActuatorMotor(1400);
                     neoArmWrapper.armWristServo.setPosition(.05);
                 })
-                .splineTo(secondLocation, secondHeading)
-                .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
-                    neoArmWrapper.SetWheelSpin(-.7);
+                .UNSTABLE_addTemporalMarkerOffset(1.5, () -> {
+                    neoArmWrapper.SetWheelSpin(-1);
                 })
-                .UNSTABLE_addTemporalMarkerOffset(2.5, () -> {
+                .splineTo(secondLocation, secondHeading)
+                .waitSeconds(1)
+                .UNSTABLE_addTemporalMarkerOffset(1, () -> {
                     neoArmWrapper.SetWheelSpin(0);
                 })
-                .waitSeconds(1.7)
-                .UNSTABLE_addTemporalMarkerOffset(2.3, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(1, () -> {
+                    neoArmWrapper.SetWheelSpin(-1);
+                })
+                .UNSTABLE_addTemporalMarkerOffset(2, () -> {
+                    neoArmWrapper.SetWheelSpin(0);
+                })
+                .UNSTABLE_addTemporalMarkerOffset(3.3, () -> {
+                    neoArmWrapper.MoveExtensionMotors(500);
+                })
+                .UNSTABLE_addTemporalMarkerOffset(3.8, () -> {
                     neoArmWrapper.armWristServo.setPosition(NeoArmWrapper.arm_wrist_intake_pos);
+                })
+                .UNSTABLE_addTemporalMarkerOffset(4.5, () -> {
+                    neoArmWrapper.MoveActuatorMotor(0);
+                })
+                .UNSTABLE_addTemporalMarkerOffset(5.5, () -> {
                     neoArmWrapper.MoveExtensionMotors(-20);
                 })
-                .UNSTABLE_addTemporalMarkerOffset(3.5, () -> {
-                    neoArmWrapper.MoveActuatorMotor(0);
-
-                })
-
                 .lineToLinearHeading(new Pose2d(thirdLocation.getX(),thirdLocation.getY(),secondHeading))
-                .waitSeconds(2.5);
+                .waitSeconds(3);
 
 
 //                .waitSeconds(3);

@@ -429,6 +429,7 @@ public class NeoArmWrapper {
     }
 
     public void MoveExtensionMotors(int position) {
+
         //ExtensionMotorEx1.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         //ExtensionMotorEx2.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
