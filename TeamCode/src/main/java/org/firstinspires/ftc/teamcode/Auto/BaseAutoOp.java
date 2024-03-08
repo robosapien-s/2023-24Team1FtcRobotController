@@ -4,6 +4,8 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.OpModes.InitActuator;
+import org.firstinspires.ftc.teamcode.OpModes.InitActuatorPos;
 import org.firstinspires.ftc.teamcode.OpModes.NewDrive;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.ITrajectorySequenceUpdateCallback;
@@ -21,6 +23,7 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
 
 
     Pose2d startPose = new Pose2d(15,-62, Math.toRadians(-90));
+
 
     RedClosePropWrapper redClosePropWrapper;
 
@@ -54,13 +57,10 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
         neoArmWrapper = new NeoArmWrapper(telemetry, hardwareMap, gamepad1, gamepad2, true);
         neoArmWrapper.ResetMotorPositions();
 
-        neoArmWrapper.MoveActuatorMotor(-100);
-
         drive.setPoseEstimate(startPose);
 
     }
     public void run(){
-        neoArmWrapper.ResetMotorPositions();
     }
 
     @Override
@@ -82,6 +82,14 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
 
     protected TrajectorySequenceBuilder dropPurplePixel( TrajectorySequenceBuilder sequenceBuilder, Vector2d endPosition, double heading) {
          return sequenceBuilder
+                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                     neoArmWrapper.MoveActuatorMotor(-15-InitActuatorPos.actuatorPos);
+                 })
+
+                 .UNSTABLE_addTemporalMarkerOffset(1.5, () -> {
+                     neoArmWrapper.ResetMotorPositions();
+                 })
+
                  .splineTo(
                          endPosition,
                          heading,
@@ -107,6 +115,13 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
 
     protected TrajectorySequenceBuilder dropPurplePixelFar( TrajectorySequenceBuilder sequenceBuilder, Vector2d endPosition, double heading) {
         return sequenceBuilder
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    neoArmWrapper.MoveActuatorMotor(-15-InitActuatorPos.actuatorPos);
+                })
+
+                .UNSTABLE_addTemporalMarkerOffset(1.5, () -> {
+                    neoArmWrapper.ResetMotorPositions();
+                })
                 .lineToLinearHeading( new Pose2d(endPosition.getX(), endPosition.getY(), Math.toRadians(heading)),
                         SampleMecanumDrive.getVelocityConstraint(40,40,DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
