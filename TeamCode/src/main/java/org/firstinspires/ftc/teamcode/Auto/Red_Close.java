@@ -301,7 +301,7 @@ public class Red_Close extends BaseAutoOp {
             barcodeInt = redClosePropWrapper.updateTfod();
         }
         waitForStart();
-
+        run();
         neoArmWrapper.ActivateLoop();
 
 

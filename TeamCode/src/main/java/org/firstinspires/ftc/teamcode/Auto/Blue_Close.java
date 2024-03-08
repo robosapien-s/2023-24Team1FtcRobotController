@@ -291,7 +291,7 @@ public class Blue_Close extends BaseAutoOp {
             barcodeInt = blueClosePropWrapper.updateTfod();
         }
         waitForStart();
-
+        run();
         if (barcodeInt == 1) {
             drive.followTrajectorySequence(trajectory1);
         } else if (barcodeInt == 2) {

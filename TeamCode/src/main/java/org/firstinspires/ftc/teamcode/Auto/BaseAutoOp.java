@@ -15,6 +15,8 @@ import org.firstinspires.ftc.teamcode.wrappers.NeoArmWrapper;
 import org.firstinspires.ftc.teamcode.wrappers.RedClosePropWrapper;
 import org.firstinspires.ftc.teamcode.wrappers.RedFarPropWrapper;
 
+import java.net.PortUnreachableException;
+
 public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequenceUpdateCallback {
 
 
@@ -52,8 +54,13 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
         neoArmWrapper = new NeoArmWrapper(telemetry, hardwareMap, gamepad1, gamepad2, true);
         neoArmWrapper.ResetMotorPositions();
 
+        neoArmWrapper.MoveActuatorMotor(-100);
+
         drive.setPoseEstimate(startPose);
 
+    }
+    public void run(){
+        neoArmWrapper.ResetMotorPositions();
     }
 
     @Override

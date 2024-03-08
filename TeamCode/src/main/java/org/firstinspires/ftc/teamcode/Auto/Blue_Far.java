@@ -103,6 +103,7 @@ public class Blue_Far extends BaseAutoOp {
         }
 
         waitForStart();
+        run();
         if (barcodeInt == 1) {
             drive.followTrajectorySequence(trajectory1);
         } else if (barcodeInt == 2) {

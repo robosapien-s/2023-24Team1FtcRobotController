@@ -190,7 +190,7 @@ public class Red_Far extends BaseAutoOp {
             barcodeInt = redFarPropWrapper.updateTfod();
         }
         waitForStart();
-
+        run();
         neoArmWrapper.ActivateLoop();
 
         barcodeInt = 1;
