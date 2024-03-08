@@ -29,9 +29,9 @@ public class Red_Far extends BaseAutoOp {
     public static double T1_purplePixelLocation_heading = 0;
 
 
-    public static double T2_purplePixelLocation_x = -43;
-    public static double T2_purplePixelLocation_y =-25.5;
-    public static double T2_purplePixelLocation_heading = 270;
+    public static double T2_purplePixelLocation_x = -56;
+    public static double T2_purplePixelLocation_y =-24;
+    public static double T2_purplePixelLocation_heading = 180;
 
 
     public static double T3_purplePixelLocation_x = -40;
@@ -46,8 +46,8 @@ public class Red_Far extends BaseAutoOp {
     public static double T1_lineUpSingleWhite_heading = 0;
 
 
-    public static double T2_lineUpSingleWhite_x = -36;
-    public static double T2_lineUpSingleWhite_y =-36;
+    public static double T2_lineUpSingleWhite_x = -59;
+    public static double T2_lineUpSingleWhite_y =-24;
     public static double T2_lineUpSingleWhite_heading = 0;
 
 
@@ -63,8 +63,8 @@ public class Red_Far extends BaseAutoOp {
     public static double T1_pickUpWhite2_heading = 180;  //Note trajectory is reversed
 
 
-    public static double T2_pickUpWhite2_x = -61;
-    public static double T2_pickUpWhite2_y = -36;
+    public static double T2_pickUpWhite2_x = -63;
+    public static double T2_pickUpWhite2_y = -24;
     public static double T2_pickUpWhite2_heading = 180;  //Note trajectory is reversed
 
     public static double T3_pickUpWhite2_x = -63;
@@ -83,8 +83,8 @@ public class Red_Far extends BaseAutoOp {
 
     public static double T2_dropWhite_x = 47;
 
-    public static double T2_dropWhite_y =-37;
-    public static double T2_second_dropWhite_y =-35.25;
+    public static double T2_dropWhite_y =-34;
+    public static double T2_second_dropWhite_y =-29;
 
     public static double T2_dropWhite_heading = 0;
 
@@ -133,21 +133,20 @@ public class Red_Far extends BaseAutoOp {
 
         TrajectorySequenceBuilder trajectory2SequenceBuilder1 = setInitialPose((new Pose2d(start_x, start_y, Math.toRadians(start_heading))));
         getArmReady(trajectory2SequenceBuilder1);
-        dropPurplePixelFar(trajectory2SequenceBuilder1,
+         dropPurplePixelFar(trajectory2SequenceBuilder1,
                 new Vector2d(Red_Far.T2_purplePixelLocation_x, Red_Far.T2_purplePixelLocation_y), Math.toRadians(Red_Far.T2_purplePixelLocation_heading));
 
-        lineUpForSinglePixel(trajectory2SequenceBuilder1,
+         lineUpForSinglePixelMiddle(trajectory2SequenceBuilder1,
                 new Vector2d(Red_Far.T2_lineUpSingleWhite_x, Red_Far.T2_lineUpSingleWhite_y), Math.toRadians(Red_Far.T2_lineUpSingleWhite_heading));
 
+         pickUpOneFarWhitePixelsMiddle(trajectory2SequenceBuilder1, new Vector2d(T2_pickUpWhite2_x, T2_pickUpWhite2_y),  Math.toRadians(T2_pickUpWhite2_heading));
 
-        pickUpOneFarWhitePixels(trajectory2SequenceBuilder1, new Vector2d(T2_pickUpWhite2_x, T2_pickUpWhite2_y),  Math.toRadians(T2_pickUpWhite2_heading));
-
-
-        dropOffWhitePixels(trajectory2SequenceBuilder1,
-                new Vector2d(T2_dropWhite_x-3, T2_dropWhite_y), Math.toRadians(0), //hack to reuse but just get it moving and not get empty traj error
+         dropOffWhitePixelsMiddle(trajectory2SequenceBuilder1,
+                new Vector2d(-36,-12), Math.toRadians(0),
+                new Vector2d(24, -12), Math.toRadians(0),
                 new Vector2d(T2_dropWhite_x, T2_dropWhite_y), Math.toRadians(T2_dropWhite_heading),
                 new Vector2d(T2_dropWhite_x, T2_second_dropWhite_y)
-        );
+         );
 
 
         return park(trajectory2SequenceBuilder1,
