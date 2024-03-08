@@ -78,7 +78,7 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
                  .splineTo(
                          endPosition,
                          heading,
-                         SampleMecanumDrive.getVelocityConstraint(15,15,DriveConstants.TRACK_WIDTH),
+                         SampleMecanumDrive.getVelocityConstraint(20,20,DriveConstants.TRACK_WIDTH),
                          SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)).setReversed(false)
                  .UNSTABLE_addTemporalMarkerOffset(.1, () -> {
             neoArmWrapper.ClosePos();
@@ -258,13 +258,16 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
                 .waitSeconds(1.7)
                 .UNSTABLE_addTemporalMarkerOffset(2.3, () -> {
                     neoArmWrapper.armWristServo.setPosition(NeoArmWrapper.arm_wrist_intake_pos);
-                    neoArmWrapper.MoveActuatorMotor(0);
-                })
-                .UNSTABLE_addTemporalMarkerOffset(3.5, () -> {
                     neoArmWrapper.MoveExtensionMotors(-20);
                 })
+                .UNSTABLE_addTemporalMarkerOffset(3.5, () -> {
+                    neoArmWrapper.MoveActuatorMotor(0);
+
+                })
+
                 .lineToLinearHeading(new Pose2d(thirdLocation.getX(),thirdLocation.getY(),secondHeading))
                 .waitSeconds(2.5);
+
 
 //                .waitSeconds(3);
     }

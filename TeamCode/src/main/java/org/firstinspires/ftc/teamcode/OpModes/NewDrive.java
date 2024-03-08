@@ -25,7 +25,6 @@ import java.util.ArrayList;
 
 @Config
 @TeleOp
-@Disabled
 public class NewDrive extends LinearOpMode {
     IMUWrapper wrapper;
 

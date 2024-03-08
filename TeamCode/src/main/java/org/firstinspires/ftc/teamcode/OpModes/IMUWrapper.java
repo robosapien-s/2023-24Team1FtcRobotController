@@ -114,7 +114,14 @@ public class IMUWrapper{
         //telemetry.addData("Cosine Movement",cosineThing);
 
 
-        Translation2d translation2d =RotateAngle(joystickWrapper.gamepad1GetLeftStickX(),joystickWrapper.gamepad1GetLeftStickY(),yaw);
+        Translation2d translation2d;
+
+        if(joystickWrapper.gamepad1.left_stick_button){
+            translation2d =RotateAngle(joystickWrapper.gamepad1GetLeftStickX()*.25,joystickWrapper.gamepad1GetLeftStickY(),yaw);
+        }else {
+            translation2d =RotateAngle(joystickWrapper.gamepad1GetLeftStickX(),joystickWrapper.gamepad1GetLeftStickY(),yaw);
+        }
+
 
         if(isAutoMode && joystickWrapper.gamepad1GetLeftStick()) {
             translation2d =RotateAngle(autoModeX,autoModeY,yaw);

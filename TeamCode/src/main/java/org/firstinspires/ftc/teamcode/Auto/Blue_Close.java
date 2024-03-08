@@ -15,11 +15,11 @@ public class Blue_Close extends BaseAutoOp {
 
     public static double T1_purplePixelLocation_x = 16;
     public static double T1_purplePixelLocation_y =44;
-    public static double T1_purplePixelLocation_heading = -135;
+    public static double T1_purplePixelLocation_heading = -45;
 
 
-    public static double T1_dropYellow_x = 50;
-    public static double T1_dropYellow_y =42;
+    public static double T1_dropYellow_x = 51;
+    public static double T1_dropYellow_y =43;
     public static double T1_dropYellow_heading = 0;
 
 
@@ -33,15 +33,17 @@ public class Blue_Close extends BaseAutoOp {
 
 
 
-    public static double T1_pickUpWhite2_x = -59.5;
+    public static double T1_pickUpWhite2_x = -60;
     public static double T1_pickUpWhite2_y =12;
     public static double T1_pickUpWhite2_heading = 180;
 
 
 
-    public static double T1_dropWhite_x = 49;
-    public static double T1_dropWhite_y =36;
+    public static double T1_dropWhite_x = 50;
+    public static double T1_dropWhite_y =35;
     public static double T1_dropWhite_heading = 0;
+
+    public static double T1_final_heading = -91;
 
 
 
@@ -49,7 +51,7 @@ public class Blue_Close extends BaseAutoOp {
     public static double T2_purplePixelLocation_y =35.5;
     public static double T2_purplePixelLocation_heading = -65;
 
-    public static double T2_dropYellow_x = 50;
+    public static double T2_dropYellow_x = 51;
     public static double T2_dropYellow_y =36;
     public static double T2_dropYellow_heading = 0;
 
@@ -61,24 +63,25 @@ public class Blue_Close extends BaseAutoOp {
     public static double T2_pickUpWhite_y =10;
     public static double T2_pickUpWhite_heading = 180;
 
-    public static double T2_dropWhite_x = 49;
+    public static double T2_dropWhite_x = 50;
     public static double T2_dropWhite_y =42;
     public static double T2_dropWhite_heading = 0;
 
     public static double T2_final_x = 48;
-    public static double T2_final_y =63;
-    public static double T2_final_heading = 92;
+    public static double T2_final_y =60;
+    public static double T2_final_heading = -90;
 
 
 
 
     public static double T3_purplePixelLocation_x = 9;
     public static double T3_purplePixelLocation_y =38;
-    public static double T3_purplePixelLocation_heading = -30;
+    public static double T3_purplePixelLocation_heading = -150;
+
 
 
     public static double T3_dropYellow_x = 51;
-    public static double T3_dropYellow_y =30;
+    public static double T3_dropYellow_y =42;
     public static double T3_dropYellow_heading = 0;
 
 
@@ -98,9 +101,11 @@ public class Blue_Close extends BaseAutoOp {
 
 
 
-    public static double T3_dropWhite_x = 49.5;
-    public static double T3_dropWhite_y =36;
+    public static double T3_dropWhite_x = 50;
+    public static double T3_dropWhite_y =35;
     public static double T3_dropWhite_heading = 0;
+
+    public static double T3_final_heading = -95;
 
 
 
@@ -115,7 +120,7 @@ public class Blue_Close extends BaseAutoOp {
         TrajectorySequence trajectory2;
         TrajectorySequence trajectory3;
 
-/*
+
 
         TrajectorySequenceBuilder trajectory2SequenceBuilder1 = setInitialPose(new Pose2d(12, 62, Math.toRadians(90)));
         getArmReady(trajectory2SequenceBuilder1);
@@ -125,16 +130,16 @@ public class Blue_Close extends BaseAutoOp {
         performYellowPixelDrop(trajectory2SequenceBuilder1,
                 new Vector2d(T1_dropYellow_x, T1_dropYellow_y), Math.toRadians(T1_dropYellow_heading));
         pickUpWhitePixels(trajectory2SequenceBuilder1,
-                new Vector2d(24, 12), Math.toRadians(180),
-                new Vector2d(T1_pickUpWhite_x, T1_pickUpWhite_y), Math.toRadians(T1_pickUpWhite_heading));
+                new Vector2d(T1_pickUpWhite_x, T1_pickUpWhite_y), Math.toRadians(T1_pickUpWhite_heading),
+                new Vector2d(T1_pickUpWhite2_x, T1_pickUpWhite2_y), Math.toRadians(T1_pickUpWhite2_heading));
 
         dropOffWhitePixels(trajectory2SequenceBuilder1,
-                new Vector2d(24, 12), Math.toRadians(0),
+                new Vector2d(T1_pickUpWhite_x, T1_pickUpWhite_y), Math.toRadians(0),
                 new Vector2d(T1_dropWhite_x, T1_dropWhite_y), Math.toRadians(T1_dropWhite_heading)
         );
 
-        trajectory1 = park(trajectory2SequenceBuilder1, new Pose2d(T2_final_x,T2_final_y, Math.toRadians(T2_final_heading))).build();
-*/
+        trajectory1 = park(trajectory2SequenceBuilder1, new Pose2d(T2_final_x,T2_final_y, Math.toRadians(T1_final_heading))).build();
+
 
 
 //        trajectory1 = drive.trajectorySequenceBuilder(new Pose2d(12, -62, Math.toRadians(-90)))
@@ -261,7 +266,7 @@ public class Blue_Close extends BaseAutoOp {
 
 
 
-        /*
+
         TrajectorySequenceBuilder trajectory2SequenceBuilder3 = setInitialPose(new Pose2d(12, 62, Math.toRadians(90)));
         getArmReady(trajectory2SequenceBuilder3);
         dropPurplePixel(trajectory2SequenceBuilder3,
@@ -274,11 +279,11 @@ public class Blue_Close extends BaseAutoOp {
                 new Vector2d(T3_pickUpWhite2_x, T3_pickUpWhite2_y), Math.toRadians(T3_pickUpWhite2_heading));
 
         dropOffWhitePixels(trajectory2SequenceBuilder3,
-                new Vector2d(24, 12), Math.toRadians(0),
+                new Vector2d(T3_pickUpWhite1_x, T3_pickUpWhite1_y), Math.toRadians(0),
                 new Vector2d(T3_dropWhite_x, T3_dropWhite_y), Math.toRadians(T3_dropWhite_heading) );
 
-        trajectory3 = park(trajectory2SequenceBuilder3, new Pose2d(T2_final_x,T2_final_y, Math.toRadians(T2_final_heading))).build();
-*/
+        trajectory3 = park(trajectory2SequenceBuilder3, new Pose2d(T2_final_x,T2_final_y, Math.toRadians(T3_final_heading))).build();
+
 
 
         blueClosePropWrapper.initTfod();
@@ -288,11 +293,11 @@ public class Blue_Close extends BaseAutoOp {
         waitForStart();
 
         if (barcodeInt == 1) {
-            //drive.followTrajectorySequence(trajectory1);
+            drive.followTrajectorySequence(trajectory1);
         } else if (barcodeInt == 2) {
             drive.followTrajectorySequence(trajectory2);
         } else {
-            //drive.followTrajectorySequence(trajectory3);
+            drive.followTrajectorySequence(trajectory3);
         }
 
     }
