@@ -1,5 +1,4 @@
 package org.firstinspires.ftc.teamcode.Auto;
-import android.graphics.drawable.VectorDrawable;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -144,7 +143,7 @@ public class Red_Far extends BaseAutoOp {
 
          pickUpOneFarWhitePixelsMiddle(trajectory2SequenceBuilder1, new Vector2d(T2_pickUpWhite2_x, T2_pickUpWhite2_y),  Math.toRadians(T2_pickUpWhite2_heading));
 
-         dropOffWhitePixelsMiddle(trajectory2SequenceBuilder1,
+         dropOffWhitePixelsRedMiddle(trajectory2SequenceBuilder1,
                 new Vector2d(-36,-12), Math.toRadians(0),
                 new Vector2d(24, -12), Math.toRadians(0),
                 new Vector2d(T2_dropWhite_x, T2_dropWhite_y), Math.toRadians(T2_dropWhite_heading),

@@ -4,9 +4,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.OpModes.InitActuator;
 import org.firstinspires.ftc.teamcode.OpModes.InitActuatorPos;
-import org.firstinspires.ftc.teamcode.OpModes.NewDrive;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.ITrajectorySequenceUpdateCallback;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -16,8 +14,6 @@ import org.firstinspires.ftc.teamcode.wrappers.BlueFarPropWrapper;
 import org.firstinspires.ftc.teamcode.wrappers.NeoArmWrapper;
 import org.firstinspires.ftc.teamcode.wrappers.RedClosePropWrapper;
 import org.firstinspires.ftc.teamcode.wrappers.RedFarPropWrapper;
-
-import java.net.PortUnreachableException;
 
 public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequenceUpdateCallback {
 
@@ -41,6 +37,8 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
 
 
     public void initialize(Pose2d inStartPose, int inBarcodeInt) {
+
+
         startPose = inStartPose;
 
         redClosePropWrapper = new RedClosePropWrapper(hardwareMap,telemetry);
@@ -56,6 +54,8 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
 
         neoArmWrapper = new NeoArmWrapper(telemetry, hardwareMap, gamepad1, gamepad2, true);
         neoArmWrapper.ResetMotorPositions();
+
+        neoArmWrapper.MoveActuatorMotor(InitActuatorPos.actuatorPos);
 
         drive.setPoseEstimate(startPose);
 
@@ -82,8 +82,9 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
 
     protected TrajectorySequenceBuilder dropPurplePixel( TrajectorySequenceBuilder sequenceBuilder, Vector2d endPosition, double heading) {
          return sequenceBuilder
+
                  .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                     neoArmWrapper.MoveActuatorMotor(-15-InitActuatorPos.actuatorPos);
+                     neoArmWrapper.MoveActuatorMotor(-10);
                  })
 
                  .UNSTABLE_addTemporalMarkerOffset(1.5, () -> {
@@ -116,7 +117,7 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
     protected TrajectorySequenceBuilder dropPurplePixelFar( TrajectorySequenceBuilder sequenceBuilder, Vector2d endPosition, double heading) {
         return sequenceBuilder
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                    neoArmWrapper.MoveActuatorMotor(-15-InitActuatorPos.actuatorPos);
+                    neoArmWrapper.MoveActuatorMotor(-10);
                 })
 
                 .UNSTABLE_addTemporalMarkerOffset(1.5, () -> {
@@ -153,11 +154,15 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
                 .waitSeconds(2)
                 .forward(2)
                 .waitSeconds(.1)
-                .lineToLinearHeading( new Pose2d(endPosition.getX(), endPosition.getY(), Math.toRadians(heading)))
-                .UNSTABLE_addTemporalMarkerOffset(-2, () -> {
+                .turn(Math.toRadians(180))
+                .waitSeconds(.1)
+                /*.lineToLinearHeading( new Pose2d(endPosition.getX(), endPosition.getY(), Math.toRadians(heading)),
+                        SampleMecanumDrive.getVelocityConstraint(30,30,DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))*/
+                .UNSTABLE_addTemporalMarkerOffset(-2.5, () -> {
                     neoArmWrapper.ClosePos();
                 })
-                .UNSTABLE_addTemporalMarkerOffset(-1.5, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(-2, () -> {
                     neoArmWrapper.WristUp();
                     neoArmWrapper.armWristServo.setPosition(NeoArmWrapper.arm_wrist_intake_pos);
                 });
@@ -377,11 +382,60 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
 //                .waitSeconds(3);
     }
 
-    protected TrajectorySequenceBuilder dropOffWhitePixelsMiddle( TrajectorySequenceBuilder sequenceBuilder,
+
+
+    /*protected TrajectorySequenceBuilder dropOffWhitePixelsFar3( TrajectorySequenceBuilder sequenceBuilder,
                                                             Vector2d firstLocation, double firstHeading,
                                                             Vector2d secondLocation, double secondHeading,
-                                                            Vector2d thirdLocation, double thirdHeading,
-                                                            Vector2d fourthLocation
+                                                            Vector2d thirdLocation
+
+    ) {
+
+        return sequenceBuilder
+                .splineTo(firstLocation, firstHeading)
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    neoArmWrapper.MoveExtensionMotors(1100);
+                    neoArmWrapper.MoveActuatorMotor(1400);
+                    neoArmWrapper.armWristServo.setPosition(.05);
+                })
+                .UNSTABLE_addTemporalMarkerOffset(1.5, () -> {
+                    neoArmWrapper.SetWheelSpin(-.7);
+                })
+                .lineToLinearHeading(new Pose2d(secondLocation.getX(),secondLocation.getY(), secondHeading))
+                .waitSeconds(1)
+                .UNSTABLE_addTemporalMarkerOffset(1, () -> {
+                    neoArmWrapper.SetWheelSpin(0);
+                })
+                .UNSTABLE_addTemporalMarkerOffset(1, () -> {
+                    neoArmWrapper.SetWheelSpin(-1);
+                })
+                .UNSTABLE_addTemporalMarkerOffset(2, () -> {
+                    neoArmWrapper.SetWheelSpin(0);
+                })
+                .UNSTABLE_addTemporalMarkerOffset(3.3, () -> {
+                    neoArmWrapper.MoveExtensionMotors(500);
+                })
+                .UNSTABLE_addTemporalMarkerOffset(3.8, () -> {
+                    neoArmWrapper.armWristServo.setPosition(NeoArmWrapper.arm_wrist_intake_pos);
+                })
+                .UNSTABLE_addTemporalMarkerOffset(4.5, () -> {
+                    neoArmWrapper.MoveActuatorMotor(0);
+                })
+                .UNSTABLE_addTemporalMarkerOffset(5.5, () -> {
+                    neoArmWrapper.MoveExtensionMotors(-20);
+                })
+                .lineToLinearHeading(new Pose2d(thirdLocation.getX(),thirdLocation.getY(),secondHeading))
+                .waitSeconds(3);
+
+
+//                .waitSeconds(3);
+    }*/
+
+    protected TrajectorySequenceBuilder dropOffWhitePixelsRedMiddle(TrajectorySequenceBuilder sequenceBuilder,
+                                                                    Vector2d firstLocation, double firstHeading,
+                                                                    Vector2d secondLocation, double secondHeading,
+                                                                    Vector2d thirdLocation, double thirdHeading,
+                                                                    Vector2d fourthLocation
 
     ) {
 
@@ -389,6 +443,63 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
                 .forward(3)
                 .waitSeconds(.1)
                 .strafeLeft(12)
+                .waitSeconds(.1)
+                .splineTo(firstLocation, firstHeading)
+                .splineTo(secondLocation, secondHeading)
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    neoArmWrapper.MoveExtensionMotors(1100);
+                    neoArmWrapper.MoveActuatorMotor(1400);
+                    neoArmWrapper.armWristServo.setPosition(.05);
+                })
+                .UNSTABLE_addTemporalMarkerOffset(1.5, () -> {
+                    neoArmWrapper.SetWheelSpin(-.7);
+                })
+                .splineTo(thirdLocation, thirdHeading)
+                .waitSeconds(1)
+                .UNSTABLE_addTemporalMarkerOffset(1, () -> {
+                    neoArmWrapper.SetWheelSpin(0);
+                })
+                .UNSTABLE_addTemporalMarkerOffset(1, () -> {
+                    neoArmWrapper.SetWheelSpin(-1);
+                })
+                .UNSTABLE_addTemporalMarkerOffset(2, () -> {
+                    neoArmWrapper.SetWheelSpin(0);
+                })
+                .UNSTABLE_addTemporalMarkerOffset(3.3, () -> {
+                    neoArmWrapper.MoveExtensionMotors(500);
+                })
+                .UNSTABLE_addTemporalMarkerOffset(3.8, () -> {
+                    neoArmWrapper.armWristServo.setPosition(NeoArmWrapper.arm_wrist_intake_pos);
+                })
+                .UNSTABLE_addTemporalMarkerOffset(4.5, () -> {
+                    neoArmWrapper.MoveActuatorMotor(0);
+                })
+                .UNSTABLE_addTemporalMarkerOffset(5.5, () -> {
+                    neoArmWrapper.MoveExtensionMotors(-20);
+                })
+                .lineToLinearHeading(new Pose2d(fourthLocation.getX(),fourthLocation.getY(),thirdHeading))
+                .waitSeconds(3)
+                .back(2)
+                .waitSeconds(.1);
+
+
+
+//                .waitSeconds(3);
+    }
+
+
+    protected TrajectorySequenceBuilder dropOffWhitePixelsBlueMiddle(TrajectorySequenceBuilder sequenceBuilder,
+                                                                    Vector2d firstLocation, double firstHeading,
+                                                                    Vector2d secondLocation, double secondHeading,
+                                                                    Vector2d thirdLocation, double thirdHeading,
+                                                                    Vector2d fourthLocation
+
+    ) {
+
+        return sequenceBuilder
+                .forward(3)
+                .waitSeconds(.1)
+                .strafeRight(12)
                 .waitSeconds(.1)
                 .splineTo(firstLocation, firstHeading)
                 .splineTo(secondLocation, secondHeading)
