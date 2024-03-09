@@ -28,6 +28,8 @@ import java.util.ArrayList;
 public class NewDrive extends LinearOpMode {
     IMUWrapper wrapper;
 
+    boolean hanged = false;
+
     NeoArmWrapper armWrapper;
 
     JoystickWrapper joystickWrapper;
@@ -182,7 +184,8 @@ public class NewDrive extends LinearOpMode {
             }
 
             if(joystickWrapper.gamepad2GetX()) {
-                armWrapper.setHangPos();
+                armWrapper.setHangPos(hanged);
+                hanged = !hanged;
             }
 
 

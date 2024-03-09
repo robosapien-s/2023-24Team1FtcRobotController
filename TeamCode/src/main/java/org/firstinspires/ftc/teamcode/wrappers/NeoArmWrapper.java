@@ -510,9 +510,14 @@ public class NeoArmWrapper {
     }
 
 
-    public void setHangPos() {
-        SetLinearActuator(5653);
-        SetLinearExtensionPos(1417);
+    public void setHangPos(boolean hanged) {
+        if (!hanged) {
+            SetLinearActuator(5653);
+            SetLinearExtensionPos(1900);
+        } else {
+            SetLinearActuator(5653);
+            SetLinearExtensionPos(1260);
+        }
     }
 
 
