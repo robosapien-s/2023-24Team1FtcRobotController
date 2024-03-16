@@ -255,9 +255,9 @@ public class AutoDropOffController {
 
             if(NewDrive.tune_y && NewDrive.tune_x) {
                 //driveController.setAutoMode(power, locationPower);
-                driveController.setAutoMode(power, joystickWrapper.gamepad1GetLeftStickY());
+                driveController.setAutoMode(-power, joystickWrapper.gamepad1GetLeftStickY());
             } else if(NewDrive.tune_y) {
-                driveController.setAutoMode(power, 0);
+                driveController.setAutoMode(-power, 0);
             } else if(NewDrive.tune_x) {
                 //driveController.setAutoMode(0, locationPower);
                 driveController.setAutoMode(0, joystickWrapper.gamepad1GetLeftStickY());

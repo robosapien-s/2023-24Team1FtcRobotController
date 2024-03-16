@@ -33,44 +33,44 @@ public class Red_Close extends BaseAutoOp {
                 .build();*/
 
 
-    public static double T3_purplePixelLocation_x = 16;
-    public static double T3_purplePixelLocation_y =-44;
+    public static double T3_purplePixelLocation_x = 14.5;
+    public static double T3_purplePixelLocation_y =-43;
     public static double T3_purplePixelLocation_heading = 45;
 
 
-    public static double T3_dropYellow_x = 50;
-    public static double T3_dropYellow_y =-42;
+    public static double T3_dropYellow_x = 50.75;
+    public static double T3_dropYellow_y =-41.5;
     public static double T3_dropYellow_heading = 0;
 
 
     public static int T3_dropYellow_act = 1763;
     public static int T3_dropYellow_ext = 852;
-    public static double T3_dropYellow_wrist = .1;
+    public static double T3_dropYellow_wrist = .15;
 
     public static double T3_pickUpWhite1_x = 24;
-    public static double T3_pickUpWhite1_y =-12;
+    public static double T3_pickUpWhite1_y =-10.5;
     public static double T3_pickUpWhite1_heading = 180;
 
 
 
     public static double T3_pickUpWhite2_x = -59.5;
-    public static double T3_pickUpWhite2_y =-12;
+    public static double T3_pickUpWhite2_y =-10.5;
     public static double T3_pickUpWhite2_heading = 180;
 
 
 
     public static double T3_dropWhite_x = 49;
-    public static double T3_dropWhite_y =-36;
+    public static double T3_dropWhite_y =-34;
     public static double T3_dropWhite_heading = 0;
 
 
 
     public static double T2_purplePixelLocation_x = 12;
-    public static double T2_purplePixelLocation_y =-35.5;
+    public static double T2_purplePixelLocation_y =-36;
     public static double T2_purplePixelLocation_heading = 115;
 
-    public static double T2_dropYellow_x = 50;
-    public static double T2_dropYellow_y =-36;
+    public static double T2_dropYellow_x = 50.5;
+    public static double T2_dropYellow_y =-36.25;
     public static double T2_dropYellow_heading = 0;
 
     public static int T2_dropYellow_act = 1763;
@@ -113,7 +113,7 @@ public class Red_Close extends BaseAutoOp {
 
 
     public static double T1_pickUpWhite_x = -59.5;
-    public static double T1_pickUpWhite_y =-12;
+    public static double T1_pickUpWhite_y =-11;
     public static double T1_pickUpWhite2_heading = 180;
 
 

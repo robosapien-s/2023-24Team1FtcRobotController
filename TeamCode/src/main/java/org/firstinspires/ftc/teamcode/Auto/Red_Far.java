@@ -46,7 +46,7 @@ public class Red_Far extends BaseAutoOp {
 
 
     public static double T2_lineUpSingleWhite_x = -59;
-    public static double T2_lineUpSingleWhite_y =-24;
+    public static double T2_lineUpSingleWhite_y =-25;
     public static double T2_lineUpSingleWhite_heading = 0;
 
 
@@ -63,7 +63,7 @@ public class Red_Far extends BaseAutoOp {
 
 
     public static double T2_pickUpWhite2_x = -63;
-    public static double T2_pickUpWhite2_y = -24;
+    public static double T2_pickUpWhite2_y = -25;
     public static double T2_pickUpWhite2_heading = 180;  //Note trajectory is reversed
 
     public static double T3_pickUpWhite2_x = -63;
@@ -72,7 +72,7 @@ public class Red_Far extends BaseAutoOp {
 
 
     //Drop off
-    public static double T1_dropWhite_x = 47;
+    public static double T1_dropWhite_x = 46.5;
 
     public static double T1_dropWhite_y =-34;
     public static double T1_second_dropWhite_y =-42;
@@ -80,7 +80,7 @@ public class Red_Far extends BaseAutoOp {
 
 
 
-    public static double T2_dropWhite_x = 47;
+    public static double T2_dropWhite_x = 46.5;
 
     public static double T2_dropWhite_y =-31;
     public static double T2_second_dropWhite_y =-29;
@@ -89,18 +89,18 @@ public class Red_Far extends BaseAutoOp {
 
     public static double T2_final_heading = 88;
 
-    public static double T3_dropWhite_x = 47;
+    public static double T3_dropWhite_x = 46.5;
 
-    public static double T3_dropWhite_y =-41;
-    public static double T3_second_dropWhite_y =-36;
+    public static double T3_dropWhite_y =-38;
+    public static double T3_second_dropWhite_y =-34;
     public static double T3_dropWhite_heading = 0;
 
 
 
 
-    public static double final_x = 42;
+    public static double final_x = 41;
     public static double final_close_y =-63;
-    public static double final_far_y =-20;
+    public static double final_far_y =-13;
     public static double final_heading = 87;
 
 

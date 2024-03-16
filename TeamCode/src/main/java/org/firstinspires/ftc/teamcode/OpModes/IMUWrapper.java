@@ -74,7 +74,7 @@ public class IMUWrapper{
         // This sample expects the IMU to be in a REV Hub and named "imu".
         imu = hardwareMap.get(IMU.class, "imu");
         imu.initialize(new IMU.Parameters(orientationOnRobot));
-        imu.resetYaw();
+        //imu.resetYaw();
     }
     public void Update() {
 
@@ -95,7 +95,7 @@ public class IMUWrapper{
         }  // Save for telemetry
 
         // Determine the heading current error
-        double headingError = targetHeading - yaw;
+        double headingError = (targetHeading - yaw)+180;
 
         // Normalize the error to be within +/- 180 degrees
         while (headingError > 180) headingError -= 360;
@@ -155,7 +155,7 @@ public class IMUWrapper{
     }
 
     Translation2d RotateAngle(double x,double y,double angle){
-        double rAngle = Math.toRadians(angle);
+        double rAngle = Math.toRadians(angle+180);
 
         double rotatedX = x*Math.cos(rAngle) - y*Math.sin(rAngle);
         double rotatedY = x*Math.sin(rAngle) + y*Math.cos(rAngle);

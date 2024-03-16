@@ -52,7 +52,7 @@ public class Blue_Close extends BaseAutoOp {
     public static double T2_purplePixelLocation_heading = -65;
 
     public static double T2_dropYellow_x = 51;
-    public static double T2_dropYellow_y =36;
+    public static double T2_dropYellow_y =34.5;
     public static double T2_dropYellow_heading = 0;
 
     public static int T2_dropYellow_act = 1763;
@@ -60,7 +60,7 @@ public class Blue_Close extends BaseAutoOp {
     public static double T2_dropYellow_wrist = .1;
 
     public static double T2_pickUpWhite_x = -59.5;
-    public static double T2_pickUpWhite_y =10;
+    public static double T2_pickUpWhite_y =12;
     public static double T2_pickUpWhite_heading = 180;
 
     public static double T2_dropWhite_x = 50;

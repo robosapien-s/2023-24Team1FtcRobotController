@@ -80,7 +80,7 @@ public class Blue_Far extends BaseAutoOp {
 
 
 
-    public static double T2_dropWhite_x = 47;
+    public static double T2_dropWhite_x = 45;
 
     public static double T2_dropWhite_y =29;
     public static double T2_second_dropWhite_y =25;

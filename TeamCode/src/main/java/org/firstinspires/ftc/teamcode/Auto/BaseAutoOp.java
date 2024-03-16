@@ -2,7 +2,9 @@ package org.firstinspires.ftc.teamcode.Auto;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.teamcode.OpModes.InitActuatorPos;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
@@ -17,6 +19,8 @@ import org.firstinspires.ftc.teamcode.wrappers.RedFarPropWrapper;
 
 public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequenceUpdateCallback {
 
+
+    IMU imu;
 
     Pose2d startPose = new Pose2d(15,-62, Math.toRadians(-90));
 
@@ -58,6 +62,15 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
         neoArmWrapper.MoveActuatorMotor(InitActuatorPos.actuatorPos);
 
         drive.setPoseEstimate(startPose);
+
+        RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
+        RevHubOrientationOnRobot.UsbFacingDirection usbDirection = RevHubOrientationOnRobot.UsbFacingDirection.RIGHT;
+        RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
+        // Now initialize the IMU with this mounting orientation
+        // This sample expects the IMU to be in a REV Hub and named "imu".
+        imu = hardwareMap.get(IMU.class, "imu");
+        imu.initialize(new IMU.Parameters(orientationOnRobot));
+        imu.resetYaw();
 
     }
     public void run(){
@@ -199,7 +212,7 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
 
         return sequenceBuilder.splineTo(location, heading)
                 .UNSTABLE_addTemporalMarkerOffset(-.1, () -> {
-                    neoArmWrapper.SetWheelSpin(-1);
+                    neoArmWrapper.SetWheelSpin(-.6);
                 })
                 .UNSTABLE_addTemporalMarkerOffset(1.5, () -> {
                     neoArmWrapper.SetWheelSpin(0);
@@ -344,13 +357,14 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
 
         return sequenceBuilder
                 .splineTo(firstLocation, firstHeading)
+                .waitSeconds(2)
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     neoArmWrapper.MoveExtensionMotors(1100);
                     neoArmWrapper.MoveActuatorMotor(1400);
-                    neoArmWrapper.armWristServo.setPosition(.05);
+                    neoArmWrapper.armWristServo.setPosition(.1);
                 })
-                .UNSTABLE_addTemporalMarkerOffset(1.5, () -> {
-                    neoArmWrapper.SetWheelSpin(-.7);
+                .UNSTABLE_addTemporalMarkerOffset(1.8, () -> {
+                    neoArmWrapper.SetWheelSpin(-.6);
                 })
                 .splineTo(secondLocation, secondHeading)
                 .waitSeconds(1)
@@ -506,18 +520,18 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     neoArmWrapper.MoveExtensionMotors(1100);
                     neoArmWrapper.MoveActuatorMotor(1400);
-                    neoArmWrapper.armWristServo.setPosition(.05);
+                    neoArmWrapper.armWristServo.setPosition(.1);
                 })
                 .UNSTABLE_addTemporalMarkerOffset(1.5, () -> {
-                    neoArmWrapper.SetWheelSpin(-.7);
+                    neoArmWrapper.SetWheelSpin(-.6);
                 })
                 .splineTo(thirdLocation, thirdHeading)
-                .waitSeconds(1)
-                .UNSTABLE_addTemporalMarkerOffset(1, () -> {
+                .waitSeconds(1.5)
+                .UNSTABLE_addTemporalMarkerOffset(.5, () -> {
                     neoArmWrapper.SetWheelSpin(0);
                 })
                 .UNSTABLE_addTemporalMarkerOffset(1, () -> {
-                    neoArmWrapper.SetWheelSpin(-1);
+                    neoArmWrapper.SetWheelSpin(-.6);
                 })
                 .UNSTABLE_addTemporalMarkerOffset(2, () -> {
                     neoArmWrapper.SetWheelSpin(0);
@@ -556,7 +570,7 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
                 .UNSTABLE_addTemporalMarkerOffset(.5, () -> {
                     neoArmWrapper.MoveExtensionMotors(1100);
                     neoArmWrapper.MoveActuatorMotor(1400);
-                    neoArmWrapper.armWristServo.setPosition(.05);
+                    neoArmWrapper.armWristServo.setPosition(.1);
                 })
                 .splineTo(secondLocation, secondHeading)
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
