@@ -27,6 +27,7 @@ import java.util.ArrayList;
 @Config
 @TeleOp
 public class NewDrive extends LinearOpMode {
+
     IMUWrapper wrapper;
 
     boolean hanged = false;
@@ -152,7 +153,9 @@ public class NewDrive extends LinearOpMode {
             armWrapper.SetWheelSpin(gamepad2.left_trigger-gamepad2.right_trigger);
             armWrapper.UpdateIntakePower(gamepad1.right_trigger-gamepad1.left_trigger);
             armWrapper.UpdateExtensionPlusInput(joystickWrapper, 300, 300);
+            double headingOffset = wrapper.getNormalizedHeadingError();
 
+            armWrapper.setLeftRight(headingOffset);
 
             if(joystickWrapper.gamepad1GetX()) {
                 autoDropOffController.setDropLevel1();

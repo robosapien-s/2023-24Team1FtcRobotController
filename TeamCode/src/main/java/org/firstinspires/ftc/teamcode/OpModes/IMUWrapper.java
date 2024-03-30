@@ -21,6 +21,8 @@ import org.firstinspires.ftc.teamcode.wrappers.JoystickWrapper;
 @Disabled
 public class IMUWrapper{
 
+    double normalizedHeadingError = 0;
+
     IMU imu;
 
     boolean cosineThing = false;
@@ -109,6 +111,8 @@ public class IMUWrapper{
         while (headingError > 180) headingError -= 360;
         while (headingError <= -180) headingError += 360;
 
+        normalizedHeadingError = headingError;
+
 
 
         //telemetry.addData("Joystick Left Angle", targetHeading);
@@ -184,5 +188,9 @@ public class IMUWrapper{
         isAutoMode = false;
         autoModeX = 0;
         autoModeY = 0;
+    }
+
+    public double getNormalizedHeadingError() {
+        return normalizedHeadingError;
     }
 }

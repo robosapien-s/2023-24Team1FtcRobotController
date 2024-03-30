@@ -44,6 +44,8 @@ public class NeoArmWrapper {
     public Servo armWristServo;
     public CRServo armWheel;
 
+    public Servo leftRight;
+
     //public TouchSensor armTouch;
     public DigitalChannel armTouch;
 
@@ -104,6 +106,8 @@ public class NeoArmWrapper {
 
         armWristServo = hardwareMap.get(Servo.class, "armWrist");
         armWheel = hardwareMap.get(CRServo.class, "armWheel");
+
+        leftRight = hardwareMap.get(Servo.class, "armLeftRight");
 
         //armTouch = hardwareMap.get(DigitalChannel.class, "armTouch");
 
@@ -520,6 +524,33 @@ public class NeoArmWrapper {
             SetLinearActuator(5653);
             SetLinearExtensionPos(1260);
         }
+    }
+
+
+
+
+
+
+    public void setLeftRight(double headingError) {
+        double upperBound = .75;
+        double lowerBound = .3;
+        double range = (upperBound-lowerBound)*300;
+        double degreeBound = range/2;
+        double midPoint = (upperBound+lowerBound)/2;
+        /*if(wristServo.getPosition<[threshold]) {
+            leftRight.setPosition(midPoint)
+         } else {
+         }
+         */
+         if (headingError < 0 && Math.abs(headingError)>degreeBound) {
+             headingError = -degreeBound;
+         } else if (headingError > 0 && Math.abs(headingError)>degreeBound) {
+             headingError = degreeBound;
+         }
+
+         leftRight.setPosition(midPoint+headingError/300);
+
+
     }
 
 
