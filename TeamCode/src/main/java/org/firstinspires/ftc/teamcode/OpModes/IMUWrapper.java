@@ -47,6 +47,7 @@ public class IMUWrapper{
     double autoModeX = 0;
     double autoModeY = 0;
 
+    double rotateAngleOffset = 180;
 
     public void Initialize(Telemetry inTelemetry,HardwareMap hardwareMap, Gamepad inGamepad1, Gamepad inGamepad2) {
 
@@ -76,6 +77,13 @@ public class IMUWrapper{
         imu.initialize(new IMU.Parameters(orientationOnRobot));
         //imu.resetYaw();
     }
+
+    public void InitializeResetImu(Telemetry inTelemetry,HardwareMap hardwareMap, Gamepad inGamepad1, Gamepad inGamepad2) {
+        rotateAngleOffset = 0;
+        Initialize(inTelemetry, hardwareMap, inGamepad1, inGamepad2);
+        imu.resetYaw();
+    }
+
     public void Update() {
 
         YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
@@ -95,7 +103,7 @@ public class IMUWrapper{
         }  // Save for telemetry
 
         // Determine the heading current error
-        double headingError = (targetHeading - yaw)+180;
+        double headingError = (targetHeading - yaw)+rotateAngleOffset;
 
         // Normalize the error to be within +/- 180 degrees
         while (headingError > 180) headingError -= 360;
@@ -155,7 +163,7 @@ public class IMUWrapper{
     }
 
     Translation2d RotateAngle(double x,double y,double angle){
-        double rAngle = Math.toRadians(angle+180);
+        double rAngle = Math.toRadians(angle+rotateAngleOffset);
 
         double rotatedX = x*Math.cos(rAngle) - y*Math.sin(rAngle);
         double rotatedY = x*Math.sin(rAngle) + y*Math.cos(rAngle);

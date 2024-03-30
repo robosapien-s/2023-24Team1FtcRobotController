@@ -24,13 +24,17 @@ public class ServoProgrammerOpmode extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         wrapper = new ServoProgrammer();
         joystickWrapper=new JoystickWrapper(gamepad1,gamepad2);
-
         waitForStart();
 
         wrapper.AddServos(hardwareMap.get(Servo.class,"armServo0"),"armServo0");
         wrapper.AddServos(hardwareMap.get(Servo.class,"armServo1"),"armServo1");
         wrapper.AddServos(hardwareMap.get(Servo.class,"wristServo"),"wristServo");
+
+
         wrapper.AddServos(hardwareMap.get(Servo.class,"armWrist"),"armWrist");
+        wrapper.AddServos(hardwareMap.get(Servo.class,"armChain"),"armChain");
+        wrapper.AddServos(hardwareMap.get(Servo.class,"armLeftRight"),"armLeftRight");
+        wrapper.AddServos(hardwareMap.get(Servo.class,"armPixelRot"),"armPixelRot");
         
 
         while(!isStopRequested()){

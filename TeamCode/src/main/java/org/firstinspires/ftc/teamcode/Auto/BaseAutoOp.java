@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.teamcode.OpModes.InitActuatorPos;
+import org.firstinspires.ftc.teamcode.OpModes.NewDrive;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.ITrajectorySequenceUpdateCallback;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -71,6 +72,7 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
         imu = hardwareMap.get(IMU.class, "imu");
         imu.initialize(new IMU.Parameters(orientationOnRobot));
         imu.resetYaw();
+        NewDrive.reset_imu = false;
 
     }
     public void run(){

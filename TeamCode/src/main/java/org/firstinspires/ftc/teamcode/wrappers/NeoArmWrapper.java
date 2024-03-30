@@ -13,6 +13,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+import org.firstinspires.ftc.teamcode.OpModes.NewDrive;
 
 import java.sql.Time;
 import java.util.Date;
@@ -380,7 +381,8 @@ public class NeoArmWrapper {
 
         act_lastError = error;
         act_timer.reset();
-        double output = (error*act_Kp) + (derivative*act_Kd) + (act_intergralSum*ext_Ki);
+        double output = (error*act_Kp) + (derivative*act_Kd) + (act_intergralSum*act_Ki);
+        //double output = (error* NewDrive.act_Kp) + (derivative*NewDrive.act_Kd) + (act_intergralSum*NewDrive.act_Ki);
 
         if(output>1) {
             output = 1;

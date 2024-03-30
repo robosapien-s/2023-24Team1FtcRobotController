@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.controllers.IRobotTask;
@@ -49,6 +50,12 @@ public class NewDrive extends LinearOpMode {
 
     ArrayList<IRobotTask> tasks = new ArrayList<IRobotTask>();
 
+
+
+    public static double act_Kp = 0.008;
+    public static double act_Ki = 0.000001;
+    public static double act_Kd = 0.0004;
+    public static double act_targetPosition = 0;
 
 
 
@@ -111,13 +118,22 @@ public class NewDrive extends LinearOpMode {
 
 
 
-
+    public static boolean reset_imu = true;
 
 
     @Override
     public void runOpMode() throws InterruptedException {
+
         wrapper = new IMUWrapper();
-        wrapper.Initialize(telemetry,hardwareMap,gamepad1, gamepad2);
+
+        if(reset_imu) {
+            wrapper.InitializeResetImu(telemetry,hardwareMap,gamepad1, gamepad2);
+        } else {
+            wrapper.Initialize(telemetry,hardwareMap,gamepad1, gamepad2);
+        }
+
+        reset_imu = true;
+
         joystickWrapper = new JoystickWrapper(gamepad1,gamepad2);
         armWrapper = new NeoArmWrapper(telemetry,hardwareMap,gamepad2,gamepad2,false);
         armWrapper.ResetMotorPositions();
