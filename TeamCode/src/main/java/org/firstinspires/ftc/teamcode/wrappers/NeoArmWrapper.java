@@ -15,6 +15,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.OpModes.IMUWrapper;
 import org.firstinspires.ftc.teamcode.OpModes.NewDrive;
+import org.firstinspires.ftc.teamcode.controllers.CallBackTask;
 import org.firstinspires.ftc.teamcode.controllers.IRobotTask;
 import org.firstinspires.ftc.teamcode.controllers.RobotTaskParallel;
 import org.firstinspires.ftc.teamcode.controllers.RobotTaskSeries;
@@ -70,6 +71,9 @@ public class NeoArmWrapper {
     private double ext_Ki = 0.0000001;
     private double ext_Kd = 0.00004;
     private double ext_targetPosition = 0;
+
+
+    private double ext_targetPosition_delay_until = -1;
 
 
     public static double arm_wrist_floor = .3;
@@ -282,12 +286,13 @@ public class NeoArmWrapper {
                 power = requestPower;
             }
 
-            ExtensionMotorEx1.setPower(power);
-            ExtensionMotorEx2.setPower(power);
+            if(System.currentTimeMillis() >= ext_targetPosition_delay_until) {
+                ExtensionMotorEx1.setPower(power);
+                ExtensionMotorEx2.setPower(power);
 
-            telemetry.addData("Slide Pos:", ext_targetPosition);
-            telemetry.addData("Slide power:", power);
-
+                telemetry.addData("Slide Pos:", ext_targetPosition);
+                telemetry.addData("Slide power:", power);
+            }
 
         } else {
             ext_targetPosition = ExtensionMotorEx1.getCurrentPosition();
@@ -589,8 +594,9 @@ public class NeoArmWrapper {
         act_targetPosition = 0;
 
         ext_lastError = 0;
-        ext_targetPosition = 0;
-//        ext_targetPositionntakeOuttakeMode = EIntakeOuttakeMode.INTAKE;
+        //ext_targetPosition_delay_until = System.currentTimeMillis() + 10000;
+        //ext_targetPosition = 0;
+
         clearTasks();
 
         intakeOuttakeMode = EIntakeOuttakeMode.INTAKE;
@@ -598,16 +604,48 @@ public class NeoArmWrapper {
         series.add(new ServoTask(armPixelRot, 0.63, 250, "armPixelRot", true));
 
         RobotTaskParallel parallel = new RobotTaskParallel();
+        parallel.add(new ServoTask(armWristServo, .7, 500, "armWristServo", true));
+        parallel.add(new ServoTask(armChain, 0.22, 500, "armChain", true));
+        parallel.add(new ServoTask(armLeftRight, 0.49, 500, "armLeftRight", true));
+        parallel.add(new ServoTask(armPixelRot, 0.63, 500, "armPixelRot", true));
+        parallel.add( new CallBackTask(new CallBackTask.CallBackListener() {
+            @Override
+            public void setPosition(double value) {
+                ext_targetPosition = value;
+            }
+
+            @Override
+            public double getPosition() {
+                return ExtensionMotorEx1.getCurrentPosition();
+            }
+        }, 300, 500, "lineralExt", true));
+
+/*
         parallel.add(new ServoTask(armWristServo, .7, 1250, "armWristServo", true));
-        parallel.add(new ServoTask(armChain, 0.285, 750, "armChain", true));
+        parallel.add(new ServoTask(armChain, 0.25, 750, "armChain", true));
         parallel.add(new ServoTask(armLeftRight, 0.49, 1250, "armLeftRight", true));
         parallel.add(new ServoTask(armPixelRot, 0.63, 500, "armPixelRot", true));
+ */
 
         series.add(parallel);
 
 
-        series.add(new ServoTask(armWristServo, .8, 1000, "armWristServo", true));
+        RobotTaskParallel parallel2 = new RobotTaskParallel();
+        parallel2.add(new ServoTask(armWristServo, .8, 500, "armWristServo", true));
+        parallel2.add(new ServoTask(armChain, 0.283, 600, "armChain", true));
+        parallel2.add( new CallBackTask(new CallBackTask.CallBackListener() {
+            @Override
+            public void setPosition(double value) {
+                ext_targetPosition = value;
+            }
 
+            @Override
+            public double getPosition() {
+                return ExtensionMotorEx1.getCurrentPosition();
+            }
+        }, 0, 500, "lineralExt", true));
+
+        series.add(parallel2);
 
 
         tasks.add(series);
@@ -619,6 +657,7 @@ public class NeoArmWrapper {
         act_targetPosition = 500;
 
         ext_lastError = 0;
+        //ext_targetPosition_delay_until = System.currentTimeMillis() + 500;
         ext_targetPosition = 500;
 
         intakeOuttakeMode = EIntakeOuttakeMode.OUTTAKE;
