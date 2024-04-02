@@ -152,10 +152,7 @@ public class NewDrive extends LinearOpMode {
             wrapper.Update();
             armWrapper.SetWheelSpin(gamepad2.left_trigger-gamepad2.right_trigger);
             armWrapper.UpdateIntakePower(gamepad1.right_trigger-gamepad1.left_trigger);
-            armWrapper.UpdateExtensionPlusInput(joystickWrapper, 300, 300);
-            double headingOffset = wrapper.getNormalizedHeadingError();
-
-            armWrapper.setLeftRight(headingOffset);
+            armWrapper.UpdateExtensionPlusInput(joystickWrapper, 300, 300, wrapper);
 
             if(joystickWrapper.gamepad1GetX()) {
                 autoDropOffController.setDropLevel1();
@@ -185,7 +182,8 @@ public class NewDrive extends LinearOpMode {
             autoDropOffController.telemetryAprilTag(telemetry, joystickWrapper, new Encoder(hardwareMap.get(DcMotorEx.class, "fL")),  new Encoder(hardwareMap.get(DcMotorEx.class, "bL")));
 
             if(joystickWrapper.gamepad2GetY()){
-                armWrapper.setOuttake();
+                //armWrapper.setOuttake();
+                armWrapper.setOuttakeNew();
             }
 
             if(joystickWrapper.gamepad2GetB()){
@@ -199,7 +197,8 @@ public class NewDrive extends LinearOpMode {
             }
 
             if(joystickWrapper.gamepad2GetA()){
-                armWrapper.setIntake();
+                //armWrapper.setIntake();
+                armWrapper.setIntakeNew();
             }
 
             if(joystickWrapper.gamepad2GetX()) {
