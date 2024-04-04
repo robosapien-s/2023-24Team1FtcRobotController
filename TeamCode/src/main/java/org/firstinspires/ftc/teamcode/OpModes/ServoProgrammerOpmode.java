@@ -35,6 +35,11 @@ public class ServoProgrammerOpmode extends LinearOpMode {
         wrapper.AddServos(hardwareMap.get(Servo.class,"armChain"),"armChain");
         wrapper.AddServos(hardwareMap.get(Servo.class,"armLeftRight"),"armLeftRight");
         wrapper.AddServos(hardwareMap.get(Servo.class,"armPixelRot"),"armPixelRot");
+
+
+        wrapper.AddServos(hardwareMap.get(Servo.class,"rightPixelHolder"),"rightPixelHolder");
+        wrapper.AddServos(hardwareMap.get(Servo.class,"leftPixelHolder"),"leftPixelHolder");
+
         
 
         while(!isStopRequested()){

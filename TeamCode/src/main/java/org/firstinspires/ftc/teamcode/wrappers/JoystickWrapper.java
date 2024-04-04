@@ -479,7 +479,7 @@ public class JoystickWrapper {
 
     public boolean gamepad2GetRightTriggerDown() {
         if (!gamepad2rightTriggerPressed && gamepad2GetRightTriggerPressed()) {
-            gamepad1rightTriggerPressed = true;
+            gamepad2rightTriggerPressed = true;
             return true;
         } else if (gamepad2rightTriggerPressed && !gamepad2GetRightTriggerPressed()) {
             gamepad2rightTriggerPressed = false;

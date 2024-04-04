@@ -23,6 +23,7 @@ import org.firstinspires.ftc.teamcode.controllers.ServoTask;
 
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -47,13 +48,19 @@ public class NeoArmWrapper {
     public Servo armServo0;
     public Servo armServo1;
     public Servo wristServo;
-    public CRServo armWheel;
+    //public CRServo armWheel;
+
+    public CRServo intakeServoFront;
+    public CRServo intakeServo;
 
 
     public Servo armWristServo;
     public Servo armLeftRight;
     public Servo armChain;
     public Servo armPixelRot;
+
+    public Servo rightPixelHolder;
+    public Servo leftPixelHolder;
 
 
     //public TouchSensor armTouch;
@@ -104,6 +111,13 @@ public class NeoArmWrapper {
 
     EIntakeOuttakeMode intakeOuttakeMode = EIntakeOuttakeMode.INTAKE;
 
+    //EPixelHolderLocation pixelHolderLocation = EPixelHolderLocation.SINGLE;
+
+    int pixelHolderIndex = 0;//EPixelHolderLocation.SINGLE;
+    ArrayList<EPixelHolderLocation> pixelHolderList = new ArrayList<EPixelHolderLocation>();
+
+    ArrayList<Double> pixelHolderListValues = new ArrayList<Double>();
+
     public NeoArmWrapper(Telemetry inTelemetry, HardwareMap inHardwareMap, Gamepad inGamepad1, Gamepad inGamepad2, Boolean inIsAuto){
         //Set Values
         telemetry = inTelemetry;
@@ -115,18 +129,37 @@ public class NeoArmWrapper {
         ActuatorMotorEx = hardwareMap.get(DcMotorEx.class,"ActuatorMotor");
         IntakeMotorEx = hardwareMap.get(DcMotorEx.class, "IntakeMotor");
 
+        intakeServo = hardwareMap.get(CRServo.class, "intakeServo");
+
+        intakeServoFront = hardwareMap.get(CRServo.class, "intakeServoFront");
+
         planeServo = hardwareMap.get(Servo.class, "planeServo");
 
         armServo0 = hardwareMap.get(Servo.class, "armServo0");
         armServo1 = hardwareMap.get(Servo.class, "armServo1");
         wristServo = hardwareMap.get(Servo.class, "wristServo");
 
-        armWheel = hardwareMap.get(CRServo.class, "armWheel");
+        //armWheel = hardwareMap.get(CRServo.class, "armWheel");
 
         armWristServo = hardwareMap.get(Servo.class, "armWrist");
         armLeftRight = hardwareMap.get(Servo.class, "armLeftRight");
         armChain = hardwareMap.get(Servo.class, "armChain");
         armPixelRot = hardwareMap.get(Servo.class,"armPixelRot");
+
+
+        rightPixelHolder = hardwareMap.get(Servo.class,"rightPixelHolder");
+        leftPixelHolder = hardwareMap.get(Servo.class,"leftPixelHolder");
+
+
+        pixelHolderList.add(EPixelHolderLocation.SINGLE);
+        pixelHolderList.add(EPixelHolderLocation.DOUBLE);
+        pixelHolderList.add(EPixelHolderLocation.SINGLE_UPSIDE_DOWN);
+        pixelHolderList.add(EPixelHolderLocation.SINGLE_UPSIDE_DOWN);
+
+        pixelHolderListValues.add(0.63);
+        pixelHolderListValues.add(0.3);
+        pixelHolderListValues.add(0.0);
+        pixelHolderListValues.add(1.0);
 
         //armTouch = hardwareMap.get(DigitalChannel.class, "armTouch");
 
@@ -143,6 +176,13 @@ public class NeoArmWrapper {
     public enum EIntakeOuttakeMode {
         INTAKE,
         OUTTAKE
+    }
+
+    public enum EPixelHolderLocation {
+        DOUBLE,
+        DOUBLE_UPSIDE_DOWN,
+        SINGLE,
+        SINGLE_UPSIDE_DOWN
     }
 
     public void UpdateSlidePosition(ePosition position){
@@ -169,8 +209,30 @@ public class NeoArmWrapper {
 
         }
     }
-    public void UpdateIntakePower(float power){
+    public void UpdateIntakePower(float power, JoystickWrapper joystickWrapper){
+
+        if(Math.abs(power)>0) {
+            rightPixelHolder.setPosition(.55);
+            leftPixelHolder.setPosition(.5);
+        } else {
+
+            if(joystickWrapper != null && joystickWrapper.gamepad2GetRightTriggerPressed()) {
+                rightPixelHolder.setPosition(.55);
+            } else {
+                rightPixelHolder.setPosition(.4);
+            }
+
+            if(joystickWrapper != null && joystickWrapper.gamepad2GetLeftTriggerPressed()) {
+                leftPixelHolder.setPosition(.5);
+            } else {
+                leftPixelHolder.setPosition(.38);
+            }
+        }
+
+
         IntakeMotorEx.setPower(power);
+        intakeServo.setPower(-power);
+        intakeServoFront.setPower(-power);
     }
 
 
@@ -517,8 +579,17 @@ public class NeoArmWrapper {
         ExtensionMotorEx1.setTargetPosition(0);
         ExtensionMotorEx2.setTargetPosition(0);*/
     }
+
+    public void DropRightBottomPixel() {
+
+    }
+
+    public void DropLeftTopPixel() {
+
+    }
+
     public void SetWheelSpin(double Power){
-        armWheel.setPower(Power);
+        //armWheel.setPower(Power);
         telemetry.addData("Wheel Power", Power);
     }
     public void ActivateLoop(){
@@ -588,6 +659,59 @@ public class NeoArmWrapper {
 
     }
 
+
+    public void setNextRotServoEnum() {
+
+        pixelHolderIndex++;
+        if(pixelHolderIndex >= pixelHolderList.size() ) {
+            pixelHolderIndex = 0;
+        }
+
+        updatePixelRotServo();
+    }
+
+    public void setPrevRotServoEnum() {
+
+        pixelHolderIndex--;
+        if(pixelHolderIndex < 0) {
+            pixelHolderIndex =  pixelHolderList.size()-1;
+        }
+
+        updatePixelRotServo();
+    }
+
+    public int getPixelHolderIndexByEnum(EPixelHolderLocation inRotHolderLocation) {
+
+        int index = 0;
+        for(int i = 0; i < pixelHolderList.size(); i++) {
+
+            if(pixelHolderList.get(i) == inRotHolderLocation) {
+                index = i;
+                break;
+            }
+        }
+
+        return  index;
+    }
+
+    public void setRotServoEnum(EPixelHolderLocation inRotHolderLocation) {
+        pixelHolderIndex = getPixelHolderIndexByEnum(inRotHolderLocation);
+    }
+
+    public double getPixelRotServoValue() {
+       return pixelHolderListValues.get(pixelHolderIndex);
+    }
+
+    public double getPixelRotServoValueByEnum(EPixelHolderLocation ePixelHolderLocation) {
+        return pixelHolderListValues.get(getPixelHolderIndexByEnum(ePixelHolderLocation));
+    }
+
+    public void updatePixelRotServo() {
+        if(intakeOuttakeMode == EIntakeOuttakeMode.OUTTAKE) {
+            armPixelRot.setPosition(getPixelRotServoValue());
+        }
+    }
+
     public void setIntakeNew() {
 
         act_lastError = 0;
@@ -601,13 +725,13 @@ public class NeoArmWrapper {
 
         intakeOuttakeMode = EIntakeOuttakeMode.INTAKE;
         RobotTaskSeries series = new RobotTaskSeries();
-        series.add(new ServoTask(armPixelRot, 0.63, 250, "armPixelRot", true));
+        series.add(new ServoTask(armPixelRot, getPixelRotServoValueByEnum(EPixelHolderLocation.SINGLE), 250, "armPixelRot", true));
 
         RobotTaskParallel parallel = new RobotTaskParallel();
         parallel.add(new ServoTask(armWristServo, .7, 500, "armWristServo", true));
         parallel.add(new ServoTask(armChain, 0.22, 500, "armChain", true));
         parallel.add(new ServoTask(armLeftRight, 0.49, 500, "armLeftRight", true));
-        parallel.add(new ServoTask(armPixelRot, 0.63, 500, "armPixelRot", true));
+        parallel.add(new ServoTask(armPixelRot, getPixelRotServoValueByEnum(EPixelHolderLocation.SINGLE), 500, "armPixelRot", true));
         parallel.add( new CallBackTask(new CallBackTask.CallBackListener() {
             @Override
             public void setPosition(double value) {
@@ -669,7 +793,7 @@ public class NeoArmWrapper {
         RobotTaskParallel parallel = new RobotTaskParallel();
         parallel.add(new ServoTask(armWristServo, .3, 600, "armWristServo", true));
         parallel.add(new ServoTask(armChain, 0.95, 600, "armChain", true));
-        parallel.add(new ServoTask(armPixelRot, 0.3, 600, "armPixelRot", true));
+        parallel.add(new ServoTask(armPixelRot, getPixelRotServoValueByEnum(EPixelHolderLocation.DOUBLE), 600, "armPixelRot", true));
 
 
         //parallel.add(new ServoTask(armLeftRight, 0.3, 10000, "armLeftRight", true));

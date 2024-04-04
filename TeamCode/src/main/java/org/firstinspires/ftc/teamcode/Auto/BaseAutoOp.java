@@ -238,7 +238,7 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
                 })
                 .splineTo(secondLocation, secondHeading)
                 .UNSTABLE_addTemporalMarkerOffset(.1, () -> {
-                    neoArmWrapper.UpdateIntakePower(1);
+                    neoArmWrapper.UpdateIntakePower(1, null);
                 })
                 .UNSTABLE_addTemporalMarkerOffset(1.1, () -> {
                     neoArmWrapper.OpenPos();
@@ -256,7 +256,7 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
                     neoArmWrapper.WristUp();
                 })
                 .UNSTABLE_addTemporalMarkerOffset(2.5, () -> {
-                    neoArmWrapper.UpdateIntakePower(0);
+                    neoArmWrapper.UpdateIntakePower(0, null);
                     neoArmWrapper.SetWheelSpin(0);
                 });
     }
@@ -277,7 +277,7 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
                 })
                 .splineTo(secondLocation, secondHeading)
                 .UNSTABLE_addTemporalMarkerOffset(.1, () -> {
-                    neoArmWrapper.UpdateIntakePower(1);
+                    neoArmWrapper.UpdateIntakePower(1, null);
                 })
                 .UNSTABLE_addTemporalMarkerOffset(1.1, () -> {
                     neoArmWrapper.OpenPos();
@@ -295,7 +295,7 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
                     neoArmWrapper.WristUp();
                 })
                 .UNSTABLE_addTemporalMarkerOffset(2.5, () -> {
-                    neoArmWrapper.UpdateIntakePower(0);
+                    neoArmWrapper.UpdateIntakePower(0, null);
                     neoArmWrapper.SetWheelSpin(0);
                 });
     }
@@ -323,7 +323,7 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
                     neoArmWrapper.SetWheelSpin(-0.2);
                 }) .splineTo(secondLocation, secondHeading)
                 .UNSTABLE_addTemporalMarkerOffset(.1, () -> {
-                    neoArmWrapper.UpdateIntakePower(1);
+                    neoArmWrapper.UpdateIntakePower(1, null);
                 })
                 .UNSTABLE_addTemporalMarkerOffset(1.1, () -> {
                     neoArmWrapper.OpenPos();
@@ -341,7 +341,7 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
                 .setReversed(false)
                 .UNSTABLE_addTemporalMarkerOffset(1.5, () -> {
                     neoArmWrapper.SetWheelSpin(0);
-                    neoArmWrapper.UpdateIntakePower(0);
+                    neoArmWrapper.UpdateIntakePower(0, null);
                     neoArmWrapper.ClosePos();
                     neoArmWrapper.WristUp();
                 });
