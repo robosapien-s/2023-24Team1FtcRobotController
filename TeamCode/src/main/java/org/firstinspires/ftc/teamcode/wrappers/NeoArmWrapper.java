@@ -154,7 +154,7 @@ public class NeoArmWrapper {
         pixelHolderList.add(EPixelHolderLocation.SINGLE);
         pixelHolderList.add(EPixelHolderLocation.DOUBLE);
         pixelHolderList.add(EPixelHolderLocation.SINGLE_UPSIDE_DOWN);
-        pixelHolderList.add(EPixelHolderLocation.SINGLE_UPSIDE_DOWN);
+        pixelHolderList.add(EPixelHolderLocation.DOUBLE_UPSIDE_DOWN);
 
         pixelHolderListValues.add(0.63);
         pixelHolderListValues.add(0.3);
@@ -216,16 +216,68 @@ public class NeoArmWrapper {
             leftPixelHolder.setPosition(.5);
         } else {
 
+            EPixelHolderLocation pixelHolderEnum = getCurrentPixelRotEnum();
             if(joystickWrapper != null && joystickWrapper.gamepad2GetRightTriggerPressed()) {
-                rightPixelHolder.setPosition(.55);
+
+
+                switch (pixelHolderEnum){
+                    case SINGLE_UPSIDE_DOWN:
+                    case DOUBLE:
+                        leftPixelHolder.setPosition(.5);
+                        break;
+                    case SINGLE:
+                    case DOUBLE_UPSIDE_DOWN:
+                        rightPixelHolder.setPosition(.55);
+                        break;
+                }
             } else {
-                rightPixelHolder.setPosition(.4);
+                switch (pixelHolderEnum){
+                    case SINGLE:
+                        rightPixelHolder.setPosition(.38);
+                        break;
+                    case DOUBLE:
+                        leftPixelHolder.setPosition(.4);
+                        break;
+                    case SINGLE_UPSIDE_DOWN:
+                        leftPixelHolder.setPosition(.38);
+                        break;
+                    case DOUBLE_UPSIDE_DOWN:
+                        rightPixelHolder.setPosition(.4);
+                        break;
+                }
             }
 
+
             if(joystickWrapper != null && joystickWrapper.gamepad2GetLeftTriggerPressed()) {
-                leftPixelHolder.setPosition(.5);
+                switch (pixelHolderEnum){
+                    case SINGLE:
+                        leftPixelHolder.setPosition(.55);
+                        break;
+                    case DOUBLE:
+                        rightPixelHolder.setPosition(.5);
+                        break;
+                    case SINGLE_UPSIDE_DOWN:
+                        rightPixelHolder.setPosition(.55);
+                        break;
+                    case DOUBLE_UPSIDE_DOWN:
+                        leftPixelHolder.setPosition(.5);
+                        break;
+                }
             } else {
-                leftPixelHolder.setPosition(.38);
+                switch (pixelHolderEnum){
+                    case SINGLE:
+                        leftPixelHolder.setPosition(.4);
+                        break;
+                    case DOUBLE:
+                        rightPixelHolder.setPosition(.38);
+                        break;
+                    case SINGLE_UPSIDE_DOWN:
+                        rightPixelHolder.setPosition(.4);
+                        break;
+                    case DOUBLE_UPSIDE_DOWN:
+                        leftPixelHolder.setPosition(.38);
+                        break;
+                }
             }
         }
 
@@ -706,6 +758,10 @@ public class NeoArmWrapper {
         return pixelHolderListValues.get(getPixelHolderIndexByEnum(ePixelHolderLocation));
     }
 
+    public EPixelHolderLocation getCurrentPixelRotEnum() {
+        return pixelHolderList.get(pixelHolderIndex);
+    }
+
     public void updatePixelRotServo() {
         if(intakeOuttakeMode == EIntakeOuttakeMode.OUTTAKE) {
             armPixelRot.setPosition(getPixelRotServoValue());
@@ -807,6 +863,8 @@ public class NeoArmWrapper {
 
 
         tasks.add(series);
+
+        setRotServoEnum(EPixelHolderLocation.DOUBLE);
 
     }
 
