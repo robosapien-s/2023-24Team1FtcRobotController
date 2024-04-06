@@ -57,6 +57,19 @@ public class ServoProgrammer {
             telemetry.addData("position",  servoArray.get(servoCounter).getPosition());
             telemetry.update();
         }
+
+        if(joystickWrapper.gamepad1GetY()) {
+            servoArray.get(servoCounter).setPosition(servoArray.get(servoCounter).getPosition()+.01);
+
+            telemetry.addData("position",  servoArray.get(servoCounter).getPosition());
+            telemetry.update();
+        }
+
+        if(joystickWrapper.gamepad1GetA()) {
+            servoArray.get(servoCounter).setPosition(servoArray.get(servoCounter).getPosition()-.01);
+            telemetry.addData("Target position",  servoArray.get(servoCounter).getPosition());
+            telemetry.update();
+        }
         telemetry.update();
     }
 

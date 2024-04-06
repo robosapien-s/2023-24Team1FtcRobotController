@@ -94,6 +94,8 @@ public class IMUWrapper{
         roll = orientation.getRoll(AngleUnit.DEGREES);
         yaw = orientation.getYaw(AngleUnit.DEGREES);
 
+        normalizedHeadingError = -yaw;
+
         if(joystickWrapper.gamepad1.b){
             targetHeading = -90;
         }
@@ -111,7 +113,6 @@ public class IMUWrapper{
         while (headingError > 180) headingError -= 360;
         while (headingError <= -180) headingError += 360;
 
-        normalizedHeadingError = headingError;
 
 
 

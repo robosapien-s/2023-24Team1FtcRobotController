@@ -460,7 +460,13 @@ public class NeoArmWrapper {
         executeTasks();
 
         if(imuWrapper != null) {
-            double headingOffset = imuWrapper.getNormalizedHeadingError();
+            double headingOffset = imuWrapper.getNormalizedHeadingError() - 90; //ONLY FOR RED OR BLUE, MUST BE FLIPPED FOR OTHER
+            if (headingOffset > 180) {
+                headingOffset-= 360;
+            } else if (headingOffset < -180) {
+                headingOffset +=360;
+            }
+
             setLeftRight(headingOffset);
         }
 
@@ -686,10 +692,12 @@ public class NeoArmWrapper {
 
 
         double upperBound = .69;
-        double lowerBound = .29;
+        double lowerBound = .27;
         double range = (upperBound - lowerBound) * 300;
-        double degreeBound = range / 2;
-        double midPoint = (upperBound + lowerBound) / 2;
+        double midPoint = .49;
+        double degreeBoundUpper = (upperBound-midPoint)*300;
+        double degreeBoundLower = (lowerBound-midPoint)*300;
+
 
         if(intakeOuttakeMode == EIntakeOuttakeMode.OUTTAKE) {//TODO:  need to also make sure that the armWrist is greater that a certain spot
 
@@ -698,10 +706,16 @@ public class NeoArmWrapper {
          } else {
          }
          */
-            if (headingError < 0 && Math.abs(headingError) > degreeBound) {
-                headingError = -degreeBound;
-            } else if (headingError > 0 && Math.abs(headingError) > degreeBound) {
-                headingError = degreeBound;
+            if (headingError > degreeBoundUpper) {
+                headingError = degreeBoundUpper;
+            } else if (headingError < degreeBoundLower) {
+                headingError = degreeBoundLower;
+            }
+
+            if(headingError<0) {
+                headingError *= 1.05; //TODO - ROBOT RIGHT, WRIST TURNED LEFT
+            } else {
+                headingError *= 1.22; //TODO - ROBOT RIGHT, WRIST TURNED LEFT
             }
 
             armLeftRight.setPosition(midPoint + headingError / 300);
