@@ -4,11 +4,11 @@ public class RedOrBlue {
     public static boolean isRed;
 
 
-    public void setRed() {
+    public static void setRed() {
         isRed = true;
     }
 
-    public void setBlue() {
+    public static void setBlue() {
         isRed = false;
     }
 }

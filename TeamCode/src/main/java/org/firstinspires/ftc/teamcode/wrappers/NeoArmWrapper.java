@@ -15,6 +15,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.OpModes.IMUWrapper;
 import org.firstinspires.ftc.teamcode.OpModes.NewDrive;
+import org.firstinspires.ftc.teamcode.OpModes.RedOrBlue;
 import org.firstinspires.ftc.teamcode.controllers.CallBackTask;
 import org.firstinspires.ftc.teamcode.controllers.IRobotTask;
 import org.firstinspires.ftc.teamcode.controllers.RobotTaskParallel;
@@ -460,7 +461,14 @@ public class NeoArmWrapper {
         executeTasks();
 
         if(imuWrapper != null) {
-            double headingOffset = imuWrapper.getNormalizedHeadingError() - 90; //ONLY FOR RED OR BLUE, MUST BE FLIPPED FOR OTHER
+            double headingOffset;
+            if (RedOrBlue.isRed) {
+                headingOffset = imuWrapper.getNormalizedHeadingError() - 90;
+            } else {
+                headingOffset = imuWrapper.getNormalizedHeadingError() + 90;
+            }
+
+
             if (headingOffset > 180) {
                 headingOffset-= 360;
             } else if (headingOffset < -180) {
