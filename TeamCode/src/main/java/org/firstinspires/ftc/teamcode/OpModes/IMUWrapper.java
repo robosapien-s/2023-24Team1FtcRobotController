@@ -130,7 +130,11 @@ public class IMUWrapper{
         Translation2d translation2d;
 
         if(joystickWrapper.gamepad1.left_stick_button){
-            translation2d =RotateAngle(joystickWrapper.gamepad1GetLeftStickX()*.25,joystickWrapper.gamepad1GetLeftStickY(),yaw);
+            if(joystickWrapper.gamepad1.right_stick_button){
+                translation2d =RotateAngle(joystickWrapper.gamepad1GetRightStickX()*.25,joystickWrapper.gamepad1GetRightStickY(),yaw);
+            }else {
+                translation2d =RotateAngle(joystickWrapper.gamepad1GetRightStickX()*.25,joystickWrapper.gamepad1GetRightStickY(),yaw+180);
+            }
         }else {
             translation2d =RotateAngle(joystickWrapper.gamepad1GetLeftStickX(),joystickWrapper.gamepad1GetLeftStickY(),yaw);
         }
@@ -161,6 +165,7 @@ public class IMUWrapper{
     }
 
     void MoveMecanum(double x,double y,double rx){
+        if ()
         frontLeftMotor.setPower(y + x + rx);
         backLeftMotor.setPower(y - x + rx);
         frontRightMotor.setPower(y - x - rx);
