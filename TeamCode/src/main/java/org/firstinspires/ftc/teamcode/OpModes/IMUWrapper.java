@@ -108,7 +108,15 @@ public class IMUWrapper{
             targetHeading = 90;
         }
         if (length(joystickWrapper.gamepad1GetRightStickX(), joystickWrapper.gamepad1GetRightStickY()) > .5) {
-            targetHeading = Math.toDegrees(Math.atan2(-joystickWrapper.gamepad1GetRightStickY(), joystickWrapper.gamepad1GetRightStickX())) + 90;
+            if(joystickWrapper.gamepad1.left_stick_button){
+                if (joystickWrapper.gamepad1.right_stick_button){
+                    targetHeading = Math.toDegrees(Math.atan2(-joystickWrapper.gamepad1GetLeftStickY(), joystickWrapper.gamepad1GetLeftStickX())) + 90;
+                }else{
+                    targetHeading = Math.toDegrees(Math.atan2(-joystickWrapper.gamepad1GetLeftStickY(), joystickWrapper.gamepad1GetLeftStickX())) + -90;
+                }
+            }else {
+                targetHeading = Math.toDegrees(Math.atan2(-joystickWrapper.gamepad1GetRightStickY(), joystickWrapper.gamepad1GetRightStickX())) + 90;
+            }
         }  // Save for telemetry
 
         // Determine the heading current error
@@ -134,15 +142,7 @@ public class IMUWrapper{
 
         Translation2d translation2d;
 
-        if(joystickWrapper.gamepad1.left_stick_button){
-            if(joystickWrapper.gamepad1.right_stick_button){
-                translation2d =RotateAngle(joystickWrapper.gamepad1GetRightStickX()*.25,joystickWrapper.gamepad1GetRightStickY(),yaw);
-            }else {
-                translation2d =RotateAngle(joystickWrapper.gamepad1GetRightStickX()*.25,joystickWrapper.gamepad1GetRightStickY(),yaw+180);
-            }
-        }else {
-            translation2d =RotateAngle(joystickWrapper.gamepad1GetLeftStickX(),joystickWrapper.gamepad1GetLeftStickY(),yaw);
-        }
+        translation2d =RotateAngle(joystickWrapper.gamepad1GetLeftStickX(),joystickWrapper.gamepad1GetLeftStickY(),yaw);
 
 
         if(isAutoMode && joystickWrapper.gamepad1GetLeftStick()) {
