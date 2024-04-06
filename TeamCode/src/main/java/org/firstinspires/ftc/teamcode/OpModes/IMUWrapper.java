@@ -17,6 +17,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.wrappers.JoystickWrapper;
+import org.firstinspires.ftc.teamcode.wrappers.NeoArmWrapper;
+import org.opencv.core.Mat;
 
 @Disabled
 public class IMUWrapper{
@@ -51,7 +53,10 @@ public class IMUWrapper{
 
     double rotateAngleOffset = 180;
 
-    public void Initialize(Telemetry inTelemetry,HardwareMap hardwareMap, Gamepad inGamepad1, Gamepad inGamepad2) {
+    NeoArmWrapper armWrapper;
+
+    public void Initialize(Telemetry inTelemetry,HardwareMap hardwareMap, Gamepad inGamepad1, Gamepad inGamepad2,NeoArmWrapper inArmWrapper) {
+        armWrapper = inArmWrapper;
 
         telemetry = inTelemetry;
 
@@ -80,9 +85,9 @@ public class IMUWrapper{
         //imu.resetYaw();
     }
 
-    public void InitializeResetImu(Telemetry inTelemetry,HardwareMap hardwareMap, Gamepad inGamepad1, Gamepad inGamepad2) {
+    public void InitializeResetImu(Telemetry inTelemetry,HardwareMap hardwareMap, Gamepad inGamepad1, Gamepad inGamepad2, NeoArmWrapper armWrapper) {
         rotateAngleOffset = 0;
-        Initialize(inTelemetry, hardwareMap, inGamepad1, inGamepad2);
+        Initialize(inTelemetry, hardwareMap, inGamepad1, inGamepad2,armWrapper);
         imu.resetYaw();
     }
 
@@ -130,7 +135,11 @@ public class IMUWrapper{
         Translation2d translation2d;
 
         if(joystickWrapper.gamepad1.left_stick_button){
-            translation2d =RotateAngle(joystickWrapper.gamepad1GetLeftStickX()*.25,joystickWrapper.gamepad1GetLeftStickY(),yaw);
+            if(joystickWrapper.gamepad1.right_stick_button){
+                translation2d =RotateAngle(joystickWrapper.gamepad1GetRightStickX()*.25,joystickWrapper.gamepad1GetRightStickY(),yaw);
+            }else {
+                translation2d =RotateAngle(joystickWrapper.gamepad1GetRightStickX()*.25,joystickWrapper.gamepad1GetRightStickY(),yaw+180);
+            }
         }else {
             translation2d =RotateAngle(joystickWrapper.gamepad1GetLeftStickX(),joystickWrapper.gamepad1GetLeftStickY(),yaw);
         }
@@ -161,6 +170,11 @@ public class IMUWrapper{
     }
 
     void MoveMecanum(double x,double y,double rx){
+        if(armWrapper.ExtensionMotorEx1.getCurrentPosition()>800){
+            y=y/1.5;
+            x=x/1.5;
+            rx= Math.min(rx,Math.max(-.5, Math.min(.5, rx)));
+        }
         frontLeftMotor.setPower(y + x + rx);
         backLeftMotor.setPower(y - x + rx);
         frontRightMotor.setPower(y - x - rx);
@@ -168,6 +182,7 @@ public class IMUWrapper{
     }
 
     Translation2d RotateAngle(double x,double y,double angle){
+
         double rAngle = Math.toRadians(angle+rotateAngleOffset);
 
         double rotatedX = x*Math.cos(rAngle) - y*Math.sin(rAngle);

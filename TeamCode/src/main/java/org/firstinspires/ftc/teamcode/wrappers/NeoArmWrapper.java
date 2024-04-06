@@ -823,7 +823,37 @@ public class NeoArmWrapper {
 
         intakeOuttakeMode = EIntakeOuttakeMode.INTAKE;
         RobotTaskSeries series = new RobotTaskSeries();
-        series.add(new ServoTask(armPixelRot, getPixelRotServoValueByEnum(EPixelHolderLocation.SINGLE), 250, "armPixelRot", true));
+
+        RobotTaskParallel pullBackArm = new RobotTaskParallel();
+        pullBackArm.add(new ServoTask(armPixelRot, getPixelRotServoValueByEnum(EPixelHolderLocation.SINGLE), 250, "armPixelRot", true));
+        pullBackArm.add(
+                new CallBackTask(new CallBackTask.CallBackListener() {
+                    @Override
+                    public void setPosition(double value) {
+                        ext_targetPosition = value;
+                    }
+
+                    @Override
+                    public double getPosition() {
+                        return ExtensionMotorEx1.getCurrentPosition();
+                    }
+                }, 300, 1000, "ExtensionMotorEx1", true)
+        );
+        pullBackArm.add(
+                new CallBackTask(new CallBackTask.CallBackListener() {
+                    @Override
+                    public void setPosition(double value) {
+                        act_targetPosition = value;
+                    }
+
+                    @Override
+                    public double getPosition() {
+                        return ActuatorMotorEx.getCurrentPosition();
+                    }
+                }, 300, 2000, "ActuatorMotorEx", true)
+        );
+
+        series.add(pullBackArm);
 
         RobotTaskParallel parallel = new RobotTaskParallel();
         parallel.add(new ServoTask(armWristServo, .7, 500, "armWristServo", true));
