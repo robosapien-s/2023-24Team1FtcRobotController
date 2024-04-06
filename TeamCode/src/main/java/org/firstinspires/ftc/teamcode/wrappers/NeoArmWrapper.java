@@ -470,6 +470,8 @@ public class NeoArmWrapper {
             setLeftRight(headingOffset);
         }
 
+        setArmChain(ActuatorMotorEx.getCurrentPosition());
+
         //TODO need to auto do wrise in outtake mode??
 //        if(ExtensionMotorEx1.getCurrentPosition() > actuatorTransitionPoint) {
 //            double fudgeFactor = .1;
@@ -688,6 +690,32 @@ public class NeoArmWrapper {
         }
     }
 
+
+    public void setArmChain(int actuatorPos) {
+        double a = 13;
+        double b = 5.5;
+        double actuatorToInches = (4.75-1.125)/6500; //constant conversion rate of actuator position to additional inches
+        double c = 7.75/*INCLUDES BASE EXTRA 1.125*/ + (double) actuatorPos*actuatorToInches; // the extra part based on current actuator length
+
+
+
+
+        double angle = Math.toDegrees(Math.acos((a*a+b*b-(c*c))/(2*a*b)));
+        telemetry.addData("Actuator Angle", angle);
+        if (intakeOuttakeMode == EIntakeOuttakeMode.OUTTAKE) {
+                //TODO: lower: angle:13.35,servo:0.693333333333333...
+                //TODO: upper: angle:42.535,servo:.8133333333
+            armChain.setPosition((.12/29.185)*(angle-42.535)+.813333333333);
+
+            telemetry.addData("armChainTarget",(.12/29.185)*(angle-42.535)+.813333333333);
+
+        }
+
+
+
+    }
+
+
     public void setLeftRight(double headingError) {
 
 
@@ -799,7 +827,7 @@ public class NeoArmWrapper {
 
         RobotTaskParallel parallel = new RobotTaskParallel();
         parallel.add(new ServoTask(armWristServo, .7, 500, "armWristServo", true));
-        parallel.add(new ServoTask(armChain, 0.22, 500, "armChain", true));
+        parallel.add(new ServoTask(armChain, 0, 500, "armChain", true));
         parallel.add(new ServoTask(armLeftRight, 0.49, 500, "armLeftRight", true));
         parallel.add(new ServoTask(armPixelRot, getPixelRotServoValueByEnum(EPixelHolderLocation.SINGLE), 500, "armPixelRot", true));
         parallel.add( new CallBackTask(new CallBackTask.CallBackListener() {
@@ -826,7 +854,7 @@ public class NeoArmWrapper {
 
         RobotTaskParallel parallel2 = new RobotTaskParallel();
         parallel2.add(new ServoTask(armWristServo, .8, 500, "armWristServo", true));
-        parallel2.add(new ServoTask(armChain, 0.283, 600, "armChain", true));
+        parallel2.add(new ServoTask(armChain, 0.063, 600, "armChain", true));
         parallel2.add( new CallBackTask(new CallBackTask.CallBackListener() {
             @Override
             public void setPosition(double value) {
@@ -854,7 +882,6 @@ public class NeoArmWrapper {
         //ext_targetPosition_delay_until = System.currentTimeMillis() + 500;
         ext_targetPosition = 500;
 
-        intakeOuttakeMode = EIntakeOuttakeMode.OUTTAKE;
         clearTasks();
 
         RobotTaskSeries series = new RobotTaskSeries();
@@ -862,7 +889,7 @@ public class NeoArmWrapper {
 
         RobotTaskParallel parallel = new RobotTaskParallel();
         parallel.add(new ServoTask(armWristServo, .3, 600, "armWristServo", true));
-        parallel.add(new ServoTask(armChain, 0.95, 600, "armChain", true));
+        parallel.add(new ServoTask(armChain, .7, 600, "armChain", true));
         parallel.add(new ServoTask(armPixelRot, getPixelRotServoValueByEnum(EPixelHolderLocation.DOUBLE), 600, "armPixelRot", true));
 
 
@@ -872,6 +899,17 @@ public class NeoArmWrapper {
 
 
         series.add(parallel);
+        series.add(new CallBackTask(new CallBackTask.CallBackListener() {
+            @Override
+            public void setPosition(double value) {
+                intakeOuttakeMode = EIntakeOuttakeMode.OUTTAKE;
+            }
+
+            @Override
+            public double getPosition() {
+                return 1;
+            }
+        }, 1, 1, "", true));
         //series.add(new ServoTask(armPixelRot, 0.3, 1250, "armPixelRot", true));
 
 
