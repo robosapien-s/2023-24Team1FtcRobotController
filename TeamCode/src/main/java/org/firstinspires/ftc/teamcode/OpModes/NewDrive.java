@@ -154,6 +154,7 @@ public class NewDrive extends LinearOpMode {
             armWrapper.UpdateIntakePower(gamepad1.right_trigger-gamepad1.left_trigger, joystickWrapper);
             armWrapper.UpdateExtensionPlusInput(joystickWrapper, 300, 300, wrapper);
 
+
             if(joystickWrapper.gamepad1GetX()) {
                 autoDropOffController.setDropLevel1();
             }
@@ -211,20 +212,24 @@ public class NewDrive extends LinearOpMode {
 
 
             if(joystickWrapper.gamepad2GetDDown()){
-                autoDropOffController.currentDropLevel = 0;
-                autoDropOffController.ledController.setCurrentIndex(autoDropOffController.currentDropLevel);
+                /*autoDropOffController.currentDropLevel = 0;
+                autoDropOffController.ledController.setCurrentIndex(autoDropOffController.currentDropLevel);*/
+                armWrapper.armChain.setPosition(armWrapper.armChain.getPosition()-.05);
             }
             if(joystickWrapper.gamepad2GetDRight()){
-                autoDropOffController.currentDropLevel = 1;
-                autoDropOffController.ledController.setCurrentIndex(autoDropOffController.currentDropLevel);
+                /*autoDropOffController.currentDropLevel = 1;
+                autoDropOffController.ledController.setCurrentIndex(autoDropOffController.currentDropLevel);*/
+                armWrapper.armChain.setPosition(armWrapper.armChain.getPosition()+.01);
             }
             if(joystickWrapper.gamepad2GetDLeft()){
-                autoDropOffController.currentDropLevel = 3;
-                autoDropOffController.ledController.setCurrentIndex(autoDropOffController.currentDropLevel);
+                /*autoDropOffController.currentDropLevel = 3;
+                autoDropOffController.ledController.setCurrentIndex(autoDropOffController.currentDropLevel);*/
+                armWrapper.armChain.setPosition(armWrapper.armChain.getPosition()-.01);
             }
             if(joystickWrapper.gamepad2GetDUp()){
-                autoDropOffController.currentDropLevel = 2;
-                autoDropOffController.ledController.setCurrentIndex(autoDropOffController.currentDropLevel);
+                /*autoDropOffController.currentDropLevel = 2;
+                autoDropOffController.ledController.setCurrentIndex(autoDropOffController.currentDropLevel);*/
+                armWrapper.armChain.setPosition(armWrapper.armChain.getPosition()+.05);
             }
 
 
@@ -249,6 +254,7 @@ public class NewDrive extends LinearOpMode {
 
             telemetry.addData("Actuator Pos", armWrapper.ActuatorMotorEx.getCurrentPosition());
             telemetry.addData("Extension1 Pos", armWrapper.ExtensionMotorEx1.getCurrentPosition());
+            telemetry.addData("armChainPos",armWrapper.armChain.getPosition());
 
             if(showArmTelemetry) {
                 telemetry.addData("Actuator Pos", armWrapper.ActuatorMotorEx.getCurrentPosition());
