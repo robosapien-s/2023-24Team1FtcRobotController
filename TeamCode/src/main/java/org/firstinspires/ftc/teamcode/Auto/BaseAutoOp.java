@@ -75,6 +75,7 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
         NewDrive.reset_imu = false;
 
     }
+
     public void run(){
     }
 

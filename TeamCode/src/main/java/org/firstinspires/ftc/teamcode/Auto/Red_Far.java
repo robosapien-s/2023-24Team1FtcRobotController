@@ -5,6 +5,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.teamcode.OpModes.RedOrBlue;
 import org.firstinspires.ftc.teamcode.drive.PoseStorage;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder;
@@ -183,10 +184,15 @@ public class Red_Far extends BaseAutoOp {
 
     }
 
+
+    RedOrBlue redOrBlue;
+
     @Override
     public void runOpMode() throws InterruptedException {
 
         initialize(new Pose2d(start_x,start_y, Math.toRadians(start_heading)), 1);
+
+        redOrBlue.setRed();
 
         TrajectorySequence trajectory1 = buildTragectory1();
         TrajectorySequence trajectory2 = buildTragectory2();

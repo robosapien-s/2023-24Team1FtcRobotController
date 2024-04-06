@@ -4,6 +4,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.teamcode.OpModes.RedOrBlue;
 import org.firstinspires.ftc.teamcode.drive.PoseStorage;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder;
@@ -123,11 +124,14 @@ public class Red_Close extends BaseAutoOp {
     public static double T1_dropWhite_heading = 0;
 
 
+    RedOrBlue redOrBlue;
 
     @Override
     public void runOpMode() throws InterruptedException {
 
         initialize(new Pose2d(15,-62, Math.toRadians(-90)), 1);
+
+        redOrBlue.setRed();
 
 
 
