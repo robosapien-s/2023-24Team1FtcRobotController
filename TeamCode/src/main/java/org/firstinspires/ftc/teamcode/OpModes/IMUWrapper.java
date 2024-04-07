@@ -107,24 +107,32 @@ public class IMUWrapper{
         if(joystickWrapper.gamepad1.x){
             targetHeading = 90;
         }
+
+
+        if (length(joystickWrapper.gamepad1GetLeftStickX(), joystickWrapper.gamepad1GetLeftStickY())>0.1) {
+            if (normalize(Math.toDegrees(Math.atan2(-joystickWrapper.gamepad1GetLeftStickY(),joystickWrapper.gamepad1GetLeftStickX()))+90)>45 || normalize(Math.toDegrees(Math.atan2(-joystickWrapper.gamepad1GetLeftStickY(),joystickWrapper.gamepad1GetLeftStickX()))+90)<-135) {
+                targetHeading = normalize(Math.toDegrees(Math.atan2(-joystickWrapper.gamepad1GetLeftStickY(),joystickWrapper.gamepad1GetLeftStickX()))+90);
+            } else {
+                targetHeading = normalize(Math.toDegrees(Math.atan2(-joystickWrapper.gamepad1GetLeftStickY(),joystickWrapper.gamepad1GetLeftStickX()))-90);
+            }
+        }
+
         if (length(joystickWrapper.gamepad1GetRightStickX(), joystickWrapper.gamepad1GetRightStickY()) > .5) {
-            if(joystickWrapper.gamepad1.left_stick_button){
+
+            /*if(joystickWrapper.gamepad1.left_stick_button){
                 if (joystickWrapper.gamepad1.right_stick_button){
                     targetHeading = Math.toDegrees(Math.atan2(-joystickWrapper.gamepad1GetLeftStickY(), joystickWrapper.gamepad1GetLeftStickX())) + 90;
                 }else{
                     targetHeading = Math.toDegrees(Math.atan2(-joystickWrapper.gamepad1GetLeftStickY(), joystickWrapper.gamepad1GetLeftStickX())) + - 90;
-                }
-            }else {
-                targetHeading = Math.toDegrees(Math.atan2(-joystickWrapper.gamepad1GetRightStickY(), joystickWrapper.gamepad1GetRightStickX())) + 90;
-            }
-        }  // Save for telemetry
+                }*/
+            /*}else {*/
+            targetHeading = normalize(Math.toDegrees(Math.atan2(-joystickWrapper.gamepad1GetRightStickY(), joystickWrapper.gamepad1GetRightStickX())) + 90);
+            //}
+        }   // Save for telemetry
 
         // Determine the heading current error
-        double headingError = (targetHeading - yaw)+rotateAngleOffset;
+        double headingError = normalize((targetHeading - yaw)+rotateAngleOffset);
 
-        // Normalize the error to be within +/- 180 degrees
-        while (headingError > 180) headingError -= 360;
-        while (headingError <= -180) headingError += 360;
 
 
 
@@ -208,5 +216,15 @@ public class IMUWrapper{
 
     public double getNormalizedHeadingError() {
         return normalizedHeadingError;
+    }
+
+    public double normalize(double angle) {
+        if (angle > 180) {
+            return angle-360;
+        } else if (angle < -180) {
+            return angle+360;
+        } else{
+            return angle;
+        }
     }
 }

@@ -869,6 +869,14 @@ public class NeoArmWrapper {
         RobotTaskParallel pullBackArm = new RobotTaskParallel();
         pullBackArm.add(new ServoTask(armLeftRight, 0.49, 500, "armLeftRight", true));
         pullBackArm.add(new ServoTask(armPixelRot, getPixelRotServoValueByEnum(EPixelHolderLocation.SINGLE), 250, "armPixelRot", true));
+        double extensionCoef = (ExtensionMotorEx1.getCurrentPosition()-59)/(2316-59);
+        double actuatorCoef = (ActuatorMotorEx.getCurrentPosition()-5)/(1854-5);
+        double timeCoef;
+        if (extensionCoef>actuatorCoef) {
+            timeCoef=extensionCoef;
+        } else {
+            timeCoef=actuatorCoef;
+        }
         pullBackArm.add(
                 new CallBackTask(new CallBackTask.CallBackListener() {
                     @Override
@@ -880,7 +888,7 @@ public class NeoArmWrapper {
                     public double getPosition() {
                         return ExtensionMotorEx1.getCurrentPosition();
                     }
-                }, 300, 1000, "ExtensionMotorEx1", true)
+                }, 300, (int) (1000*timeCoef), "ExtensionMotorEx1", true)
         );
         pullBackArm.add(
                 new CallBackTask(new CallBackTask.CallBackListener() {
@@ -893,7 +901,7 @@ public class NeoArmWrapper {
                     public double getPosition() {
                         return ActuatorMotorEx.getCurrentPosition();
                     }
-                }, 300, 2000, "ActuatorMotorEx", true)
+                }, 300, (int) (2000*timeCoef), "ActuatorMotorEx", true)
         );
 
         series.add(pullBackArm);
@@ -925,7 +933,7 @@ public class NeoArmWrapper {
 
 
         RobotTaskParallel parallel2 = new RobotTaskParallel();
-        parallel2.add(new ServoTask(armWristServo, .8, 500, "armWristServo", true));
+        parallel2.add(new ServoTask(armWristServo, .8, 600, "armWristServo", true));
         parallel2.add(new ServoTask(armChain, 0.063, 600, "armChain", true));
         parallel2.add( new CallBackTask(new CallBackTask.CallBackListener() {
             @Override
