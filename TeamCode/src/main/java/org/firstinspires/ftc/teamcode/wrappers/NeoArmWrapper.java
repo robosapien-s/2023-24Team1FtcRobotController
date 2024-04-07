@@ -1062,6 +1062,36 @@ public class NeoArmWrapper {
     }
 
 
+    public void PickupStack(){
+        long timer = 450;
+
+        if(intakeTimer == null) {
+            timer = 600;
+        } else {
+            intakeTimer.cancel();
+        }
+        intakeTimer = new Timer();
+
+        armServo0.setPower(.8);
+        armServo1.setPower(-.8);
+
+        intakeTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                armServo0.setPower(0);
+                armServo1.setPower(0);
+                intakeTimer.cancel();
+            }
+        }, timer);
+
+
+
+
+
+        //armServo0.setPower(.5);
+        //armServo1.setPower(-.5);
+    }
+    
 
 
 }
