@@ -104,7 +104,6 @@ public class NewDrive extends LinearOpMode {
     public static int height1_Ext = 200;
 
 
-
     public static double height2_Distance = 16.5;
     public static int height2_Act = 200;
     public static int height2_Ext = 200;
@@ -166,11 +165,14 @@ public class NewDrive extends LinearOpMode {
 
             /*if(joystickWrapper.gamepad2GetDUp()) {
                 autoDropOffController.setNextDropLevel();
+
+
             }
 
             if(joystickWrapper.gamepad2GetDDown()) {
                 autoDropOffController.setPreviousDropLeve();
             }*/
+
 
 
             if(joystickWrapper.gamepad2GetLeftBumperDown()) {

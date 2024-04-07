@@ -31,6 +31,8 @@ import java.util.TimerTask;
 
 public class NeoArmWrapper {
 
+    double angle;
+
     Servo planeServo;
 
     Telemetry telemetry;
@@ -323,12 +325,33 @@ public class NeoArmWrapper {
         double newExtTargetPositionRequest = ext_targetPosition;
         double newActTargetPositionRequest = act_targetPosition;
 
-        if (joystickWrapper != null && Math.abs(joystickWrapper.gamepad2GetRightStickY()) > .5) {
-            newExtTargetPositionRequest = ExtensionMotorEx1.getCurrentPosition() + (int) (-joystickWrapper.gamepad2GetRightStickY() * slideEncoderFactor);
-        }
+
 
         if (joystickWrapper != null && Math.abs(joystickWrapper.gamepad2GetLeftStickY()) > .5) {
             newActTargetPositionRequest = ActuatorMotorEx.getCurrentPosition() + (int) (-joystickWrapper.gamepad2GetLeftStickY() * actuatorEncoderFactor);
+
+
+
+            //angle = 13.26, slide = 752
+            //angle = 36.56, slide = 2319
+
+
+            //actuator = 9, slide = 491
+            //actuator = 2946, slide = 2305
+
+            //double extensionActuatorRatio = 0.6176370446;
+
+           // newExtTargetPositionRequest = ExtensionMotorEx1.getCurrentPosition() + (int) (extensionActuatorRatio*(newActTargetPositionRequest-ActuatorMotorEx.getCurrentPosition()));
+
+            //double extensionAngleRatio = 67.2532188841; //(1567.0)/(23.3)
+            //newExtTargetPositionRequest = ExtensionMotorEx1.getCurrentPosition() + (int) (extensionAngleRatio*(getAngleGivenActuator((int) newActTargetPositionRequest)-angle));
+
+
+
+        }
+
+        if (joystickWrapper != null && Math.abs(joystickWrapper.gamepad2GetRightStickY()) > .5) {
+            newExtTargetPositionRequest = ExtensionMotorEx1.getCurrentPosition() + (int) (-joystickWrapper.gamepad2GetRightStickY() * slideEncoderFactor);
         }
 
         if(joystickWrapper != null) {
@@ -742,7 +765,7 @@ public class NeoArmWrapper {
 
 
 
-        double angle = Math.toDegrees(Math.acos((a*a+b*b-(c*c))/(2*a*b)));
+        angle = Math.toDegrees(Math.acos((a*a+b*b-(c*c))/(2*a*b)));
         telemetry.addData("Actuator Angle", angle);
         if (intakeOuttakeMode == EIntakeOuttakeMode.OUTTAKE) {
                 //TODO: lower: angle:13.35,servo:0.693333333333333...
@@ -752,9 +775,16 @@ public class NeoArmWrapper {
             telemetry.addData("armChainTarget",(.12/29.185)*(angle-42.535)+.813333333333);
 
         }
+    }
+
+    public double getAngleGivenActuator(int actuatorPos) {
+        double a = 13;
+        double b = 5.5;
+        double actuatorToInches = (4.75 - 1.125) / 6500; //constant conversion rate of actuator position to additional inches
+        double c = 7.75/*INCLUDES BASE EXTRA 1.125*/ + (double) actuatorPos * actuatorToInches; // the extra part based on current actuator length
 
 
-
+        return Math.toDegrees(Math.acos((a * a + b * b - (c * c)) / (2 * a * b)));
     }
 
 
