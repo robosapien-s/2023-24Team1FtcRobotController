@@ -234,15 +234,16 @@ public class NewDrive extends LinearOpMode {
             }
 
 
-            if(joystickWrapper.gamepad1GetRightBumperDown()){
-                if(isOpen){
-                    armWrapper.ClosePos();
-                    isOpen = false;
-                }else {
-                    armWrapper.OpenPos();
-                    isOpen = true;
-                }
-            }
+//            if(joystickWrapper.gamepad1GetRightBumperDown()){
+//                if(isOpen){
+//                    armWrapper.ClosePos();
+//                    isOpen = false;
+//                }else {
+//                    armWrapper.OpenPos();
+//                    isOpen = true;
+//                }
+//            }
+
             if(joystickWrapper.gamepad1GetLeftBumperDown()){
                 if(isDown){
                     armWrapper.WristUp();

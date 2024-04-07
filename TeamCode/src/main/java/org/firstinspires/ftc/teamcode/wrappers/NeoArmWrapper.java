@@ -46,8 +46,8 @@ public class NeoArmWrapper {
     float maxExtensionLength;
     float minExtensionLength;
 
-    public Servo armServo0;
-    public Servo armServo1;
+    public CRServo armServo0;
+    public CRServo armServo1;
     public Servo wristServo;
     //public CRServo armWheel;
 
@@ -91,6 +91,7 @@ public class NeoArmWrapper {
     private  double  arm_wrist_tagetPosition = arm_wrist_intake_pos;
 
     Timer loopTimer = null;
+    Timer intakeTimer = null;
 
 
 
@@ -136,8 +137,8 @@ public class NeoArmWrapper {
 
         planeServo = hardwareMap.get(Servo.class, "planeServo");
 
-        armServo0 = hardwareMap.get(Servo.class, "armServo0");
-        armServo1 = hardwareMap.get(Servo.class, "armServo1");
+        armServo0 = hardwareMap.get(CRServo.class, "armServo0");
+        armServo1 = hardwareMap.get(CRServo.class, "armServo1");
         wristServo = hardwareMap.get(Servo.class, "wristServo");
 
         //armWheel = hardwareMap.get(CRServo.class, "armWheel");
@@ -296,17 +297,13 @@ public class NeoArmWrapper {
         telemetry.update();
     }
 
-    public void setIsAuto(boolean inIsAuto) {
-        isAuto = inIsAuto;
-    }
-
     public void ClosePos(){
-        armServo0.setPosition(.75);
-        armServo1.setPosition(.57);
+        //armServo0.setPosition(.75);
+        //armServo1.setPosition(.57);
     }
     public void OpenPos(){
-        armServo0.setPosition(.95);
-        armServo1.setPosition(.35);
+        //armServo0.setPosition(.95);
+        //armServo1.setPosition(.35);
         telemetry.update();
     }
     public void WristUp(){
@@ -332,6 +329,43 @@ public class NeoArmWrapper {
 
         if (joystickWrapper != null && Math.abs(joystickWrapper.gamepad2GetLeftStickY()) > .5) {
             newActTargetPositionRequest = ActuatorMotorEx.getCurrentPosition() + (int) (-joystickWrapper.gamepad2GetLeftStickY() * actuatorEncoderFactor);
+        }
+
+        if(joystickWrapper != null) {
+            if(joystickWrapper.gamepad1GetRightBumperDown()){
+
+                long timer = 450;
+
+                if(intakeTimer == null) {
+                    timer = 600;
+                    intakeTimer = new Timer();
+                } else {
+                    intakeTimer.cancel();
+                    intakeTimer = new Timer();
+                }
+
+                armServo0.setPower(.8);
+                armServo1.setPower(-.8);
+
+                intakeTimer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        armServo0.setPower(0);
+                        armServo1.setPower(0);
+                        intakeTimer.cancel();
+                    }
+                }, timer);
+
+
+
+
+
+                //armServo0.setPower(.5);
+                //armServo1.setPower(-.5);
+            }/* else {
+                armServo0.setPower(0);
+                armServo1.setPower(0);
+            }*/
         }
 
         ext_targetPosition = newExtTargetPositionRequest;
