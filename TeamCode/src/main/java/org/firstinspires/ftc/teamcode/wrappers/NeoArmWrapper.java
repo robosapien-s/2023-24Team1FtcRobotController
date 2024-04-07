@@ -833,6 +833,7 @@ public class NeoArmWrapper {
         RobotTaskSeries series = new RobotTaskSeries();
 
         RobotTaskParallel pullBackArm = new RobotTaskParallel();
+        pullBackArm.add(new ServoTask(armLeftRight, 0.49, 500, "armLeftRight", true));
         pullBackArm.add(new ServoTask(armPixelRot, getPixelRotServoValueByEnum(EPixelHolderLocation.SINGLE), 250, "armPixelRot", true));
         pullBackArm.add(
                 new CallBackTask(new CallBackTask.CallBackListener() {
@@ -866,7 +867,6 @@ public class NeoArmWrapper {
         RobotTaskParallel parallel = new RobotTaskParallel();
         parallel.add(new ServoTask(armWristServo, .7, 500, "armWristServo", true));
         parallel.add(new ServoTask(armChain, 0, 500, "armChain", true));
-        parallel.add(new ServoTask(armLeftRight, 0.49, 500, "armLeftRight", true));
         parallel.add(new ServoTask(armPixelRot, getPixelRotServoValueByEnum(EPixelHolderLocation.SINGLE), 500, "armPixelRot", true));
         parallel.add( new CallBackTask(new CallBackTask.CallBackListener() {
             @Override
@@ -904,6 +904,20 @@ public class NeoArmWrapper {
                 return ExtensionMotorEx1.getCurrentPosition();
             }
         }, 0, 500, "lineralExt", true));
+
+        parallel2.add(
+                new CallBackTask(new CallBackTask.CallBackListener() {
+                    @Override
+                    public void setPosition(double value) {
+                        act_targetPosition = value;
+                    }
+
+                    @Override
+                    public double getPosition() {
+                        return ActuatorMotorEx.getCurrentPosition();
+                    }
+                }, 0, 400, "ActuatorMotorEx", true)
+        );
 
         series.add(parallel2);
 
