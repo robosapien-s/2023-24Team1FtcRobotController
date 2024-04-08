@@ -33,6 +33,13 @@ public class NeoArmWrapper {
 
     double angle;
 
+    boolean isWalking = false;
+
+
+    int lastActuator;
+    int lastExtension;
+
+
 
     Servo planeServo;
 
@@ -367,15 +374,30 @@ public class NeoArmWrapper {
 //        }
 
         if (joystickWrapper != null && Math.abs(joystickWrapper.gamepad2GetLeftStickY()) > .5) {
+            if (!joystickWrapper.gamepad2GetLeftStickDown()) {
+                if (!isWalking) {
+                    lastActuator = ActuatorMotorEx.getCurrentPosition();
+                    lastExtension = ExtensionMotorEx1.getCurrentPosition();
+                }
+            }
+
+            isWalking = true;
+
             newActTargetPositionRequest = ActuatorMotorEx.getCurrentPosition() + (int) (-joystickWrapper.gamepad2GetLeftStickY() * actuatorEncoderFactor);
 
             //newExtTargetPositionRequest = (0.6834 * newActTargetPositionRequest) + 112.1;
-            newExtTargetPositionRequest = (0.65 * newActTargetPositionRequest) + 112.1;
+            if (!joystickWrapper.gamepad2GetLeftStickDown()) {
+                newExtTargetPositionRequest = (0.65 * (newActTargetPositionRequest - lastActuator)) + lastExtension;
+            }
         }
 
         if (joystickWrapper != null && Math.abs(joystickWrapper.gamepad2GetRightStickY()) > .5) {
+
+            isWalking = false;
             newExtTargetPositionRequest = ExtensionMotorEx1.getCurrentPosition() + (int) (-joystickWrapper.gamepad2GetRightStickY() * slideEncoderFactor);
         }
+
+
 
         if(joystickWrapper != null) {
             if(joystickWrapper.gamepad1GetRightBumperDown()){
