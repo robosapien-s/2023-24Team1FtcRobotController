@@ -330,11 +330,17 @@ public class NeoArmWrapper {
 
         if (joystickWrapper != null && Math.abs(joystickWrapper.gamepad2GetLeftStickY()) > .5) {
             newActTargetPositionRequest = ActuatorMotorEx.getCurrentPosition() + (int) (-joystickWrapper.gamepad2GetLeftStickY() * actuatorEncoderFactor);
-            double k = 1.35980056; //TODO: Solve for this, coefficient of an imperfect angle measurement
+            double k = 1.35980056; //TODO: Solve for this, coefficient of an imperfect angle measurement -- SOLVED hypothetically, come back to this if not working
             newExtTargetPositionRequest = inchesToExtension(  //x_2 =
                     (extensionToInches(ExtensionMotorEx1.getCurrentPosition())  *   Math.sin(Math.toDegrees(60-(k*angle)))) // x_1 * sin(60˚-theta_1)
                     /(Math.sin(Math.toDegrees(60-(k*getAngleGivenActuator((int) newActTargetPositionRequest))))) //    /sin(60˚-theta_2)
             );
+
+            /**TODO: possible errors if doesn't work:
+             *      k is wrong
+             *      extensionToInches and inchesToExtension are imperfect
+             *      typed massive formula wrong -- I hate parentheses now
+             */
 
             //angle = 13.26, slide = 752
             //angle = 36.56, slide = 2319
