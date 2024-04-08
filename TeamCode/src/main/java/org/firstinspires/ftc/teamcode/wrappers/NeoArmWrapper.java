@@ -33,6 +33,7 @@ public class NeoArmWrapper {
 
     double angle;
 
+
     Servo planeServo;
 
     Telemetry telemetry;
@@ -329,8 +330,11 @@ public class NeoArmWrapper {
 
         if (joystickWrapper != null && Math.abs(joystickWrapper.gamepad2GetLeftStickY()) > .5) {
             newActTargetPositionRequest = ActuatorMotorEx.getCurrentPosition() + (int) (-joystickWrapper.gamepad2GetLeftStickY() * actuatorEncoderFactor);
-
-
+            double k = 1.35980056; //TODO: Solve for this, coefficient of an imperfect angle measurement
+            newExtTargetPositionRequest = inchesToExtension(  //x_2 =
+                    (extensionToInches(ExtensionMotorEx1.getCurrentPosition())  *   Math.sin(Math.toDegrees(60-(k*angle)))) // x_1 * sin(60˚-theta_1)
+                    /(Math.sin(Math.toDegrees(60-(k*getAngleGivenActuator((int) newActTargetPositionRequest))))) //    /sin(60˚-theta_2)
+            );
 
             //angle = 13.26, slide = 752
             //angle = 36.56, slide = 2319
@@ -1121,7 +1125,16 @@ public class NeoArmWrapper {
         //armServo0.setPower(.5);
         //armServo1.setPower(-.5);
     }
-    
+
+    public double extensionToInches(int extensionPos) {
+        double extToInRatio = 0.008797495682; //(35.875-15.5)/(2316-0)
+        return extensionPos*extToInRatio+15.5;
+    }
+
+    public int inchesToExtension(double inches) {
+        double extToInRatio = 0.008797495682; //(35.875-15.5)/(2316-0)
+        return (int) ((inches-15.5)/extToInRatio);
+    }
 
 
 }
