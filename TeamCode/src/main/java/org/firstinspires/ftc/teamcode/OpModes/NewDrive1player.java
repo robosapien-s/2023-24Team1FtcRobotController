@@ -58,7 +58,7 @@ public class NewDrive1player extends LinearOpMode {
             }
             armWrapper.SetWheelSpin(speed);
             armWrapper.UpdateIntakePower(gamepad1.right_trigger-gamepad1.left_trigger, joystickWrapper);
-            armWrapper.UpdateExtensionPlusInput(joystickWrapper, 200, 200, wrapper);
+            armWrapper.UpdateExtensionPlusInput(joystickWrapper, 200, 200, wrapper, null);
 
 
 

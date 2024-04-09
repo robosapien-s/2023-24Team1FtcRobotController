@@ -60,7 +60,7 @@ public class Blue_Close extends BaseAutoOp {
     public static int T2_dropYellow_ext = 852;
     public static double T2_dropYellow_wrist = .1;
 
-    public static double T2_pickUpWhite_x = -59.5;
+    public static double T2_pickUpWhite_x = -57.5;
     public static double T2_pickUpWhite_y =12;
     public static double T2_pickUpWhite_heading = 180;
 
@@ -256,6 +256,7 @@ public class Blue_Close extends BaseAutoOp {
         dropPurplePixel(trajectory2SequenceBuilder,
                 new Vector2d(T2_purplePixelLocation_x, T2_purplePixelLocation_y), Math.toRadians(T2_purplePixelLocation_heading)).build();
         //getArmReadyForYellowPixelDrop(trajectory2SequenceBuilder, T2_dropYellow_ext, T2_dropYellow_act, T2_dropYellow_wrist);
+
        performYellowPixelDrop(trajectory2SequenceBuilder,
                 new Vector2d(T2_dropYellow_x, T2_dropYellow_y), Math.toRadians(T2_dropYellow_heading));
         pickUpWhitePixels(trajectory2SequenceBuilder,

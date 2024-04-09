@@ -152,7 +152,7 @@ public class NewDrive extends LinearOpMode {
             wrapper.Update();
             armWrapper.SetWheelSpin(gamepad2.left_trigger-gamepad2.right_trigger);
             armWrapper.UpdateIntakePower(gamepad1.right_trigger-gamepad1.left_trigger, joystickWrapper);
-            armWrapper.UpdateExtensionPlusInput(joystickWrapper, 300, 300, wrapper);
+            armWrapper.UpdateExtensionPlusInput(joystickWrapper, 300, 300, wrapper, null);
 
 
             if(joystickWrapper.gamepad1GetX()) {
@@ -190,7 +190,7 @@ public class NewDrive extends LinearOpMode {
 
             if(joystickWrapper.gamepad2GetY()){
                 //armWrapper.setOuttake();
-                armWrapper.setOuttakeNew();
+                armWrapper.setOuttakeNew(true);
             }
 
             if(joystickWrapper.gamepad2GetB()){

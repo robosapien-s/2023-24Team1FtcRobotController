@@ -81,7 +81,9 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
 
     @Override
     public void  update() {
-
+        telemetry.addData("update", System.currentTimeMillis());
+        telemetry.update();
+        neoArmWrapper.UpdateExtensionPlusInput(null, 300, 300, null, imu);
     }
 
     protected TrajectorySequenceBuilder setInitialPose(Pose2d pose2d) {
@@ -117,6 +119,9 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
         })
                 .UNSTABLE_addTemporalMarkerOffset(.3, () -> {
                     neoArmWrapper.WristUp();
+                    neoArmWrapper.closeLeftPixelHolder();
+                    neoArmWrapper.closeRightPixelHolder();
+                    neoArmWrapper.setOuttakeNew(false);
                 })
                 .waitSeconds(1);
     }
@@ -214,13 +219,17 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
     protected TrajectorySequenceBuilder performYellowPixelDrop( TrajectorySequenceBuilder sequenceBuilder, Vector2d location, double heading) {
 
         return sequenceBuilder.splineTo(location, heading)
-                .UNSTABLE_addTemporalMarkerOffset(-.1, () -> {
-                    neoArmWrapper.SetWheelSpin(-.6);
+                .UNSTABLE_addTemporalMarkerOffset(1, () -> {
+
+                    neoArmWrapper.openLeftPixelHolder();
+                    neoArmWrapper.openRightPixelHolder();
                 })
-                .UNSTABLE_addTemporalMarkerOffset(1.5, () -> {
-                    neoArmWrapper.SetWheelSpin(0);
+                .UNSTABLE_addTemporalMarkerOffset(2, () -> {
+                    neoArmWrapper.closeRightPixelHolder();
+                    neoArmWrapper.closeLeftPixelHolder();
+
                 })
-                .waitSeconds(1.5)
+                .waitSeconds(2)
                 .setReversed(true);
     }
 
@@ -307,36 +316,37 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
 
         return sequenceBuilder.setReversed(true)
                 .UNSTABLE_addTemporalMarkerOffset(0.3, () -> {
-                    neoArmWrapper.armWristServo.setPosition(NeoArmWrapper.arm_wrist_intake_pos);
+                    //neoArmWrapper.armWristServo.setPosition(NeoArmWrapper.arm_wrist_intake_pos);
+                    neoArmWrapper.setIntakeNew();
                 })
-                .UNSTABLE_addTemporalMarkerOffset(0.7, () -> {
-                    neoArmWrapper.MoveExtensionMotors(-20);
-                    neoArmWrapper.MoveActuatorMotor(0);
-                })
+//                .UNSTABLE_addTemporalMarkerOffset(0.7, () -> {
+//                    neoArmWrapper.MoveExtensionMotors(-20);
+//                    neoArmWrapper.MoveActuatorMotor(0);
+//                })
                 .splineTo(firstLocation,firstHeading)
-                .waitSeconds(.5)
+               // .waitSeconds(.5)
                 .UNSTABLE_addTemporalMarkerOffset(1.5, () -> {
-                    neoArmWrapper.SetWheelSpin(1);
+                   // neoArmWrapper.SetWheelSpin(1);
                     neoArmWrapper.WristDown();
-                    neoArmWrapper.ClosePos();
+                   // neoArmWrapper.ClosePos();
                 })
                 .UNSTABLE_addTemporalMarkerOffset(2, () -> {
-                    neoArmWrapper.SetWheelSpin(-0.2);
+                   // neoArmWrapper.SetWheelSpin(-0.2);
                 }) .splineTo(secondLocation, secondHeading)
                 .UNSTABLE_addTemporalMarkerOffset(.1, () -> {
                     neoArmWrapper.UpdateIntakePower(1, null);
                 })
                 .UNSTABLE_addTemporalMarkerOffset(1.1, () -> {
-                    neoArmWrapper.OpenPos();
+                    neoArmWrapper.PickupStack();
                 })
                 .UNSTABLE_addTemporalMarkerOffset(2.1, () -> {
-                    neoArmWrapper.ClosePos();
+                    //neoArmWrapper.ClosePos();
                 })
                 .UNSTABLE_addTemporalMarkerOffset(3.1, () -> {
-                    neoArmWrapper.OpenPos();
+                    neoArmWrapper.PickupStack();
                 })
                 .UNSTABLE_addTemporalMarkerOffset(3.6, () -> {
-                    neoArmWrapper.ClosePos();
+                    //neoArmWrapper.ClosePos();
                 })
                 .waitSeconds(3.7)
                 .setReversed(false)

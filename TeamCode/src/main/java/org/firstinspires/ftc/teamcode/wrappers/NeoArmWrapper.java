@@ -7,12 +7,15 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.OpModes.IMUWrapper;
 import org.firstinspires.ftc.teamcode.OpModes.NewDrive;
 import org.firstinspires.ftc.teamcode.OpModes.RedOrBlue;
@@ -221,6 +224,24 @@ public class NeoArmWrapper {
 
         }
     }
+
+    public void openRightPixelHolder() {
+        rightPixelHolder.setPosition(.55);
+    }
+
+    public void closeRightPixelHolder() {
+        rightPixelHolder.setPosition(.38);
+    }
+
+    public void openLeftPixelHolder() {
+        leftPixelHolder.setPosition(.5);
+    }
+
+    public void closeLeftPixelHolder() {
+        leftPixelHolder.setPosition(.38);
+    }
+
+
     public void UpdateIntakePower(float power, JoystickWrapper joystickWrapper){
 
         if(Math.abs(power)>0) {
@@ -323,7 +344,7 @@ public class NeoArmWrapper {
         wristServo.setPosition(.78);
     }
 
-    public void UpdateExtensionPlusInput(JoystickWrapper joystickWrapper, int slideEncoderFactor, int actuatorEncoderFactor, IMUWrapper imuWrapper){
+    public void UpdateExtensionPlusInput(JoystickWrapper joystickWrapper, int slideEncoderFactor, int actuatorEncoderFactor, IMUWrapper imuWrapper, IMU imu){
 
 
         double actuatorLimit = 6500;
@@ -578,6 +599,27 @@ public class NeoArmWrapper {
             }
 
             setLeftRight(headingOffset);
+        } else if(imu != null) {
+
+            YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
+
+            double normalizedHeadingError = -orientation.getYaw(AngleUnit.DEGREES);
+
+            double headingOffset;
+            if (RedOrBlue.isRed) {
+                headingOffset = normalizedHeadingError - 90;
+            } else {
+                headingOffset = normalizedHeadingError + 90;
+            }
+
+            if (headingOffset > 180) {
+                headingOffset-= 360;
+            } else if (headingOffset < -180) {
+                headingOffset +=360;
+            }
+
+            setLeftRight(headingOffset);
+
         }
 
         setArmChain(ActuatorMotorEx.getCurrentPosition());
@@ -763,6 +805,8 @@ public class NeoArmWrapper {
         telemetry.addData("Wheel Power", Power);
     }
     public void ActivateLoop(){
+
+        /* TODO verify that this isn't being used
         if(loopTimer == null) {
             loopTimer = new Timer();
         }
@@ -770,11 +814,11 @@ public class NeoArmWrapper {
             @Override
             public void run() {
                 telemetry.addData("aaaa", System.currentTimeMillis());
-                UpdateExtensionPlusInput(null, 200, 200, null);
+                UpdateExtensionPlusInput(null, 200, 200, null, null);
                 telemetry.update();
             }
         }, 100);
-
+        */
     }
 
     public void DeactivateLoop(){
@@ -1043,7 +1087,7 @@ public class NeoArmWrapper {
 
     }
 
-    public void setOuttakeNew() {
+    public void setOuttakeNew(boolean rotateToDouble) {
         act_lastError = 0;
         act_targetPosition = 500;
 
@@ -1059,7 +1103,9 @@ public class NeoArmWrapper {
         RobotTaskParallel parallel = new RobotTaskParallel();
         parallel.add(new ServoTask(armWristServo, .3, 600, "armWristServo", true));
         parallel.add(new ServoTask(armChain, .7, 600, "armChain", true));
-        parallel.add(new ServoTask(armPixelRot, getPixelRotServoValueByEnum(EPixelHolderLocation.DOUBLE), 600, "armPixelRot", true));
+        if(rotateToDouble) {
+            parallel.add(new ServoTask(armPixelRot, getPixelRotServoValueByEnum(EPixelHolderLocation.DOUBLE), 600, "armPixelRot", true));
+        }
 
 
         //parallel.add(new ServoTask(armLeftRight, 0.3, 10000, "armLeftRight", true));
