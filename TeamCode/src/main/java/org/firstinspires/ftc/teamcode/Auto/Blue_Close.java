@@ -52,7 +52,7 @@ public class Blue_Close extends BaseAutoOp {
     public static double T2_purplePixelLocation_y =35.5;
     public static double T2_purplePixelLocation_heading = -65;
 
-    public static double T2_dropYellow_x = 51;
+    public static double T2_dropYellow_x = 46;
     public static double T2_dropYellow_y =34.5;
     public static double T2_dropYellow_heading = 0;
 
@@ -255,8 +255,8 @@ public class Blue_Close extends BaseAutoOp {
         getArmReady(trajectory2SequenceBuilder);
         dropPurplePixel(trajectory2SequenceBuilder,
                 new Vector2d(T2_purplePixelLocation_x, T2_purplePixelLocation_y), Math.toRadians(T2_purplePixelLocation_heading)).build();
-        getArmReadyForYellowPixelDrop(trajectory2SequenceBuilder, T2_dropYellow_ext, T2_dropYellow_act, T2_dropYellow_wrist);
-        performYellowPixelDrop(trajectory2SequenceBuilder,
+        //getArmReadyForYellowPixelDrop(trajectory2SequenceBuilder, T2_dropYellow_ext, T2_dropYellow_act, T2_dropYellow_wrist);
+       performYellowPixelDrop(trajectory2SequenceBuilder,
                 new Vector2d(T2_dropYellow_x, T2_dropYellow_y), Math.toRadians(T2_dropYellow_heading));
         pickUpWhitePixels(trajectory2SequenceBuilder,
                 new Vector2d(24, 12), Math.toRadians(180),
@@ -294,6 +294,7 @@ public class Blue_Close extends BaseAutoOp {
         while (!isStarted()){ //TODO: MAKE SURE TO USE updateTfod(), NOT detect()
             barcodeInt = blueClosePropWrapper.updateTfod();
         }
+        barcodeInt = 2; //TODO: MAKE SURE  TO GET RID
         waitForStart();
         run();
         if (barcodeInt == 1) {
