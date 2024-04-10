@@ -155,6 +155,7 @@ public class Red_Close extends BaseAutoOp {
         dropOffWhitePixels(trajectory2SequenceBuilder1,
                 new Vector2d(24, -12), Math.toRadians(0),
                 new Vector2d(T1_dropWhite_x, T1_dropWhite_y), Math.toRadians(T1_dropWhite_heading)
+                , 500, 1000
         );
 
         trajectory1 = park(trajectory2SequenceBuilder1, new Pose2d(T2_final_x,T2_final_y, Math.toRadians(T2_final_heading))).build();
@@ -277,7 +278,8 @@ public class Red_Close extends BaseAutoOp {
                 new Vector2d(T2_pickUpWhite_x, T2_pickUpWhite_y), Math.toRadians(T2_pickUpWhite_heading));
         dropOffWhitePixels(trajectory2SequenceBuilder,
                 new Vector2d(24, -12), Math.toRadians(0),
-                new Vector2d(T2_dropWhite_x, T2_dropWhite_y), Math.toRadians(T2_dropWhite_heading));
+                new Vector2d(T2_dropWhite_x, T2_dropWhite_y), Math.toRadians(T2_dropWhite_heading)
+        ,500, 1000);
 
 
         trajectory2 = park(trajectory2SequenceBuilder, new Pose2d(T2_final_x,T2_final_y, Math.toRadians(T2_final_heading))).build();
@@ -296,7 +298,8 @@ public class Red_Close extends BaseAutoOp {
 
         dropOffWhitePixels(trajectory2SequenceBuilder3,
                 new Vector2d(24, -12), Math.toRadians(0),
-                new Vector2d(T3_dropWhite_x, T3_dropWhite_y), Math.toRadians(T3_dropWhite_heading) );
+                new Vector2d(T3_dropWhite_x, T3_dropWhite_y), Math.toRadians(T3_dropWhite_heading) ,
+                500, 1000);
 
         trajectory3 = park(trajectory2SequenceBuilder3, new Pose2d(T2_final_x,T2_final_y, Math.toRadians(T2_final_heading))).build();
 

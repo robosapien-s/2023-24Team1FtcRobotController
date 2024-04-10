@@ -17,6 +17,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.OpModes.IMUWrapper;
+import org.firstinspires.ftc.teamcode.OpModes.InitActuatorPos;
 import org.firstinspires.ftc.teamcode.OpModes.NewDrive;
 import org.firstinspires.ftc.teamcode.OpModes.RedOrBlue;
 import org.firstinspires.ftc.teamcode.controllers.CallBackTask;
@@ -338,7 +339,7 @@ public class NeoArmWrapper {
         telemetry.update();
     }
     public void WristUp(){
-        wristServo.setPosition(.15);
+        wristServo.setPosition(.1);
     }
     public void WristDown(){
         wristServo.setPosition(.78);
@@ -606,7 +607,7 @@ public class NeoArmWrapper {
             double normalizedHeadingError = -orientation.getYaw(AngleUnit.DEGREES);
 
             double headingOffset;
-            if (RedOrBlue.isRed) {
+            if (!RedOrBlue.isRed) { //Opposite of TeleOp because starting orientation is flipped
                 headingOffset = normalizedHeadingError - 90;
             } else {
                 headingOffset = normalizedHeadingError + 90;
@@ -706,6 +707,16 @@ public class NeoArmWrapper {
         act_lastError = 0;
         act_targetPosition = acutator;
 
+        ext_lastError = 0;
+        ext_targetPosition = extension;
+    }
+
+    public void setActuatorPosition(double acutator) {
+        act_lastError = 0;
+        act_targetPosition = acutator;
+    }
+
+    public void setExtPosition(double extension) {
         ext_lastError = 0;
         ext_targetPosition = extension;
     }
@@ -1146,6 +1157,42 @@ public class NeoArmWrapper {
 
     }
 
+
+    public void primeArm() {
+        clearTasks();
+        RobotTaskSeries series = new RobotTaskSeries();
+
+        RobotTaskParallel parallel = new RobotTaskParallel();
+        parallel.add(new CallBackTask(new CallBackTask.CallBackListener() {
+            @Override
+            public void setPosition(double value) {
+                setIntakeNew();
+            }
+
+            @Override
+            public double getPosition() {
+                return ExtensionMotorEx1.getCurrentPosition();
+            }
+        }, 0, (1000), "ExtensionMotorEx1", true)
+        );
+        series.add(parallel);
+        series.add(parallel);
+
+        RobotTaskParallel parallel2 = new RobotTaskParallel();
+        parallel2.add(new CallBackTask(new CallBackTask.CallBackListener() {
+            @Override
+            public void setPosition(double value) {
+                act_targetPosition = value;
+            }
+
+            @Override
+            public double getPosition() {
+                return ExtensionMotorEx1.getCurrentPosition();
+            }
+        }, InitActuatorPos.actuatorPos, (1000), "ActuatorMotorEx", true));
+
+        tasks.add(series);
+    }
     public void executeTasks() {
 
         if(tasks.size()>0) {
