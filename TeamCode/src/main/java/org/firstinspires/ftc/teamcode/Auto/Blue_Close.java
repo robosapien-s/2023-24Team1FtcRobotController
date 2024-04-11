@@ -61,11 +61,11 @@ public class Blue_Close extends BaseAutoOp {
     public static double T2_dropYellow_wrist = .1;
 
     public static double T2_pickUpWhite_x = -59;
-    public static double T2_pickUpWhite_y =12;
+    public static double T2_pickUpWhite_y =9;
     public static double T2_pickUpWhite_heading = 180;
 
-    public static double T2_dropWhite_x = 48.5;
-    public static double T2_dropWhite_y =13;
+    public static double T2_dropWhite_x = 50;
+    public static double T2_dropWhite_y =16;
     public static double T2_dropWhite_heading = 45;
 
     public static double T2_final_x = 48;
@@ -257,7 +257,7 @@ public class Blue_Close extends BaseAutoOp {
         //getArmReadyForYellowPixelDrop(trajectory2SequenceBuilder, T2_dropYellow_ext, T2_dropYellow_act, T2_dropYellow_wrist);
 
        performYellowPixelDrop(trajectory2SequenceBuilder,
-                new Vector2d(T2_dropYellow_x, T2_dropYellow_y), Math.toRadians(T2_dropYellow_heading));
+                new Vector2d(T2_dropYellow_x, T2_dropYellow_y), Math.toRadians(T2_dropYellow_heading),500,900);
         pickUpWhitePixels(trajectory2SequenceBuilder,
                 new Vector2d(24, 12), Math.toRadians(180),
                 new Vector2d(T2_pickUpWhite_x, T2_pickUpWhite_y), Math.toRadians(T2_pickUpWhite_heading));
@@ -284,15 +284,16 @@ public class Blue_Close extends BaseAutoOp {
 
         dropOffWhitePixels(trajectory2SequenceBuilder3,
                 new Vector2d(T3_pickUpWhite1_x, T3_pickUpWhite1_y), Math.toRadians(0),
-                new Vector2d(T3_dropWhite_x, T3_dropWhite_y), Math.toRadians(T3_dropWhite_heading), 500, 1000 );
+                new Vector2d(T3_dropWhite_x, T3_dropWhite_y), Math.toRadians(T3_dropWhite_heading), 600, 1200 );
 
         trajectory3 = park(trajectory2SequenceBuilder3, new Pose2d(T2_final_x,T2_final_y, Math.toRadians(T3_final_heading))).build();
 
 
-
+        neoArmWrapper.setIntakeNew();
         blueClosePropWrapper.initTfod();
         while (!isStarted()){ //TODO: MAKE SURE TO USE updateTfod(), NOT detect()
             barcodeInt = blueClosePropWrapper.updateTfod();
+            neoArmWrapper.UpdateExtensionPlusInput(null, 300, 300, null, imu);
         }
         barcodeInt = 2; //TODO: MAKE SURE  TO GET RID
         waitForStart();

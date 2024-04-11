@@ -60,8 +60,8 @@ public class NeoArmWrapper {
     float maxExtensionLength;
     float minExtensionLength;
 
-    public CRServo armServo0;
-    public CRServo armServo1;
+    public Servo armServo0;
+    public Servo armServo1;
     public Servo wristServo;
     //public CRServo armWheel;
 
@@ -151,8 +151,8 @@ public class NeoArmWrapper {
 
         planeServo = hardwareMap.get(Servo.class, "planeServo");
 
-        armServo0 = hardwareMap.get(CRServo.class, "armServo0");
-        armServo1 = hardwareMap.get(CRServo.class, "armServo1");
+        armServo0 = hardwareMap.get(Servo.class, "armServo0");
+        armServo1 = hardwareMap.get(Servo.class, "armServo1");
         wristServo = hardwareMap.get(Servo.class, "wristServo");
 
         //armWheel = hardwareMap.get(CRServo.class, "armWheel");
@@ -423,7 +423,7 @@ public class NeoArmWrapper {
 
         if(joystickWrapper != null) {
             if(joystickWrapper.gamepad1GetRightBumperDown()){
-
+                /*
                 long timer = 450;
 
                 if(intakeTimer == null) {
@@ -447,7 +447,7 @@ public class NeoArmWrapper {
                 }, timer);
 
 
-
+                */
 
 
                 //armServo0.setPower(.5);
@@ -1231,6 +1231,7 @@ public class NeoArmWrapper {
 
 
     public void PickupStack(){
+        /*
         long timer = 450;
 
         if(intakeTimer == null) {
@@ -1258,6 +1259,20 @@ public class NeoArmWrapper {
 
         //armServo0.setPower(.5);
         //armServo1.setPower(-.5);
+        */
+
+    }
+
+    public void PickupStack5Turn(float amount){
+
+
+
+        armServo1.setPosition(amount*.2);
+        armServo0.setPosition(1-(amount*.2));
+
+
+        //armServo0.setPower(.5);
+        //armServo1.setPower(-.5);
     }
 
     public double extensionToInches(int extensionPos) {
@@ -1269,6 +1284,7 @@ public class NeoArmWrapper {
         double extToInRatio = 0.008797495682; //(35.875-15.5)/(2316-0)
         return (int) ((inches-15.5)/extToInRatio);
     }
+
 
 
 }
