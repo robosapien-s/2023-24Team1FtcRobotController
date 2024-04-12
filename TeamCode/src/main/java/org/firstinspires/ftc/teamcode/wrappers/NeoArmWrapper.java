@@ -752,6 +752,23 @@ public class NeoArmWrapper {
         act_targetPosition = pos;
     }
 
+    public void SetLinearActuatorTask(int pos){
+
+        tasks.add(
+                new CallBackTask(new CallBackTask.CallBackListener() {
+                    @Override
+                    public void setPosition(double value) {
+                        act_targetPosition = value;
+                    }
+
+                    @Override
+                    public double getPosition() {
+                        return ActuatorMotorEx.getCurrentPosition();
+                    }
+                }, 300, 300, "ActuatorMotorEx", true)
+        );
+    }
+
     public void MoveExtensionMotors(int position) {
 
         //ExtensionMotorEx1.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
@@ -1088,7 +1105,7 @@ public class NeoArmWrapper {
                     public double getPosition() {
                         return ActuatorMotorEx.getCurrentPosition();
                     }
-                }, 0, 400, "ActuatorMotorEx", true)
+                }, 0, 500, "ActuatorMotorEx", true)
         );
 
         series.add(parallel2);
@@ -1098,7 +1115,7 @@ public class NeoArmWrapper {
 
     }
 
-    public void setOuttakeNew(boolean rotateToDouble) {
+    public void setOuttakeNew(EPixelHolderLocation pixelLocation) {
         act_lastError = 0;
         act_targetPosition = 500;
 
@@ -1114,10 +1131,8 @@ public class NeoArmWrapper {
         RobotTaskParallel parallel = new RobotTaskParallel();
         parallel.add(new ServoTask(armWristServo, .3, 600, "armWristServo", true));
         parallel.add(new ServoTask(armChain, .7, 600, "armChain", true));
-        if(rotateToDouble) {
-            parallel.add(new ServoTask(armPixelRot, getPixelRotServoValueByEnum(EPixelHolderLocation.DOUBLE), 600, "armPixelRot", true));
-        }
 
+        parallel.add(new ServoTask(armPixelRot, getPixelRotServoValueByEnum(pixelLocation), 600, "armPixelRot", true));
 
         //parallel.add(new ServoTask(armLeftRight, 0.3, 10000, "armLeftRight", true));
         //parallel.add(new ServoTask(armPixelRot, 0.3, 600, "armPixelRot", true));

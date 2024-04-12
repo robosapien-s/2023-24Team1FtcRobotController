@@ -190,7 +190,7 @@ public class NewDrive extends LinearOpMode {
 
             if(joystickWrapper.gamepad2GetY()){
                 //armWrapper.setOuttake();
-                armWrapper.setOuttakeNew(true);
+                armWrapper.setOuttakeNew(NeoArmWrapper.EPixelHolderLocation.DOUBLE);
             }
 
             if(joystickWrapper.gamepad2GetB()){

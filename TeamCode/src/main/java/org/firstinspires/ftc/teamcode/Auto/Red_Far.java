@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.OpModes.RedOrBlue;
 import org.firstinspires.ftc.teamcode.drive.PoseStorage;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder;
+import org.firstinspires.ftc.teamcode.wrappers.NeoArmWrapper;
 
 @Config
 @Autonomous
@@ -24,13 +25,13 @@ public class Red_Far extends BaseAutoOp {
 
 
     //Purple pixel location
-    public static double T1_purplePixelLocation_x = -38;
-    public static double T1_purplePixelLocation_y =-35.5;
-    public static double T1_purplePixelLocation_heading = 0;
+    public static double T1_purplePixelLocation_x = -47;
+    public static double T1_purplePixelLocation_y =-48;
+    public static double T1_purplePixelLocation_heading = -90;
 
 
-    public static double T2_purplePixelLocation_x = -56;
-    public static double T2_purplePixelLocation_y =-24;
+    public static double T2_purplePixelLocation_x = -60;
+    public static double T2_purplePixelLocation_y =-28;
     public static double T2_purplePixelLocation_heading = 180;
 
 
@@ -41,13 +42,13 @@ public class Red_Far extends BaseAutoOp {
 
 
     //lineup for single white
-    public static double T1_lineUpSingleWhite_x = -38;
+    public static double T1_lineUpSingleWhite_x = -36;
     public static double T1_lineUpSingleWhite_y =-8.5;
     public static double T1_lineUpSingleWhite_heading = 0;
 
 
-    public static double T2_lineUpSingleWhite_x = -59;
-    public static double T2_lineUpSingleWhite_y =-25;
+    public static double T2_lineUpSingleWhite_x = -58;
+    public static double T2_lineUpSingleWhite_y =-12.5;
     public static double T2_lineUpSingleWhite_heading = 0;
 
 
@@ -59,31 +60,31 @@ public class Red_Far extends BaseAutoOp {
 
     //Pickup Pixels
     public static double T1_pickUpWhite2_x = -61;
-    public static double T1_pickUpWhite2_y =-8.5;
-    public static double T1_pickUpWhite2_heading = 180;  //Note trajectory is reversed
+    public static double T1_pickUpWhite2_y =-11.5;
+    public static double T1_pickUpWhite2_heading = 0;  //Note trajectory is reversed
 
 
-    public static double T2_pickUpWhite2_x = -63;
-    public static double T2_pickUpWhite2_y = -25;
-    public static double T2_pickUpWhite2_heading = 180;  //Note trajectory is reversed
+    public static double T2_pickUpWhite2_x = -62.3;
+    public static double T2_pickUpWhite2_y = -13.5;
+    public static double T2_pickUpWhite2_heading = 0;  //Note trajectory is reversed
 
-    public static double T3_pickUpWhite2_x = -63;
-    public static double T3_pickUpWhite2_y =-10.5;
-    public static double T3_pickUpWhite2_heading = 180;  //Note trajectory is reversed
+    public static double T3_pickUpWhite2_x = -56;
+    public static double T3_pickUpWhite2_y =-11;
+    public static double T3_pickUpWhite2_heading = 0;  //Note trajectory is reversed
 
 
     //Drop off
-    public static double T1_dropWhite_x = 46.5;
+    public static double T1_dropWhite_x = 45.5;
 
-    public static double T1_dropWhite_y =-34;
+    public static double T1_dropWhite_y =-35;
     public static double T1_second_dropWhite_y =-42;
     public static double T1_dropWhite_heading = 0;
 
 
 
-    public static double T2_dropWhite_x = 46.5;
+    public static double T2_dropWhite_x = 46;
 
-    public static double T2_dropWhite_y =-31;
+    public static double T2_dropWhite_y =-29;
     public static double T2_second_dropWhite_y =-29;
 
     public static double T2_dropWhite_heading = 0;
@@ -108,27 +109,53 @@ public class Red_Far extends BaseAutoOp {
 
     public TrajectorySequence buildTragectory1() {
 
+
+
+/*
         TrajectorySequenceBuilder trajectory2SequenceBuilder1 = setInitialPose((new Pose2d(start_x, start_y, Math.toRadians(start_heading))));
         getArmReady(trajectory2SequenceBuilder1);
-        dropPurplePixelFar(trajectory2SequenceBuilder1,
-                new Vector2d(Red_Far.T1_purplePixelLocation_x, Red_Far.T1_purplePixelLocation_y), Math.toRadians(Red_Far.T1_purplePixelLocation_heading));
+        dropPurplePixelLine(trajectory2SequenceBuilder1,
+                new Vector2d(Blue_Far.T1_purplePixelLocation_x, Blue_Far.T1_purplePixelLocation_y), Math.toRadians(Blue_Far.T1_purplePixelLocation_heading), false);
 
-        lineUpForSinglePixel(trajectory2SequenceBuilder1,
+        lineUpForSinglePixelFarBackBoard(trajectory2SequenceBuilder1,
+                new Vector2d(Blue_Far.T1_lineUpSingleWhite_x, Blue_Far.T1_lineUpSingleWhite_y), Math.toRadians(Blue_Far.T1_lineUpSingleWhite_heading));
+
+
+        pickUpOneFarWhitePixels(trajectory2SequenceBuilder1, new Vector2d(T1_pickUpWhite2_x, T1_pickUpWhite2_y),  Math.toRadians(T1_pickUpWhite2_heading-8));
+
+
+        return dropOffWhitePixels(trajectory2SequenceBuilder1,
+                new Vector2d(24, 12), Math.toRadians(0),
+                new Vector2d(T1_dropWhite_x, T1_dropWhite_y), Math.toRadians(T1_dropWhite_heading), 250, 650, NeoArmWrapper.EPixelHolderLocation.DOUBLE
+        ).build();
+*/
+
+
+
+
+        TrajectorySequenceBuilder trajectory2SequenceBuilder1 = setInitialPose((new Pose2d(start_x, start_y, Math.toRadians(start_heading))));
+        getArmReady(trajectory2SequenceBuilder1);
+        dropPurplePixelLine(trajectory2SequenceBuilder1,
+                new Vector2d(Red_Far.T1_purplePixelLocation_x, Red_Far.T1_purplePixelLocation_y), Math.toRadians(Red_Far.T1_purplePixelLocation_heading), false).build();
+
+        trajectory2SequenceBuilder1.strafeLeft(7);
+        trajectory2SequenceBuilder1.back(12);
+        lineUpForSinglePixelFarBackBoard(trajectory2SequenceBuilder1,
                 new Vector2d(Red_Far.T1_lineUpSingleWhite_x, Red_Far.T1_lineUpSingleWhite_y), Math.toRadians(Red_Far.T1_lineUpSingleWhite_heading));
 
 
         pickUpOneFarWhitePixels(trajectory2SequenceBuilder1, new Vector2d(T1_pickUpWhite2_x, T1_pickUpWhite2_y),  Math.toRadians(T1_pickUpWhite2_heading));
 
 
-        dropOffWhitePixels(trajectory2SequenceBuilder1,
+
+        return dropOffWhitePixels(trajectory2SequenceBuilder1,
                 new Vector2d(24, -12), Math.toRadians(0),
-                new Vector2d(T1_dropWhite_x, T1_dropWhite_y), Math.toRadians(T1_dropWhite_heading),
-                new Vector2d(T1_dropWhite_x, T1_second_dropWhite_y)
-        );
+                new Vector2d(T1_dropWhite_x, T1_dropWhite_y), Math.toRadians(T1_dropWhite_heading), 250, 650, NeoArmWrapper.EPixelHolderLocation.DOUBLE
+        ).build();
 
-
+/*
         return park(trajectory2SequenceBuilder1,
-                new Pose2d(final_x, final_far_y, Math.toRadians(final_heading))).build();
+                new Pose2d(final_x, final_far_y, Math.toRadians(final_heading))).build();*/
 
     }
 
@@ -136,24 +163,23 @@ public class Red_Far extends BaseAutoOp {
 
         TrajectorySequenceBuilder trajectory2SequenceBuilder1 = setInitialPose((new Pose2d(start_x, start_y, Math.toRadians(start_heading))));
         getArmReady(trajectory2SequenceBuilder1);
-         dropPurplePixelFar(trajectory2SequenceBuilder1,
-                new Vector2d(Red_Far.T2_purplePixelLocation_x, Red_Far.T2_purplePixelLocation_y), Math.toRadians(Red_Far.T2_purplePixelLocation_heading));
+        dropPurplePixelLine(trajectory2SequenceBuilder1,
+                new Vector2d(Red_Far.T2_purplePixelLocation_x, Red_Far.T2_purplePixelLocation_y), Math.toRadians(Red_Far.T2_purplePixelLocation_heading), false);
 
-         lineUpForSinglePixelMiddle(trajectory2SequenceBuilder1,
+        lineUpForSinglePixelFarBackBoard(trajectory2SequenceBuilder1,
                 new Vector2d(Red_Far.T2_lineUpSingleWhite_x, Red_Far.T2_lineUpSingleWhite_y), Math.toRadians(Red_Far.T2_lineUpSingleWhite_heading));
 
-         pickUpOneFarWhitePixelsMiddle(trajectory2SequenceBuilder1, new Vector2d(T2_pickUpWhite2_x, T2_pickUpWhite2_y),  Math.toRadians(T2_pickUpWhite2_heading));
+        pickUpOneFarWhitePixels(trajectory2SequenceBuilder1, new Vector2d(T2_pickUpWhite2_x, T2_pickUpWhite2_y),  Math.toRadians(T2_pickUpWhite2_heading));
 
-         dropOffWhitePixelsRedMiddle(trajectory2SequenceBuilder1,
-                new Vector2d(-36,-12), Math.toRadians(0),
+
+        return dropOffWhitePixels(trajectory2SequenceBuilder1,
                 new Vector2d(24, -12), Math.toRadians(0),
-                new Vector2d(T2_dropWhite_x, T2_dropWhite_y), Math.toRadians(T2_dropWhite_heading),
-                new Vector2d(T2_dropWhite_x, T2_second_dropWhite_y)
-         );
+                new Vector2d(T2_dropWhite_x, T2_dropWhite_y), Math.toRadians(T2_dropWhite_heading), 250, 650, NeoArmWrapper.EPixelHolderLocation.DOUBLE
+        ).build();
 
 
-        return park(trajectory2SequenceBuilder1,
-                new Pose2d(final_x, final_far_y, Math.toRadians(final_heading))).build();
+//        return park(trajectory2SequenceBuilder1,
+//                new Pose2d(final_x, final_far_y, Math.toRadians(final_heading))).build();
 
     }
 
@@ -162,8 +188,8 @@ public class Red_Far extends BaseAutoOp {
 
         TrajectorySequenceBuilder trajectory2SequenceBuilder3 = setInitialPose((new Pose2d(start_x, start_y, Math.toRadians(start_heading))));
         getArmReady(trajectory2SequenceBuilder3);
-        dropPurplePixelFar(trajectory2SequenceBuilder3,
-                new Vector2d(Red_Far.T3_purplePixelLocation_x, Red_Far.T3_purplePixelLocation_y), Math.toRadians(Red_Far.T3_purplePixelLocation_heading));
+        dropPurplePixelLine(trajectory2SequenceBuilder3,
+                new Vector2d(Red_Far.T3_purplePixelLocation_x, Red_Far.T3_purplePixelLocation_y), Math.toRadians(Red_Far.T3_purplePixelLocation_heading), false);
 
         lineUpForSinglePixelFarBackBoard(trajectory2SequenceBuilder3,
                 new Vector2d(Red_Far.T3_lineUpSingleWhite_x, Red_Far.T3_lineUpSingleWhite_y), Math.toRadians(Red_Far.T3_lineUpSingleWhite_heading));
@@ -198,14 +224,15 @@ public class Red_Far extends BaseAutoOp {
         TrajectorySequence trajectory2 = buildTragectory2();
         TrajectorySequence trajectory3 = buildTragectory3();
 
+        neoArmWrapper.setIntakeNew();
         redFarPropWrapper.initTfod();
         while (!isStarted()){
             barcodeInt = redFarPropWrapper.updateTfod();
+            neoArmWrapper.UpdateExtensionPlusInput(null, 300, 300, null, imu);
         }
         waitForStart();
         run();
-        neoArmWrapper.ActivateLoop();
-
+        barcodeInt = 2;
         if (barcodeInt == 1) {
             drive.followTrajectorySequence(trajectory1);
         } else if (barcodeInt == 2) {
@@ -214,7 +241,11 @@ public class Red_Far extends BaseAutoOp {
             drive.followTrajectorySequence(trajectory3);
         }
         PoseStorage.currentPose = drive.getPoseEstimate();
-        neoArmWrapper.DeactivateLoop();
+
+        neoArmWrapper.setIntakeNew();
+        while (opModeIsActive()) {
+            neoArmWrapper.UpdateExtensionPlusInput(null, 300, 300, null, imu);
+        }
 
     }
 
