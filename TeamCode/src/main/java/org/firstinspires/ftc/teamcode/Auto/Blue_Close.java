@@ -281,7 +281,7 @@ public class Blue_Close extends BaseAutoOp {
 
         trajectory2 = dropOffWhitePixels(trajectory2SequenceBuilder,
                 new Vector2d(24, 12), Math.toRadians(0),
-                new Vector2d(T2_dropWhite_x, T2_dropWhite_y), Math.toRadians(T2_dropWhite_heading), 1200, 1200, NeoArmWrapper.EPixelHolderLocation.SINGLE).build();
+                new Vector2d(T2_dropWhite_x, T2_dropWhite_y), Math.toRadians(T2_dropWhite_heading), 3000, 1350, NeoArmWrapper.EPixelHolderLocation.SINGLE).build();
 
 //        pickUpWhitePixels(trajectory2SequenceBuilder,
 //                new Vector2d(24, 12), Math.toRadians(180),

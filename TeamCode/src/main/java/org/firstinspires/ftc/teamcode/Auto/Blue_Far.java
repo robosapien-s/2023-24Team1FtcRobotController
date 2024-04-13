@@ -234,8 +234,6 @@ public class Blue_Far extends BaseAutoOp {
         run();
         //neoArmWrapper.ActivateLoop();
 
-        barcodeInt = 1;
-
         if (barcodeInt == 1) {
             drive.followTrajectorySequence(trajectory1);
         } else if (barcodeInt == 2) {

@@ -348,6 +348,7 @@ public class NeoArmWrapper {
     public void UpdateExtensionPlusInput(JoystickWrapper joystickWrapper, int slideEncoderFactor, int actuatorEncoderFactor, IMUWrapper imuWrapper, IMU imu){
 
 
+
         double actuatorLimit = 6500;
         double actuatorTransitionPoint = 0;//300;
         double actuatorDelayTime = 0;//500;
@@ -659,6 +660,7 @@ public class NeoArmWrapper {
 //        }
 
 
+        telemetry.addData("Actuator Pos:", ActuatorMotorEx.getCurrentPosition());
 
     }
 

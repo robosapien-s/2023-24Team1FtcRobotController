@@ -232,7 +232,7 @@ public class Red_Far extends BaseAutoOp {
         }
         waitForStart();
         run();
-        barcodeInt = 2;
+
         if (barcodeInt == 1) {
             drive.followTrajectorySequence(trajectory1);
         } else if (barcodeInt == 2) {

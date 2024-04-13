@@ -36,7 +36,7 @@ public class NewDrive extends LinearOpMode {
 
     JoystickWrapper joystickWrapper;
 
-    AutoDropOffController autoDropOffController;
+    //AutoDropOffController autoDropOffController;
 
     boolean planeShot = false;
 
@@ -138,8 +138,8 @@ public class NewDrive extends LinearOpMode {
         reset_imu = true;
 
         joystickWrapper = new JoystickWrapper(gamepad1,gamepad2);
-        autoDropOffController = new AutoDropOffController(wrapper, armWrapper);
-        autoDropOffController.initAprilTag(hardwareMap);
+        //autoDropOffController = new AutoDropOffController(wrapper, armWrapper);
+        //autoDropOffController.initAprilTag(hardwareMap);
         waitForStart();
 
 
@@ -186,7 +186,7 @@ public class NewDrive extends LinearOpMode {
                 armWrapper.setNextRotServoEnum();
             }
 
-            autoDropOffController.telemetryAprilTag(telemetry, joystickWrapper, new Encoder(hardwareMap.get(DcMotorEx.class, "fL")),  new Encoder(hardwareMap.get(DcMotorEx.class, "bL")));
+            //autoDropOffController.telemetryAprilTag(telemetry, joystickWrapper, new Encoder(hardwareMap.get(DcMotorEx.class, "fL")),  new Encoder(hardwareMap.get(DcMotorEx.class, "bL")));
 
             if(joystickWrapper.gamepad2GetY()){
                 //armWrapper.setOuttake();
@@ -300,6 +300,6 @@ public class NewDrive extends LinearOpMode {
             }
         }
 
-        autoDropOffController.close();
+        //autoDropOffController.close();
     }
 }

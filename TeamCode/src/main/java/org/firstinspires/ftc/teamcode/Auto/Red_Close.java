@@ -211,7 +211,6 @@ public class Red_Close extends BaseAutoOp {
             neoArmWrapper.UpdateExtensionPlusInput(null, 300, 300, null, imu);
         }
 
-        barcodeInt = 3;
         waitForStart();
         run();
         //neoArmWrapper.ActivateLoop();
