@@ -401,9 +401,11 @@ public class NeoArmWrapper {
                     lastActuator = ActuatorMotorEx.getCurrentPosition();
                     lastExtension = ExtensionMotorEx1.getCurrentPosition();
                 }
+                isWalking = true;
+            } else {
+                isWalking = false;
             }
 
-            isWalking = true;
 
             newActTargetPositionRequest = ActuatorMotorEx.getCurrentPosition() + (int) (-joystickWrapper.gamepad2GetLeftStickY() * actuatorEncoderFactor);
 
@@ -794,6 +796,24 @@ public class NeoArmWrapper {
         ActuatorMotorEx.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
     }
 
+    public void ResetMotorPositionsWithoutZero(){
+
+        ActuatorMotorEx.setDirection(DcMotorEx.Direction.FORWARD);
+        //ActuatorMotorEx.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        ActuatorMotorEx.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        ActuatorMotorEx.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        ExtensionMotorEx1.setDirection(DcMotorEx.Direction.REVERSE);
+        //ExtensionMotorEx1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        ExtensionMotorEx1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        ExtensionMotorEx1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        ExtensionMotorEx2.setDirection(DcMotorEx.Direction.FORWARD);
+        //ExtensionMotorEx2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        ExtensionMotorEx2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        ExtensionMotorEx2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+    }
     public void ResetMotorPositions(){
 
         ActuatorMotorEx.setDirection(DcMotorEx.Direction.FORWARD);
@@ -1116,12 +1136,22 @@ public class NeoArmWrapper {
     }
 
     public void setOuttakeNew(EPixelHolderLocation pixelLocation) {
+        setOuttakeNew(pixelLocation, 500, 500);
+    }
+    public void setOuttakeNewWithActAndExt(EPixelHolderLocation pixelLocation, int actuatorPosition, int extPosition) {
+        setOuttakeNew(pixelLocation, actuatorPosition, extPosition);
+    }
+
+    public void setOuttakeNewWithAct(EPixelHolderLocation pixelLocation, int actuatorPosition) {
+        setOuttakeNew(pixelLocation, actuatorPosition, 500);
+    }
+    public void setOuttakeNew(EPixelHolderLocation pixelLocation, int actuatorPosition, int extPosition) {
         act_lastError = 0;
-        act_targetPosition = 500;
+        act_targetPosition = actuatorPosition;
 
         ext_lastError = 0;
         //ext_targetPosition_delay_until = System.currentTimeMillis() + 500;
-        ext_targetPosition = 500;
+        ext_targetPosition = extPosition;
 
         clearTasks();
 
@@ -1160,6 +1190,7 @@ public class NeoArmWrapper {
         setRotServoEnum(EPixelHolderLocation.DOUBLE);
 
     }
+
 
     public void clearTasks() {
 

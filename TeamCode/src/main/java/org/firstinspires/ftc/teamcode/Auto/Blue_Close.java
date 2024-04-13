@@ -42,7 +42,7 @@ public class Blue_Close extends BaseAutoOp {
     public static double T1_pickUpWhite2_heading = 180;
 
 
-    public static double T1_dropWhite_x = 50;
+    public static double T1_dropWhite_x = 51;
     public static double T1_dropWhite_y =16;
     public static double T1_dropWhite_heading = 45;
 
@@ -51,10 +51,10 @@ public class Blue_Close extends BaseAutoOp {
 
 
     public static double T2_purplePixelLocation_x = 26;
-    public static double T2_purplePixelLocation_y =37;
+    public static double T2_purplePixelLocation_y =36;
     public static double T2_purplePixelLocation_heading = 30;
 
-    public static double T2_dropYellow_x = 46.5;
+    public static double T2_dropYellow_x = 47;
     public static double T2_dropYellow_y =36.5;
     public static double T2_dropYellow_heading = 0;
 
@@ -62,8 +62,8 @@ public class Blue_Close extends BaseAutoOp {
     public static int T2_dropYellow_ext = 852;
     public static double T2_dropYellow_wrist = .1;
 
-    public static double T2_pickUpWhite_x = -56;
-    public static double T2_pickUpWhite_y =11;
+    public static double T2_pickUpWhite_x = -57;
+    public static double T2_pickUpWhite_y =7;
     public static double T2_pickUpWhite_heading = 180;
 
     public static double T2_dropWhite_x = 50;
@@ -83,8 +83,8 @@ public class Blue_Close extends BaseAutoOp {
 
 
 
-    public static double T3_dropYellow_x = 46.5;
-    public static double T3_dropYellow_y =28;
+    public static double T3_dropYellow_x = 48;
+    public static double T3_dropYellow_y =31;
     public static double T3_dropYellow_heading = 0;
 
 
@@ -98,14 +98,14 @@ public class Blue_Close extends BaseAutoOp {
 
 
 
-    public static double T3_pickUpWhite2_x = -56;
+    public static double T3_pickUpWhite2_x = -58;
     public static double T3_pickUpWhite2_y =11;
 
     public static double T3_pickUpWhite2_heading = 180;
 
 
 
-    public static double T3_dropWhite_x = 42.8;
+    public static double T3_dropWhite_x = 45;
     public static double T3_dropWhite_y =36;
     public static double T3_dropWhite_heading = 0;
 
@@ -144,7 +144,7 @@ public class Blue_Close extends BaseAutoOp {
 
         trajectory1 = dropOffWhitePixels(trajectory2SequenceBuilder1,
                 new Vector2d(T1_pickUpWhite_x, T1_pickUpWhite_y), Math.toRadians(0),
-                new Vector2d(T1_dropWhite_x, T1_dropWhite_y), Math.toRadians(T1_dropWhite_heading), 500, 1200, NeoArmWrapper.EPixelHolderLocation.SINGLE
+                new Vector2d(T1_dropWhite_x, T1_dropWhite_y), Math.toRadians(T1_dropWhite_heading), 1000, 1200, NeoArmWrapper.EPixelHolderLocation.SINGLE
         ).build();
 
        // trajectory1 = park(trajectory2SequenceBuilder1, new Pose2d(T2_final_x,T2_final_y, Math.toRadians(T1_final_heading))).build();
@@ -281,7 +281,7 @@ public class Blue_Close extends BaseAutoOp {
 
         trajectory2 = dropOffWhitePixels(trajectory2SequenceBuilder,
                 new Vector2d(24, 12), Math.toRadians(0),
-                new Vector2d(T2_dropWhite_x, T2_dropWhite_y), Math.toRadians(T2_dropWhite_heading), 500, 1200, NeoArmWrapper.EPixelHolderLocation.SINGLE).build();
+                new Vector2d(T2_dropWhite_x, T2_dropWhite_y), Math.toRadians(T2_dropWhite_heading), 1200, 1200, NeoArmWrapper.EPixelHolderLocation.SINGLE).build();
 
 //        pickUpWhitePixels(trajectory2SequenceBuilder,
 //                new Vector2d(24, 12), Math.toRadians(180),
@@ -310,11 +310,9 @@ public class Blue_Close extends BaseAutoOp {
 
         trajectory3 = dropOffWhitePixels(trajectory2SequenceBuilder3,
                 new Vector2d(T3_pickUpWhite1_x, T3_pickUpWhite1_y), Math.toRadians(0),
-                new Vector2d(T3_dropWhite_x, T3_dropWhite_y), Math.toRadians(T3_dropWhite_heading), 600, 1200, NeoArmWrapper.EPixelHolderLocation.SINGLE ).build();
+                new Vector2d(T3_dropWhite_x, T3_dropWhite_y), Math.toRadians(T3_dropWhite_heading), 1100, 1200, NeoArmWrapper.EPixelHolderLocation.SINGLE ).build();
 
         //trajectory3 = park(trajectory2SequenceBuilder3, new Pose2d(T2_final_x,T2_final_y, Math.toRadians(T3_final_heading))).build();
-
-
 
         neoArmWrapper.setIntakeNew();
         blueClosePropWrapper.initTfod();
@@ -322,7 +320,7 @@ public class Blue_Close extends BaseAutoOp {
             barcodeInt = blueClosePropWrapper.updateTfod();
             neoArmWrapper.UpdateExtensionPlusInput(null, 300, 300, null, imu);
         }
-        barcodeInt = 3; //TODO: MAKE SURE  TO GET RID
+        barcodeInt = 2; //TODO: MAKE SURE  TO GET RID
         waitForStart();
         run();
         if (barcodeInt == 1) {
