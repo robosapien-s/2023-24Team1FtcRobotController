@@ -25,12 +25,12 @@ public class Blue_Far extends BaseAutoOp {
 
 
     //Purple pixel location
-    public static double T3_purplePixelLocation_x = -37.5;
+    public static double T3_purplePixelLocation_x = -38.5;
     public static double T3_purplePixelLocation_y =33.5;
     public static double T3_purplePixelLocation_heading = 0;
 
 
-    public static double T2_purplePixelLocation_x = -51.5;
+    public static double T2_purplePixelLocation_x = -50;
     public static double T2_purplePixelLocation_y =37;
     public static double T2_purplePixelLocation_heading = 90;
 
@@ -76,15 +76,15 @@ public class Blue_Far extends BaseAutoOp {
     //Drop off
     public static double T3_dropWhite_x = 43.5;
 
-    public static double T3_dropWhite_y =35.5;
+    public static double T3_dropWhite_y =36;
     public static double T3_second_dropWhite_y =42;
     public static double T3_dropWhite_heading = 0;
 
 
 
-    public static double T2_dropWhite_x = 39.5;
+    public static double T2_dropWhite_x = 41;
 
-    public static double T2_dropWhite_y =33;
+    public static double T2_dropWhite_y =34.3;
     public static double T2_second_dropWhite_y =25;
 
     public static double T2_dropWhite_heading = 0;
@@ -121,9 +121,10 @@ public class Blue_Far extends BaseAutoOp {
         pickUpOneFarWhitePixels(trajectory2SequenceBuilder1, new Vector2d(T1_pickUpWhite2_x, T1_pickUpWhite2_y),  Math.toRadians(T1_pickUpWhite2_heading-4));
 
 
+        //TODO flip pixel holder
         return dropOffWhitePixels(trajectory2SequenceBuilder1,
                 new Vector2d(24, 12), Math.toRadians(0),
-                new Vector2d(T1_dropWhite_x, T1_dropWhite_y), Math.toRadians(T1_dropWhite_heading), 250, 650, NeoArmWrapper.EPixelHolderLocation.DOUBLE,2
+                new Vector2d(T1_dropWhite_x, T1_dropWhite_y), Math.toRadians(T1_dropWhite_heading), 750, 1200, NeoArmWrapper.EPixelHolderLocation.DOUBLE,2
         ).build();
 
 
@@ -147,7 +148,8 @@ public class Blue_Far extends BaseAutoOp {
         dropPurplePixelLine(trajectory2SequenceBuilder1,
                 new Vector2d(Blue_Far.T2_purplePixelLocation_x, Blue_Far.T2_purplePixelLocation_y), Math.toRadians(Blue_Far.T2_purplePixelLocation_heading), false);
 
-        trajectory2SequenceBuilder1.strafeLeft(15);
+        trajectory2SequenceBuilder1.strafeLeft(12);
+        //trajectory2SequenceBuilder1.strafeLeft(8);
 
         lineUpForSinglePixelFarBackBoard(trajectory2SequenceBuilder1,
                 new Vector2d(Blue_Far.T2_lineUpSingleWhite_x, Blue_Far.T1_lineUpSingleWhite_y), Math.toRadians(Blue_Far.T1_lineUpSingleWhite_heading));
@@ -158,7 +160,7 @@ public class Blue_Far extends BaseAutoOp {
 
         return dropOffWhitePixels(trajectory2SequenceBuilder1,
                 new Vector2d(24, 12), Math.toRadians(0),
-                new Vector2d(T2_dropWhite_x, T2_dropWhite_y), Math.toRadians(T1_dropWhite_heading), 700, 900, NeoArmWrapper.EPixelHolderLocation.SINGLE_UPSIDE_DOWN,2
+                new Vector2d(T2_dropWhite_x, T2_dropWhite_y), Math.toRadians(T1_dropWhite_heading), 750, 1200, NeoArmWrapper.EPixelHolderLocation.SINGLE_UPSIDE_DOWN,2
         ).build();
 
 
@@ -191,7 +193,7 @@ public class Blue_Far extends BaseAutoOp {
 
         return dropOffWhitePixels(trajectory2SequenceBuilder3,
                 new Vector2d(24, 12), Math.toRadians(0),
-                new Vector2d(T3_dropWhite_x, T3_dropWhite_y), Math.toRadians(T3_dropWhite_heading), 250, 650, NeoArmWrapper.EPixelHolderLocation.DOUBLE,2
+                new Vector2d(T3_dropWhite_x, T3_dropWhite_y), Math.toRadians(T3_dropWhite_heading), 750, 1200, NeoArmWrapper.EPixelHolderLocation.DOUBLE,2
         ).build();
 
 
@@ -224,9 +226,9 @@ public class Blue_Far extends BaseAutoOp {
         TrajectorySequence trajectory3 = buildTragectory3();
 
         neoArmWrapper.setIntakeNew();
-        blueClosePropWrapper.initTfod();
+        blueFarPropWrapper.initTfod();
         while (!isStarted()){ //TODO: MAKE SURE TO USE updateTfod(), NOT detect()
-            barcodeInt = blueClosePropWrapper.updateTfod();
+            barcodeInt = blueFarPropWrapper.updateTfod();
             neoArmWrapper.UpdateExtensionPlusInput(null, 300, 300, null, imu);
         }
 
