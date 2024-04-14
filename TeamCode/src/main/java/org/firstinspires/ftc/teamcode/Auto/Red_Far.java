@@ -150,7 +150,7 @@ public class Red_Far extends BaseAutoOp {
 
         return dropOffWhitePixels(trajectory2SequenceBuilder1,
                 new Vector2d(24, -12), Math.toRadians(0),
-                new Vector2d(T1_dropWhite_x, T1_dropWhite_y), Math.toRadians(T1_dropWhite_heading), 250, 650, NeoArmWrapper.EPixelHolderLocation.DOUBLE
+                new Vector2d(T1_dropWhite_x, T1_dropWhite_y), Math.toRadians(T1_dropWhite_heading), 250, 650, NeoArmWrapper.EPixelHolderLocation.DOUBLE,2
         ).build();
 
 /*
@@ -174,7 +174,7 @@ public class Red_Far extends BaseAutoOp {
 
         return dropOffWhitePixels(trajectory2SequenceBuilder1,
                 new Vector2d(24, -12), Math.toRadians(0),
-                new Vector2d(T2_dropWhite_x, T2_dropWhite_y), Math.toRadians(T2_dropWhite_heading), 250, 650, NeoArmWrapper.EPixelHolderLocation.DOUBLE
+                new Vector2d(T2_dropWhite_x, T2_dropWhite_y), Math.toRadians(T2_dropWhite_heading), 250, 750, NeoArmWrapper.EPixelHolderLocation.DOUBLE,2
         ).build();
 
 

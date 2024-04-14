@@ -964,6 +964,42 @@ public class NeoArmWrapper {
 
     }
 
+    public void setArmLeftRight(double position) {
+        armChain.setPosition(position);
+    }
+
+    public void setLeftRight2(double headingError) {
+
+
+        double upperBound = .69;
+        double lowerBound = .27;
+        double range = (upperBound - lowerBound) * 300;
+        double midPoint = .49;
+        double degreeBoundUpper = (upperBound-midPoint)*300;
+        double degreeBoundLower = (lowerBound-midPoint)*300;
+
+
+/*if(wristServo.getPosition<[threshold]) {
+            armLeftRight.setPosition(midPoint)
+         } else {
+         }
+         */
+            if (headingError > degreeBoundUpper) {
+                headingError = degreeBoundUpper;
+            } else if (headingError < degreeBoundLower) {
+                headingError = degreeBoundLower;
+            }
+
+            if(headingError<0) {
+                headingError *= 1.05; //TODO - ROBOT RIGHT, WRIST TURNED LEFT
+            } else {
+                headingError *= 1.22; //TODO - ROBOT RIGHT, WRIST TURNED LEFT
+            }
+
+            armLeftRight.setPosition(midPoint + headingError / 300);
+
+    }
+
 
     public void setNextRotServoEnum() {
 
@@ -1015,10 +1051,31 @@ public class NeoArmWrapper {
         return pixelHolderList.get(pixelHolderIndex);
     }
 
+    public void setIntakeOuttakeMode(EIntakeOuttakeMode mode) {
+        intakeOuttakeMode = mode;
+    }
+
     public void updatePixelRotServo() {
         if(intakeOuttakeMode == EIntakeOuttakeMode.OUTTAKE) {
             armPixelRot.setPosition(getPixelRotServoValue());
         }
+    }
+
+    public void setLeftRightServo(double position) {
+        armLeftRight.setPosition(position);
+    }
+
+    public void setArmPixelRotServo(EPixelHolderLocation location) {
+
+        armPixelRot.setPosition(getPixelRotServoValueByEnum(location));
+    }
+
+    public void setArmChainServo(double position) {
+        armChain.setPosition(position);
+    }
+
+    public void setArmWristServo(double position) {
+        armWristServo.setPosition(position);
     }
 
     public void setIntakeNew() {
@@ -1158,6 +1215,7 @@ public class NeoArmWrapper {
         clearTasks();
 
         RobotTaskSeries series = new RobotTaskSeries();
+
         series.add(new ServoTask(armWristServo, .5, 500, "armWristServo", true));
 
         RobotTaskParallel parallel = new RobotTaskParallel();

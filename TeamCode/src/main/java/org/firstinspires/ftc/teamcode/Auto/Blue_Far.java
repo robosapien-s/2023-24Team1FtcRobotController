@@ -35,7 +35,7 @@ public class Blue_Far extends BaseAutoOp {
     public static double T2_purplePixelLocation_heading = 90;
 
 
-    public static double T1_purplePixelLocation_x = -43.5;
+    public static double T1_purplePixelLocation_x = -41.5;
     public static double T1_purplePixelLocation_y =29;
     public static double T1_purplePixelLocation_heading = 180;
 
@@ -68,8 +68,8 @@ public class Blue_Far extends BaseAutoOp {
     public static double T2_pickUpWhite2_y = 24;
     public static double T2_pickUpWhite2_heading = 180;  //Note trajectory is reversed
 
-    public static double T1_pickUpWhite2_x = -61.5;
-    public static double T1_pickUpWhite2_y =12.5;
+    public static double T1_pickUpWhite2_x = -62.5;
+    public static double T1_pickUpWhite2_y =11.4;
     public static double T1_pickUpWhite2_heading = 0;  //Note trajectory is reversed
 
 
@@ -82,9 +82,9 @@ public class Blue_Far extends BaseAutoOp {
 
 
 
-    public static double T2_dropWhite_x = 45;
+    public static double T2_dropWhite_x = 39.5;
 
-    public static double T2_dropWhite_y =29;
+    public static double T2_dropWhite_y =33;
     public static double T2_second_dropWhite_y =25;
 
     public static double T2_dropWhite_heading = 0;
@@ -118,12 +118,12 @@ public class Blue_Far extends BaseAutoOp {
                 new Vector2d(Blue_Far.T1_lineUpSingleWhite_x, Blue_Far.T1_lineUpSingleWhite_y), Math.toRadians(Blue_Far.T1_lineUpSingleWhite_heading));
 
 
-        pickUpOneFarWhitePixels(trajectory2SequenceBuilder1, new Vector2d(T1_pickUpWhite2_x, T1_pickUpWhite2_y),  Math.toRadians(T1_pickUpWhite2_heading-8));
+        pickUpOneFarWhitePixels(trajectory2SequenceBuilder1, new Vector2d(T1_pickUpWhite2_x, T1_pickUpWhite2_y),  Math.toRadians(T1_pickUpWhite2_heading-4));
 
 
         return dropOffWhitePixels(trajectory2SequenceBuilder1,
                 new Vector2d(24, 12), Math.toRadians(0),
-                new Vector2d(T1_dropWhite_x, T1_dropWhite_y), Math.toRadians(T1_dropWhite_heading), 250, 650, NeoArmWrapper.EPixelHolderLocation.DOUBLE
+                new Vector2d(T1_dropWhite_x, T1_dropWhite_y), Math.toRadians(T1_dropWhite_heading), 250, 650, NeoArmWrapper.EPixelHolderLocation.DOUBLE,2
         ).build();
 
 
@@ -158,7 +158,7 @@ public class Blue_Far extends BaseAutoOp {
 
         return dropOffWhitePixels(trajectory2SequenceBuilder1,
                 new Vector2d(24, 12), Math.toRadians(0),
-                new Vector2d(T1_dropWhite_x, T1_dropWhite_y), Math.toRadians(T1_dropWhite_heading), 250, 650, NeoArmWrapper.EPixelHolderLocation.DOUBLE
+                new Vector2d(T2_dropWhite_x, T2_dropWhite_y), Math.toRadians(T1_dropWhite_heading), 700, 900, NeoArmWrapper.EPixelHolderLocation.SINGLE_UPSIDE_DOWN,2
         ).build();
 
 
@@ -191,7 +191,7 @@ public class Blue_Far extends BaseAutoOp {
 
         return dropOffWhitePixels(trajectory2SequenceBuilder3,
                 new Vector2d(24, 12), Math.toRadians(0),
-                new Vector2d(T3_dropWhite_x, T3_dropWhite_y), Math.toRadians(T3_dropWhite_heading), 250, 650, NeoArmWrapper.EPixelHolderLocation.DOUBLE
+                new Vector2d(T3_dropWhite_x, T3_dropWhite_y), Math.toRadians(T3_dropWhite_heading), 250, 650, NeoArmWrapper.EPixelHolderLocation.DOUBLE,2
         ).build();
 
 
@@ -243,10 +243,6 @@ public class Blue_Far extends BaseAutoOp {
         }
         PoseStorage.currentPose = drive.getPoseEstimate();
 
-        neoArmWrapper.setIntakeNew();
-        while (opModeIsActive()) {
-            neoArmWrapper.UpdateExtensionPlusInput(null, 300, 300, null, imu);
-        }
 
         //neoArmWrapper.DeactivateLoop();
 

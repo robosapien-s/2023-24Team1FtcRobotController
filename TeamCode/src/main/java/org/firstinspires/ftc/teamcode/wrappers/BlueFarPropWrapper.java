@@ -194,7 +194,7 @@ public class BlueFarPropWrapper {
             telemetry.addData("Image", "%s (%.0f %% Conf.)", theRecognition.getLabel(), theRecognition.getConfidence() * 100);
             telemetry.addData("- Position", "%.0f / %.0f", x, y);
             telemetry.addData("- Size", "%.0f x %.0f", theRecognition.getWidth(), theRecognition.getHeight());
-            if (x<800/3) {
+            if (x<600/3) {
                 barcodeInt = 1;
             } else if (x<1600/3) {
                 barcodeInt = 2;
