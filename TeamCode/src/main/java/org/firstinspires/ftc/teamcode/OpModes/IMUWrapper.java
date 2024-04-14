@@ -110,10 +110,18 @@ public class IMUWrapper{
 
 
         if (length(joystickWrapper.gamepad1GetLeftStickX(), joystickWrapper.gamepad1GetLeftStickY())>0.1) {
-            if (normalize(Math.toDegrees(Math.atan2(-joystickWrapper.gamepad1GetLeftStickY(),joystickWrapper.gamepad1GetLeftStickX()))+90)>45 || normalize(Math.toDegrees(Math.atan2(-joystickWrapper.gamepad1GetLeftStickY(),joystickWrapper.gamepad1GetLeftStickX()))+90)<-135) {
-                targetHeading = normalize(Math.toDegrees(Math.atan2(-joystickWrapper.gamepad1GetLeftStickY(),joystickWrapper.gamepad1GetLeftStickX()))+90);
-            } else {
-                targetHeading = normalize(Math.toDegrees(Math.atan2(-joystickWrapper.gamepad1GetLeftStickY(),joystickWrapper.gamepad1GetLeftStickX()))-90);
+            if(!RedOrBlue.isRed) {
+                if (normalize(Math.toDegrees(Math.atan2(-joystickWrapper.gamepad1GetLeftStickY(), joystickWrapper.gamepad1GetLeftStickX())) + 90) > 45 || normalize(Math.toDegrees(Math.atan2(-joystickWrapper.gamepad1GetLeftStickY(), joystickWrapper.gamepad1GetLeftStickX())) + 90) < -135) {
+                    targetHeading = normalize(Math.toDegrees(Math.atan2(-joystickWrapper.gamepad1GetLeftStickY(), joystickWrapper.gamepad1GetLeftStickX())) + 90);
+                } else {
+                    targetHeading = normalize(Math.toDegrees(Math.atan2(-joystickWrapper.gamepad1GetLeftStickY(), joystickWrapper.gamepad1GetLeftStickX())) - 90);
+                }
+            }else {
+                if (normalize(Math.toDegrees(Math.atan2(-joystickWrapper.gamepad1GetLeftStickY(), -joystickWrapper.gamepad1GetLeftStickX())) + 90) > 45 || normalize(Math.toDegrees(Math.atan2(-joystickWrapper.gamepad1GetLeftStickY(), -joystickWrapper.gamepad1GetLeftStickX())) + 90) < -135) {
+                    targetHeading = normalize(Math.toDegrees(Math.atan2(-joystickWrapper.gamepad1GetLeftStickY(), joystickWrapper.gamepad1GetLeftStickX())) + 90);
+                } else {
+                    targetHeading = normalize(Math.toDegrees(Math.atan2(-joystickWrapper.gamepad1GetLeftStickY(), joystickWrapper.gamepad1GetLeftStickX())) - 90);
+                }
             }
         }
 
