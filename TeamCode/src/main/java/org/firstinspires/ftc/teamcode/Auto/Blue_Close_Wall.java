@@ -94,9 +94,9 @@ public class Blue_Close_Wall extends BaseAutoOp {
 
 
 
-    public static double T3_pickUpWhite3_x = -55;
+    public static double T3_pickUpWhite3_x = -57.5;
 
-    public static double T3_pickUpWhite3_y = 34;
+    public static double T3_pickUpWhite3_y = 39.5;
 
     public static double T3_pickUpWhite3_heading = -150;
 
@@ -124,9 +124,9 @@ public class Blue_Close_Wall extends BaseAutoOp {
 
 
 
-    public static double T3_dropWhite_x = 45;
-    public static double T3_dropWhite_y =36;
-    public static double T3_dropWhite_heading = 0;
+    public static double T3_dropWhite_x = 55.5;
+    public static double T3_dropWhite_y =54;
+    public static double T3_dropWhite_heading = -45;
 
 
 
@@ -200,8 +200,8 @@ public class Blue_Close_Wall extends BaseAutoOp {
         );
         trajectory3 = dropOffWhitePixelsWall(trajectory2SequenceBuilder3,
                 new Vector2d(T3_pickUpWhite2_x, T3_pickUpWhite2_y), Math.toRadians(0),
-                new Vector2d(T3_pickUpWhite1_x, T3_pickUpWhite1_y), Math.toRadians(0),
-                new Vector2d(T3_dropWhite_x, T3_dropWhite_y), Math.toRadians(T3_dropWhite_heading), 1200, 1100, NeoArmWrapper.EPixelHolderLocation.SINGLE,0 ).build();
+                new Vector2d(T3_pickUpWhite1_x, T3_pickUpWhite2_y), Math.toRadians(0),
+                new Vector2d(T3_dropWhite_x, T3_dropWhite_y), Math.toRadians(T3_dropWhite_heading), 1200, 1200, NeoArmWrapper.EPixelHolderLocation.SINGLE,0 ).build();
         //trajectory3 = park(trajectory2SequenceBuilder3, new Pose2d(T2_final_x,T2_final_y, Math.toRadians(T3_final_heading))).build();
 
         neoArmWrapper.setIntakeNew();

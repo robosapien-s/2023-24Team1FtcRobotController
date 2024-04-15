@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.OpModes.RedOrBlue;
 import org.firstinspires.ftc.teamcode.drive.PoseStorage;
@@ -13,6 +14,7 @@ import org.firstinspires.ftc.teamcode.wrappers.NeoArmWrapper;
 
 @Config
 @Autonomous
+@Disabled
 public class Blue_Far_Wall extends BaseAutoOp {
 
 
