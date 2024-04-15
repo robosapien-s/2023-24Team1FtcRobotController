@@ -81,7 +81,7 @@ public class NeoArmWrapper {
     //public TouchSensor armTouch;
     public DigitalChannel armTouch;
 
-    boolean limit = true;
+    public boolean limit = true;
 
 
 
