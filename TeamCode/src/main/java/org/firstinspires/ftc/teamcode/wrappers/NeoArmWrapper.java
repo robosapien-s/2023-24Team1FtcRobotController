@@ -896,11 +896,15 @@ public class NeoArmWrapper {
         if (!hanged) {
             SetLinearActuator(5653);
             SetLinearExtensionPos(1900);
+
+            armWristServo.setPosition(.8);
+            armChain.setPosition(0.06);
         } else {
             SetLinearActuator(5653);
             SetLinearExtensionPos(1260);
         }
     }
+
 
 
     public void setArmChain(int actuatorPos) {

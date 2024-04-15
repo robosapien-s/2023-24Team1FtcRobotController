@@ -226,17 +226,17 @@ public class NewDrive extends LinearOpMode {
             if(joystickWrapper.gamepad2GetDRight()){
                 /*autoDropOffController.currentDropLevel = 1;
                 autoDropOffController.ledController.setCurrentIndex(autoDropOffController.currentDropLevel);*/
-                armWrapper.setOuttakeNew(armWrapper.getCurrentPixelRotEnum(),500,500);
+                armWrapper.setOuttakeNew(armWrapper.getCurrentPixelRotEnum(),700,700);
             }
             if(joystickWrapper.gamepad2GetDLeft()){
                 /*autoDropOffController.currentDropLevel = 3;
                 autoDropOffController.ledController.setCurrentIndex(autoDropOffController.currentDropLevel);*/
-                armWrapper.setOuttakeNew(armWrapper.getCurrentPixelRotEnum(),500,500);
+                armWrapper.setOuttakeNew(armWrapper.getCurrentPixelRotEnum(),1500,1000);
             }
             if(joystickWrapper.gamepad2GetDUp()){
                 /*autoDropOffController.currentDropLevel = 2;
                 autoDropOffController.ledController.setCurrentIndex(autoDropOffController.currentDropLevel);*/
-                armWrapper.setOuttakeNew(armWrapper.getCurrentPixelRotEnum(),500,500);
+                armWrapper.setOuttakeNew(armWrapper.getCurrentPixelRotEnum(),2000,1000);
             }
 
 

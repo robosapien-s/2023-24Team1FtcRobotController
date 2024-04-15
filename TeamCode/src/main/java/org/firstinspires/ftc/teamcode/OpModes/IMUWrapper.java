@@ -101,12 +101,7 @@ public class IMUWrapper{
 
         normalizedHeadingError = -yaw;
 
-        if(joystickWrapper.gamepad1.b){
-            targetHeading = -90;
-        }
-        if(joystickWrapper.gamepad1.x){
-            targetHeading = 90;
-        }
+
 
 
         if (length(joystickWrapper.gamepad1GetLeftStickX(), joystickWrapper.gamepad1GetLeftStickY())>0.1) {
@@ -137,6 +132,13 @@ public class IMUWrapper{
             targetHeading = normalize(Math.toDegrees(Math.atan2(-joystickWrapper.gamepad1GetRightStickY(), joystickWrapper.gamepad1GetRightStickX())) + 90);
             //}
         }   // Save for telemetry
+
+        if(joystickWrapper.gamepad1.b){
+            targetHeading = -90;
+        }
+        if(joystickWrapper.gamepad1.x){
+            targetHeading = 90;
+        }
 
         // Determine the heading current error
         double headingError = normalize((targetHeading - yaw)+rotateAngleOffset);
