@@ -134,6 +134,8 @@ public class NeoArmWrapper {
 
     ArrayList<Double> pixelHolderListValues = new ArrayList<Double>();
 
+    boolean isWristUp = true;
+
     public NeoArmWrapper(Telemetry inTelemetry, HardwareMap inHardwareMap, Gamepad inGamepad1, Gamepad inGamepad2, Boolean inIsAuto){
         //Set Values
         telemetry = inTelemetry;
@@ -339,9 +341,11 @@ public class NeoArmWrapper {
         telemetry.update();
     }
     public void WristUp(){
+        isWristUp = true;
         wristServo.setPosition(.1);
     }
     public void WristDown(){
+        isWristUp = false;
         wristServo.setPosition(.78);
     }
 
@@ -957,49 +961,18 @@ public class NeoArmWrapper {
                 headingError *= 1.22; //TODO - ROBOT RIGHT, WRIST TURNED LEFT
             }
 
-            armLeftRight.setPosition(midPoint + headingError / 300);
+            double newPosition = midPoint + (headingError / 300.0);
+
+            telemetry.addData("armLeftRight", newPosition);
+            telemetry.update();
+            armLeftRight.setPosition(newPosition);
         } else {
+            telemetry.addData("not calling", "not calling");
+            telemetry.update();
             //armLeftRight.setPosition(midPoint);
         }
 
     }
-
-    public void setArmLeftRight(double position) {
-        armChain.setPosition(position);
-    }
-
-    public void setLeftRight2(double headingError) {
-
-
-        double upperBound = .69;
-        double lowerBound = .27;
-        double range = (upperBound - lowerBound) * 300;
-        double midPoint = .49;
-        double degreeBoundUpper = (upperBound-midPoint)*300;
-        double degreeBoundLower = (lowerBound-midPoint)*300;
-
-
-/*if(wristServo.getPosition<[threshold]) {
-            armLeftRight.setPosition(midPoint)
-         } else {
-         }
-         */
-            if (headingError > degreeBoundUpper) {
-                headingError = degreeBoundUpper;
-            } else if (headingError < degreeBoundLower) {
-                headingError = degreeBoundLower;
-            }
-
-            if(headingError<0) {
-                headingError *= 1.05; //TODO - ROBOT RIGHT, WRIST TURNED LEFT
-            } else {
-                headingError *= 1.22; //TODO - ROBOT RIGHT, WRIST TURNED LEFT
-            }
-
-            armLeftRight.setPosition(midPoint + headingError / 300);
-
-    }
-
 
     public void setNextRotServoEnum() {
 

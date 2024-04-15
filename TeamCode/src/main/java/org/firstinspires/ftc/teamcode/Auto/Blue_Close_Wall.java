@@ -134,7 +134,7 @@ public class Blue_Close_Wall extends BaseAutoOp {
         //getArmReadyForYellowPixelDrop(trajectory2SequenceBuilder1, T1_dropYellow_ext, T1_dropYellow_act, T1_dropYellow_wrist);
         performYellowPixelDrop(trajectory2SequenceBuilder1,
                 new Vector2d(T1_dropYellow_x, T1_dropYellow_y), Math.toRadians(T1_dropYellow_heading));
-        trajectory1 = pickUpWhitePixelsFar(trajectory2SequenceBuilder1,
+        trajectory1 = pickUpWhitePixels(trajectory2SequenceBuilder1,
                 new Vector2d(T1_pickUpWhite_x, T1_pickUpWhite_y), Math.toRadians(T1_pickUpWhite_heading),
                 new Vector2d(T1_pickUpWhite2_x, T1_pickUpWhite2_y), Math.toRadians(T1_pickUpWhite2_heading)).build();
 

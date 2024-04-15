@@ -142,19 +142,14 @@ public class Red_Close extends BaseAutoOp {
 
         redOrBlue.setRed();
 
-
-
         TrajectorySequence trajectory1;
         TrajectorySequence trajectory2;
         TrajectorySequence trajectory3;
-
-
 
         TrajectorySequenceBuilder trajectory2SequenceBuilder1 = setInitialPose(new Pose2d(12, -62, Math.toRadians(-90)));
         getArmReady(trajectory2SequenceBuilder1);
         dropPurplePixelLine(trajectory2SequenceBuilder1,
                 new Vector2d(T1_purplePixelLocation_x, T1_purplePixelLocation_y), Math.toRadians(T1_purplePixelLocation_heading)).build();
-        //getArmReadyForYellowPixelDrop(trajectory2SequenceBuilder1, T1_dropYellow_ext, T1_dropYellow_act, T1_dropYellow_wrist);
         performYellowPixelDrop(trajectory2SequenceBuilder1,
                 new Vector2d(T1_dropYellow_x, T1_dropYellow_y), Math.toRadians(T1_dropYellow_heading), 900, 500);
         pickUpWhitePixels(trajectory2SequenceBuilder1,
@@ -173,7 +168,6 @@ public class Red_Close extends BaseAutoOp {
         getArmReady(trajectory2SequenceBuilder);
         dropPurplePixelLine(trajectory2SequenceBuilder,
                 new Vector2d(T2_purplePixelLocation_x, T2_purplePixelLocation_y), Math.toRadians(T2_purplePixelLocation_heading)).build();
-        //getArmReadyForYellowPixelDrop(trajectory2SequenceBuilder, T2_dropYellow_ext, T2_dropYellow_act, T2_dropYellow_wrist);
         performYellowPixelDrop(trajectory2SequenceBuilder,
                 new Vector2d(T2_dropYellow_x, T2_dropYellow_y), Math.toRadians(T2_dropYellow_heading), 900, 500);
         pickUpWhitePixels(trajectory2SequenceBuilder,
@@ -190,19 +184,17 @@ public class Red_Close extends BaseAutoOp {
         getArmReady(trajectory2SequenceBuilder3);
         dropPurplePixelLine(trajectory2SequenceBuilder3,
                 new Vector2d(T3_purplePixelLocation_x, T3_purplePixelLocation_y), Math.toRadians(T3_purplePixelLocation_heading)).build();
-        //getArmReadyForYellowPixelDrop(trajectory2SequenceBuilder3, T3_dropYellow_ext, T3_dropYellow_act, T3_dropYellow_wrist);
         performYellowPixelDrop(trajectory2SequenceBuilder3,
                 new Vector2d(T3_dropYellow_x, T3_dropYellow_y), Math.toRadians(T3_dropYellow_heading),900,500);
         pickUpWhitePixels(trajectory2SequenceBuilder3,
                 new Vector2d(T3_pickUpWhite1_x, T3_pickUpWhite1_y), Math.toRadians(T3_pickUpWhite1_heading),
                 new Vector2d(T3_pickUpWhite2_x, T3_pickUpWhite2_y), Math.toRadians(T3_pickUpWhite2_heading));
-
         trajectory3 = dropOffWhitePixels(trajectory2SequenceBuilder3,
                 new Vector2d(24, -12), Math.toRadians(0),
                 new Vector2d(T3_dropWhite_x, T3_dropWhite_y), Math.toRadians(T3_dropWhite_heading) ,
                 600, 1200, NeoArmWrapper.EPixelHolderLocation.SINGLE,0).build();
-
         //trajectory3 = park(trajectory2SequenceBuilder3, new Pose2d(T2_final_x,T2_final_y, Math.toRadians(T2_final_heading))).build();
+
 
         neoArmWrapper.setIntakeNew();
         redClosePropWrapper.initTfod();

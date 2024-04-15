@@ -140,6 +140,8 @@ public class NewDrive extends LinearOpMode {
         joystickWrapper = new JoystickWrapper(gamepad1,gamepad2);
         //autoDropOffController = new AutoDropOffController(wrapper, armWrapper);
         //autoDropOffController.initAprilTag(hardwareMap);
+
+        armWrapper.WristUp();
         waitForStart();
 
 

@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.OpModes.RedOrBlue;
 import org.firstinspires.ftc.teamcode.drive.PoseStorage;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder;
+import org.firstinspires.ftc.teamcode.wrappers.NeoArmWrapper;
 
 @Config
 @Autonomous
@@ -142,7 +143,7 @@ public class Blue_Far_Wall extends BaseAutoOp {
         dropOffWhitePixels(trajectory2SequenceBuilder1,
                 new Vector2d(24, 12), Math.toRadians(0),
                 new Vector2d(T1_dropWhite_x, T1_dropWhite_y), Math.toRadians(T1_dropWhite_heading),
-                new Vector2d(T1_dropWhite_x, T1_second_dropWhite_y)
+                1200, 1200, NeoArmWrapper.EPixelHolderLocation.SINGLE,0
         );
 
 
@@ -163,12 +164,12 @@ public class Blue_Far_Wall extends BaseAutoOp {
 
          pickUpOneFarWhitePixelsMiddle(trajectory2SequenceBuilder1, new Vector2d(T2_pickUpWhite2_x, T2_pickUpWhite2_y),  Math.toRadians(T2_pickUpWhite2_heading));
 
-         dropOffWhitePixelsBlueMiddle(trajectory2SequenceBuilder1,
-                new Vector2d(-36,10), Math.toRadians(0),
-                new Vector2d(24, 10), Math.toRadians(0),
+
+        dropOffWhitePixels(trajectory2SequenceBuilder1,
+                new Vector2d(24, 12), Math.toRadians(0),
                 new Vector2d(T2_dropWhite_x, T2_dropWhite_y), Math.toRadians(T2_dropWhite_heading),
-                new Vector2d(T2_dropWhite_x, T2_second_dropWhite_y)
-         );
+                1200, 1200, NeoArmWrapper.EPixelHolderLocation.SINGLE,0
+        );
 
 
         return park(trajectory2SequenceBuilder1,
@@ -190,12 +191,12 @@ public class Blue_Far_Wall extends BaseAutoOp {
         pickUpOneFarWhitePixels(trajectory2SequenceBuilder3, new Vector2d(T3_pickUpWhite2_x, T3_pickUpWhite2_y),  Math.toRadians(T3_pickUpWhite2_heading));
 
 
+
         dropOffWhitePixels(trajectory2SequenceBuilder3,
                 new Vector2d(24, 12), Math.toRadians(0),
-                new Vector2d(T3_dropWhite_x, T3_dropWhite_y), Math.toRadians(T3_dropWhite_heading),
-                new Vector2d(T3_dropWhite_x, T3_second_dropWhite_y)
+                new Vector2d(T3_dropWhite_x, T3_second_dropWhite_y), Math.toRadians(T3_second_dropWhite_y),
+                1200, 1200, NeoArmWrapper.EPixelHolderLocation.SINGLE,0
         );
-
 
         return park(trajectory2SequenceBuilder3,
                 new Pose2d(final_x, final_far_y, Math.toRadians(final_heading))).build();
