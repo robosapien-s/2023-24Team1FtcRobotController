@@ -159,7 +159,7 @@ public class Red_Close extends BaseAutoOp {
         trajectory1 = dropOffWhitePixels(trajectory2SequenceBuilder1,
                 new Vector2d(24, -12), Math.toRadians(0),
                 new Vector2d(T1_dropWhite_x, T1_dropWhite_y), Math.toRadians(T1_dropWhite_heading)
-                , 800, 1200, NeoArmWrapper.EPixelHolderLocation.SINGLE,1
+                , 800, 1200, NeoArmWrapper.EPixelHolderLocation.SINGLE,0
         ).build();
         //trajectory1 = park(trajectory2SequenceBuilder1, new Pose2d(T2_final_x,T2_final_y, Math.toRadians(T2_final_heading))).build();
 
@@ -176,7 +176,7 @@ public class Red_Close extends BaseAutoOp {
         trajectory2 = dropOffWhitePixels(trajectory2SequenceBuilder,
                 new Vector2d(24, -12), Math.toRadians(0),
                 new Vector2d(T2_dropWhite_x, T2_dropWhite_y), Math.toRadians(T2_dropWhite_heading)
-        ,1200, 1200, NeoArmWrapper.EPixelHolderLocation.SINGLE,1).build();
+        ,1200, 1200, NeoArmWrapper.EPixelHolderLocation.SINGLE,0).build();
         //trajectory2 = park(trajectory2SequenceBuilder, new Pose2d(T2_final_x,T2_final_y, Math.toRadians(T2_final_heading))).build();
 
 

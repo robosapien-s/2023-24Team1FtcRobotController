@@ -119,7 +119,7 @@ public class Blue_Far extends BaseAutoOp {
         //TODO flip pixel holder
         return dropOffWhitePixels(trajectory2SequenceBuilder1,
                 new Vector2d(24, 12), Math.toRadians(0),
-                new Vector2d(T1_dropWhite_x, T1_dropWhite_y), Math.toRadians(T1_dropWhite_heading), 750, 1200, NeoArmWrapper.EPixelHolderLocation.DOUBLE,2
+                new Vector2d(T1_dropWhite_x, T1_dropWhite_y), Math.toRadians(T1_dropWhite_heading), 750, 1200, NeoArmWrapper.EPixelHolderLocation.DOUBLE_UPSIDE_DOWN,0
         ).build();
 
 //        return park(trajectory2SequenceBuilder1,
@@ -140,7 +140,7 @@ public class Blue_Far extends BaseAutoOp {
         pickUpOneFarWhitePixels(trajectory2SequenceBuilder1, new Vector2d(T1_pickUpWhite2_x, T1_pickUpWhite2_y),  Math.toRadians(T1_pickUpWhite2_heading-8));
         return dropOffWhitePixels(trajectory2SequenceBuilder1,
                 new Vector2d(24, 12), Math.toRadians(0),
-                new Vector2d(T2_dropWhite_x, T2_dropWhite_y), Math.toRadians(T1_dropWhite_heading), 750, 1200, NeoArmWrapper.EPixelHolderLocation.SINGLE_UPSIDE_DOWN,2
+                new Vector2d(T2_dropWhite_x, T2_dropWhite_y), Math.toRadians(T1_dropWhite_heading), 750, 1200, NeoArmWrapper.EPixelHolderLocation.SINGLE_UPSIDE_DOWN,0
         ).build();
 //        return park(trajectory2SequenceBuilder1,
 //                new Pose2d(final_x, final_far_y, Math.toRadians(final_heading))).build();
@@ -156,14 +156,12 @@ public class Blue_Far extends BaseAutoOp {
         lineUpForSinglePixelFarBackBoard(trajectory2SequenceBuilder3,
                 new Vector2d(Blue_Far.T3_lineUpSingleWhite_x, Blue_Far.T3_lineUpSingleWhite_y), Math.toRadians(Blue_Far.T3_lineUpSingleWhite_heading));
         pickUpOneFarWhitePixels(trajectory2SequenceBuilder3, new Vector2d(T3_pickUpWhite2_x, T3_pickUpWhite2_y),  Math.toRadians(T3_pickUpWhite2_heading));
-        return dropOffWhitePixels(trajectory2SequenceBuilder3,
+        dropOffWhitePixels(trajectory2SequenceBuilder3,
                 new Vector2d(24, 12), Math.toRadians(0),
-                new Vector2d(T3_dropWhite_x, T3_dropWhite_y), Math.toRadians(T3_dropWhite_heading), 750, 1200, NeoArmWrapper.EPixelHolderLocation.DOUBLE,2
-        ).build();
-
-//        return park(trajectory2SequenceBuilder3,
-//                new Pose2d(final_x, final_far_y, Math.toRadians(final_heading))).build();
-
+                new Vector2d(T3_dropWhite_x, T3_dropWhite_y), Math.toRadians(T3_dropWhite_heading), 750, 1200, NeoArmWrapper.EPixelHolderLocation.DOUBLE,0
+        );
+        return  park(trajectory2SequenceBuilder3,
+               new Pose2d(final_x, final_far_y, Math.toRadians(final_heading))).build();
     }
 
 

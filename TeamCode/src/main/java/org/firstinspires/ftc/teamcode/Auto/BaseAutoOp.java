@@ -242,11 +242,11 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
 //                    if(setOuttake) {
 //                        neoArmWrapper.setOuttakeNewWithAct(NeoArmWrapper.EPixelHolderLocation.SINGLE,1000);
 //                    }
-                })
-        .waitSeconds(.8);
+                });
+      //  .waitSeconds(.8);
 
         if(setOuttake) {
-            setOutTake(builder, 0, NeoArmWrapper.EPixelHolderLocation.SINGLE, 600, 800, 0, 2.2);
+            setOutTake(builder, 0, NeoArmWrapper.EPixelHolderLocation.SINGLE, 600, 800, 0, 2);
         }
 
 
