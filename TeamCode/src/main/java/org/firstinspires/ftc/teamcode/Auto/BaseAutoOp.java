@@ -141,6 +141,12 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
 
     protected TrajectorySequenceBuilder setIntake(
             TrajectorySequenceBuilder sequenceBuilder) {
+        return  setIntake(sequenceBuilder, 3.4);
+    };
+
+
+    protected TrajectorySequenceBuilder setIntake(
+            TrajectorySequenceBuilder sequenceBuilder, double waitTime) {
 
         TrajectorySequenceBuilder builder =  sequenceBuilder
 
@@ -166,7 +172,7 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
                     neoArmWrapper.setArmChainServo(0.063);
                     neoArmWrapper.MoveExtensionMotors(0);
                     neoArmWrapper.MoveActuatorMotor(0);
-                }).waitSeconds(3.4);
+                }).waitSeconds(waitTime);
 
 
         return builder;
@@ -346,7 +352,7 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
                     //neoArmWrapper.setActuatorPosition(0);
                     neoArmWrapper.MoveExtensionMotors(250);
                 })
-                .waitSeconds(1.3)
+                .waitSeconds(1)
                 .setReversed(true);
     }
 
@@ -475,7 +481,7 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
 
 
 
-        setIntake(sequenceBuilder);
+        setIntake(sequenceBuilder, 2.5);
         return sequenceBuilder.setReversed(true)
 
                 .splineTo(firstLocation,firstHeading)
@@ -489,12 +495,13 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
                 .splineTo(new Vector2d(secondLocation.getX(), secondLocation.getY()), secondHeading)
                 // .lineToLinearHeading(new Pose2d(secondLocation.getX(),secondLocation.getY(), secondHeading))
 
-                .splineTo(thirdLocation, thirdHeading, SampleMecanumDrive.getVelocityConstraint(20,20,DriveConstants.TRACK_WIDTH),
+                .splineTo(thirdLocation, thirdHeading, SampleMecanumDrive.getVelocityConstraint(40,40,DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
 
-//                .lineToLinearHeading(new Pose2d(secondLocation.getX(),secondLocation.getY()), SampleMecanumDrive.getVelocityConstraint(15,15,DriveConstants.TRACK_WIDTH),
-//                        SampleMecanumDrive.getAccelerationConstraint(15))
-//
+                .lineToLinearHeading(new Pose2d(thirdLocation.getX()-1.5,thirdLocation.getY()-6.5, 0), SampleMecanumDrive.getVelocityConstraint(35,35,DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(35))
+
+
 
                 .UNSTABLE_addTemporalMarkerOffset(.1, () -> {
                     neoArmWrapper.UpdateIntakePower(1, null);
@@ -505,7 +512,12 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
                 .UNSTABLE_addTemporalMarkerOffset(1.5, () -> {
                     neoArmWrapper.PickupStack5Turn(1);
                 })
-                .waitSeconds(2.2)
+                .UNSTABLE_addTemporalMarkerOffset(2, () -> {
+                    neoArmWrapper.PickupStack5Turn(1);
+                })
+                .waitSeconds(2)
+                .lineToLinearHeading(new Pose2d(thirdLocation.getX(),thirdLocation.getY(), thirdHeading+Math.PI), SampleMecanumDrive.getVelocityConstraint(35,35,DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(35))
                 .setReversed(false);
 //                .UNSTABLE_addTemporalMarkerOffset(1, () -> {
 //                    neoArmWrapper.PickupStack5Turn(0);
@@ -569,7 +581,7 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
     ) {
 
 
-        setOutTake(sequenceBuilder, secondHeading, pixelLocation, actPos, extPos, 2.2, waitTime);
+        setOutTake(sequenceBuilder, thirdHeading, pixelLocation, actPos, extPos, 4, waitTime);
         sequenceBuilder.waitSeconds(1);
 
         TrajectorySequenceBuilder builder =  sequenceBuilder.splineTo(firstLocation, firstHeading)
