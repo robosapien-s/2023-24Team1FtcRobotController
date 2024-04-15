@@ -112,7 +112,7 @@ public class Red_Close_Wall extends BaseAutoOp {
     public static double T1_pickUpWhite_heading = 150;
 
 
-    public static double T1_pickUpWhite_x = -56.5;
+    public static double T1_pickUpWhite_x = -57.5;
     public static double T1_pickUpWhite_y =-36.5;
     public static double T1_pickUpWhite2_heading = 180;
 
@@ -152,9 +152,9 @@ public class Red_Close_Wall extends BaseAutoOp {
                 new Vector2d(T1_purplePixelLocation_x, T1_purplePixelLocation_y), Math.toRadians(T1_purplePixelLocation_heading)).build();
         performYellowPixelDrop(trajectory2SequenceBuilder1,
                 new Vector2d(T1_dropYellow_x, T1_dropYellow_y), Math.toRadians(T1_dropYellow_heading), 900, 500);
-        pickUpWhitePixelsWall(trajectory2SequenceBuilder1,
+        pickUpWhitePixelsWallRed(trajectory2SequenceBuilder1,
                 new Vector2d(24, -56.5), Math.toRadians(180),
-                new Vector2d(-36, 56.5), Math.toRadians(180),
+                new Vector2d(-36, -56.5), Math.toRadians(180),
                 new Vector2d(T1_pickUpWhite_x, T1_pickUpWhite_y), Math.toRadians(T1_pickUpWhite_heading));
 
         trajectory1 = dropOffWhitePixelsWall(trajectory2SequenceBuilder1,
@@ -172,9 +172,9 @@ public class Red_Close_Wall extends BaseAutoOp {
                 new Vector2d(T2_purplePixelLocation_x, T2_purplePixelLocation_y), Math.toRadians(T2_purplePixelLocation_heading)).build();
         performYellowPixelDrop(trajectory2SequenceBuilder,
                 new Vector2d(T2_dropYellow_x, T2_dropYellow_y), Math.toRadians(T2_dropYellow_heading), 900, 500);
-        pickUpWhitePixelsWall(trajectory2SequenceBuilder1,
+        pickUpWhitePixelsWallRed(trajectory2SequenceBuilder1,
                 new Vector2d(24, -56.5), Math.toRadians(180),
-                new Vector2d(-36, 56.5), Math.toRadians(180),
+                new Vector2d(-36, -56.5), Math.toRadians(180),
                 new Vector2d(T2_pickUpWhite_x, T2_pickUpWhite_y), Math.toRadians(T2_pickUpWhite_heading));
 
         trajectory2 = dropOffWhitePixelsWall(trajectory2SequenceBuilder1,
@@ -192,9 +192,9 @@ public class Red_Close_Wall extends BaseAutoOp {
                 new Vector2d(T3_purplePixelLocation_x, T3_purplePixelLocation_y), Math.toRadians(T3_purplePixelLocation_heading)).build();
         performYellowPixelDrop(trajectory2SequenceBuilder3,
                 new Vector2d(T3_dropYellow_x, T3_dropYellow_y), Math.toRadians(T3_dropYellow_heading),900,500);
-        pickUpWhitePixelsWall(trajectory2SequenceBuilder1,
+        pickUpWhitePixelsWallRed(trajectory2SequenceBuilder1,
                 new Vector2d(24, -56.5), Math.toRadians(180),
-                new Vector2d(-36, 56.5), Math.toRadians(180),
+                new Vector2d(-36, -56.5), Math.toRadians(180),
                 new Vector2d(T3_pickUpWhite2_x, T3_pickUpWhite2_y), Math.toRadians(T3_pickUpWhite2_heading));
 
         trajectory3 = dropOffWhitePixelsWall(trajectory2SequenceBuilder1,

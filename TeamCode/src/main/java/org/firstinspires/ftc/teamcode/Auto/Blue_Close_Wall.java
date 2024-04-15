@@ -4,13 +4,9 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.OpModes.InitActuatorPos;
 import org.firstinspires.ftc.teamcode.OpModes.RedOrBlue;
-import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder;
-import org.firstinspires.ftc.teamcode.wrappers.BlueClosePropWrapper;
-import org.firstinspires.ftc.teamcode.wrappers.BlueFarPropWrapper;
 import org.firstinspires.ftc.teamcode.wrappers.NeoArmWrapper;
 
 @Config
@@ -158,7 +154,7 @@ public class Blue_Close_Wall extends BaseAutoOp {
                 new Vector2d(T1_purplePixelLocation_x, T1_purplePixelLocation_y), Math.toRadians(T1_purplePixelLocation_heading)).build();
         performYellowPixelDrop(trajectory2SequenceBuilder1,
                 new Vector2d(T1_dropYellow_x, T1_dropYellow_y), Math.toRadians(T1_dropYellow_heading),900,500);
-        pickUpWhitePixelsWall(trajectory2SequenceBuilder1,
+        pickUpWhitePixelsWallBlue(trajectory2SequenceBuilder1,
                 new Vector2d(T1_pickUpWhite_x, T1_pickUpWhite_y), Math.toRadians(T1_pickUpWhite_heading),
                 new Vector2d(T1_pickUpWhite2_x, T1_pickUpWhite2_y), Math.toRadians(T1_pickUpWhite2_heading),
                 new Vector2d(T1_pickUpWhite3_x, T1_pickUpWhite3_y), Math.toRadians(T1_pickUpWhite3_heading));
@@ -175,7 +171,7 @@ public class Blue_Close_Wall extends BaseAutoOp {
         dropPurplePixelLine(trajectory2SequenceBuilder, new Vector2d(T2_purplePixelLocation_x, T2_purplePixelLocation_y), Math.toRadians(T2_purplePixelLocation_heading)).build();
         performYellowPixelDrop(trajectory2SequenceBuilder,
                 new Vector2d(T2_dropYellow_x, T2_dropYellow_y), Math.toRadians(T2_dropYellow_heading),900,500);
-        pickUpWhitePixelsWall(trajectory2SequenceBuilder,
+        pickUpWhitePixelsWallBlue(trajectory2SequenceBuilder,
                 new Vector2d(24, T2_pickUpWhite_y), Math.toRadians(180),
                 new Vector2d(-36, T2_pickUpWhite_y), Math.toRadians(180),
                 new Vector2d(T2_pickUpWhite_x, T2_pickUpWhite2_y), Math.toRadians(T2_pickUpWhite_heading));
@@ -193,7 +189,7 @@ public class Blue_Close_Wall extends BaseAutoOp {
         //getArmReadyForYellowPixelDrop(trajectory2SequenceBuilder3, T3_dropYellow_ext, T3_dropYellow_act, T3_dropYellow_wrist);
         performYellowPixelDrop(trajectory2SequenceBuilder3,
                 new Vector2d(T3_dropYellow_x, T3_dropYellow_y), Math.toRadians(T3_dropYellow_heading),500,900);
-        pickUpWhitePixelsWall(trajectory2SequenceBuilder3,
+        pickUpWhitePixelsWallBlue(trajectory2SequenceBuilder3,
                 new Vector2d(T3_pickUpWhite1_x, T3_pickUpWhite2_y), Math.toRadians(T3_pickUpWhite1_heading),
                 new Vector2d(T3_pickUpWhite2_x, T3_pickUpWhite2_y), Math.toRadians(T3_pickUpWhite2_heading),
                 new Vector2d(T3_pickUpWhite3_x, T3_pickUpWhite3_y), Math.toRadians(T3_pickUpWhite3_heading)
