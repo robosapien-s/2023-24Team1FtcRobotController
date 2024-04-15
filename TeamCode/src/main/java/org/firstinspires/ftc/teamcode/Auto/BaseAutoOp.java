@@ -246,6 +246,7 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
 //                        neoArmWrapper.setOuttakeNewWithAct(NeoArmWrapper.EPixelHolderLocation.SINGLE,1000);
 //                    }
                 });
+
       //  .waitSeconds(.8);
 
         if(setOuttake) {
@@ -257,6 +258,54 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
 
 
     }
+
+
+    protected TrajectorySequenceBuilder dropPurplePixelLineLongWait( TrajectorySequenceBuilder sequenceBuilder, Vector2d endPosition, double heading, boolean setOuttake) {
+        TrajectorySequenceBuilder builder = sequenceBuilder
+
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+
+
+                    //neoArmWrapper.ResetMotorPositions();
+                    //neoArmWrapper.SetLinearActuatorTask(-InitActuatorPos.actuatorPos);
+                    neoArmWrapper.MoveActuatorMotor(-5);
+                })
+
+                .UNSTABLE_addTemporalMarkerOffset(1.5, () -> {
+
+                    neoArmWrapper.ResetMotorPositionsWithoutZero();
+                })
+
+                .lineToLinearHeading(new Pose2d(endPosition.getX(), endPosition.getY(), heading)).setReversed(false)
+                .UNSTABLE_addTemporalMarkerOffset(-1, () -> {
+                    neoArmWrapper.WristDown();
+
+                })
+
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {neoArmWrapper.PickupStack5Turn(0);});
+
+//                .UNSTABLE_addTemporalMarkerOffset(2, () -> {
+//                    neoArmWrapper.WristUp();
+//                    neoArmWrapper.closeLeftPixelHolder();
+//                    neoArmWrapper.closeRightPixelHolder();
+////                    if(setOuttake) {
+////                        neoArmWrapper.setOuttakeNewWithAct(NeoArmWrapper.EPixelHolderLocation.SINGLE,1000);
+////                    }
+//                });
+
+        //  .waitSeconds(.8);
+
+        if(setOuttake) {
+            setOutTake(builder, 0, NeoArmWrapper.EPixelHolderLocation.SINGLE, 600, 800, 0, 2);
+        }
+
+
+        return  builder;
+
+
+    }
+
+
 
     protected TrajectorySequenceBuilder dropPurplePixelFar( TrajectorySequenceBuilder sequenceBuilder, Vector2d endPosition, double heading) {
         return sequenceBuilder
@@ -317,6 +366,21 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
 //                .waitSeconds(2)
 //                .forward(4)
                 .waitSeconds(1)
+//                .UNSTABLE_addTemporalMarkerOffset(-2, () -> {
+//                    neoArmWrapper.ClosePos();
+//                })
+                .UNSTABLE_addTemporalMarkerOffset(-1.5, () -> {
+                    neoArmWrapper.WristUp();
+                })
+                .lineToLinearHeading( new Pose2d(endPosition.getX(), endPosition.getY(), Math.toRadians(heading)));
+
+    }
+
+    protected TrajectorySequenceBuilder lineUpForSinglePixelFarBackBoardLongWait( TrajectorySequenceBuilder sequenceBuilder, Vector2d endPosition, double heading) {
+        return sequenceBuilder
+//                .waitSeconds(2)
+//                .forward(4)
+                .waitSeconds(3)
 //                .UNSTABLE_addTemporalMarkerOffset(-2, () -> {
 //                    neoArmWrapper.ClosePos();
 //                })
