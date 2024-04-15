@@ -28,14 +28,14 @@ public class Blue_Close_Wall extends BaseAutoOp {
     public static double T1_dropYellow_wrist = .1;
 
     public static double T1_pickUpWhite_x = 24;
-    public static double T1_pickUpWhite_y =60;
+    public static double T1_pickUpWhite_y =56.5;
     public static double T1_pickUpWhite_heading = 180;
 
 
 
 
-    public static double T1_dropWhite_x = 51;
-    public static double T1_dropWhite_y =53.5;
+    public static double T1_dropWhite_x = 52;
+    public static double T1_dropWhite_y =55.5;
     public static double T1_dropWhite_heading = -45;
 
     public static double T1_final_heading = -91;
@@ -70,9 +70,9 @@ public class Blue_Close_Wall extends BaseAutoOp {
     public static int T2_dropYellow_ext = 852;
     public static double T2_dropYellow_wrist = .1;
 
-    public static double T2_pickUpWhite_x = -55;
+    public static double T2_pickUpWhite_x = -56.5;
 
-    public static double T2_pickUpWhite2_y = 36.5;
+    public static double T2_pickUpWhite2_y = 39;
     public static double T2_pickUpWhite_y =56.5;
     public static double T2_pickUpWhite_heading = -150;
 
@@ -81,10 +81,10 @@ public class Blue_Close_Wall extends BaseAutoOp {
     public static double T1_pickUpWhite2_y = 56.5;
     public static double T1_pickUpWhite2_heading = 180;
 
-    public static double T1_pickUpWhite3_x = -55;
-    public static double T1_pickUpWhite3_y = 36.5;
+    public static double T1_pickUpWhite3_x = -56.5;
+    public static double T1_pickUpWhite3_y = 39;
 
-    public static double T1_pickUpWhite3_heading = -150;
+    public static double T1_pickUpWhite3_heading = -165;
 
 
     public static double T3_pickUpWhite2_x = -36;
