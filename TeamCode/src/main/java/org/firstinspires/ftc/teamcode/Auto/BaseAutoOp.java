@@ -526,12 +526,64 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
     }
 
 
+//    protected TrajectorySequenceBuilder pickUpWhitePixelsWallRed(TrajectorySequenceBuilder sequenceBuilder,
+//                                                                  Vector2d firstLocation, double firstHeading, Vector2d secondLocation, double secondHeading, Vector2d thirdLocation, double thirdHeading) {
+//
+//
+//
+//        setIntake(sequenceBuilder, 2.5);
+//        return sequenceBuilder.setReversed(true)
+//
+//                .splineTo(firstLocation,firstHeading)
+//
+//
+//                .UNSTABLE_addTemporalMarkerOffset(1, () -> {
+//                    // neoArmWrapper.SetWheelSpin(1);
+//                    neoArmWrapper.WristDown();
+//                    // neoArmWrapper.ClosePos();
+//                })
+//                .splineTo(new Vector2d(secondLocation.getX(), secondLocation.getY()), secondHeading)
+//                // .lineToLinearHeading(new Pose2d(secondLocation.getX(),secondLocation.getY(), secondHeading))
+//
+//                .splineTo(thirdLocation, thirdHeading)
+//
+//                .lineToLinearHeading(new Pose2d(thirdLocation.getX()-1.5,thirdLocation.getY()+6.5, 0), SampleMecanumDrive.getVelocityConstraint(35,35,DriveConstants.TRACK_WIDTH),
+//                        SampleMecanumDrive.getAccelerationConstraint(35))
+//
+//
+//
+//                .UNSTABLE_addTemporalMarkerOffset(.1, () -> {
+//                    neoArmWrapper.UpdateIntakePower(1, null);
+//                })
+//                .UNSTABLE_addTemporalMarkerOffset(.7, () -> {
+//                    neoArmWrapper.PickupStack5Turn(.5f);
+//                })
+//                .UNSTABLE_addTemporalMarkerOffset(1.5, () -> {
+//                    neoArmWrapper.PickupStack5Turn(1);
+//                })
+//                .UNSTABLE_addTemporalMarkerOffset(2, () -> {
+//                    neoArmWrapper.PickupStack5Turn(1);
+//                })
+//                .waitSeconds(2)
+//                .lineToLinearHeading(new Pose2d(thirdLocation.getX(),thirdLocation.getY(), thirdHeading+Math.PI), SampleMecanumDrive.getVelocityConstraint(35,35,DriveConstants.TRACK_WIDTH),
+//                        SampleMecanumDrive.getAccelerationConstraint(35))
+//                .setReversed(false);
+////                .UNSTABLE_addTemporalMarkerOffset(1, () -> {
+////                    neoArmWrapper.PickupStack5Turn(0);
+////                })
+//////                .UNSTABLE_addTemporalMarkerOffset(3.5, () -> {
+//////                    neoArmWrapper.UpdateIntakePower(0, null);
+//////                    neoArmWrapper.WristUp();
+////                .waitSeconds(1.2);
+//    }
+
+
     protected TrajectorySequenceBuilder pickUpWhitePixelsWallRed(TrajectorySequenceBuilder sequenceBuilder,
-                                                                  Vector2d firstLocation, double firstHeading, Vector2d secondLocation, double secondHeading, Vector2d thirdLocation, double thirdHeading) {
+                                                                 Vector2d firstLocation, double firstHeading, Vector2d secondLocation, double secondHeading, Vector2d thirdLocation, double thirdHeading, double intakeWait) {
 
 
 
-        setIntake(sequenceBuilder, 2.5);
+        setIntake(sequenceBuilder, intakeWait);
         return sequenceBuilder.setReversed(true)
 
                 .splineTo(firstLocation,firstHeading)
@@ -542,12 +594,14 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
                     neoArmWrapper.WristDown();
                     // neoArmWrapper.ClosePos();
                 })
+                .splineTo(new Vector2d(secondLocation.getX()+10, secondLocation.getY()), secondHeading)
+
                 .splineTo(new Vector2d(secondLocation.getX(), secondLocation.getY()), secondHeading)
                 // .lineToLinearHeading(new Pose2d(secondLocation.getX(),secondLocation.getY(), secondHeading))
 
                 .splineTo(thirdLocation, thirdHeading)
 
-                .lineToLinearHeading(new Pose2d(thirdLocation.getX()-1.5,thirdLocation.getY()+6.5, 0), SampleMecanumDrive.getVelocityConstraint(35,35,DriveConstants.TRACK_WIDTH),
+                .lineToLinearHeading(new Pose2d(thirdLocation.getX()-1.5,thirdLocation.getY()+6.5, 0), SampleMecanumDrive.getVelocityConstraint(20,20,DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(35))
 
 
