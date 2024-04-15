@@ -342,7 +342,11 @@ public class NeoArmWrapper {
     }
     public void WristUp(){
         isWristUp = true;
-        wristServo.setPosition(.1);
+        if (ActuatorMotorEx.getCurrentPosition()>100){
+            wristServo.setPosition(.1);
+        }else {
+            wristServo.setPosition(.2);
+        }
     }
     public void WristDown(){
         isWristUp = false;

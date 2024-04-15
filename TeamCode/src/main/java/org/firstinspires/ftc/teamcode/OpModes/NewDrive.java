@@ -116,6 +116,8 @@ public class NewDrive extends LinearOpMode {
     public static int height4_Act = 200;
     public static int height4_Ext = 200;
 
+    int stack5iterator;
+
 
 
     public static boolean reset_imu = true;
@@ -238,15 +240,13 @@ public class NewDrive extends LinearOpMode {
             }
 
 
-//            if(joystickWrapper.gamepad1GetRightBumperDown()){
-//                if(isOpen){
-//                    armWrapper.ClosePos();
-//                    isOpen = false;
-//                }else {
-//                    armWrapper.OpenPos();
-//                    isOpen = true;
-//                }
-//            }
+            if(joystickWrapper.gamepad1GetRightBumperDown()){
+                stack5iterator += 1;
+                if(stack5iterator == 6){
+                    stack5iterator = 0;
+                }
+                armWrapper.PickupStack5Turn(stack5iterator);
+            }
 
             if(joystickWrapper.gamepad1GetLeftBumperDown()){
                 if(isDown){
