@@ -217,22 +217,22 @@ public class NewDrive extends LinearOpMode {
             if(joystickWrapper.gamepad2GetDDown()){
                 /*autoDropOffController.currentDropLevel = 0;
                 autoDropOffController.ledController.setCurrentIndex(autoDropOffController.currentDropLevel);*/
-                armWrapper.armChain.setPosition(armWrapper.armChain.getPosition()-.05);
+                armWrapper.setOuttakeNew(armWrapper.getCurrentPixelRotEnum(),);
             }
             if(joystickWrapper.gamepad2GetDRight()){
                 /*autoDropOffController.currentDropLevel = 1;
                 autoDropOffController.ledController.setCurrentIndex(autoDropOffController.currentDropLevel);*/
-                armWrapper.armChain.setPosition(armWrapper.armChain.getPosition()+.01);
+                armWrapper.setOuttakeNew(armWrapper.getCurrentPixelRotEnum(),);
             }
             if(joystickWrapper.gamepad2GetDLeft()){
                 /*autoDropOffController.currentDropLevel = 3;
                 autoDropOffController.ledController.setCurrentIndex(autoDropOffController.currentDropLevel);*/
-                armWrapper.armChain.setPosition(armWrapper.armChain.getPosition()-.01);
+                armWrapper.setOuttakeNew(armWrapper.getCurrentPixelRotEnum(),);
             }
             if(joystickWrapper.gamepad2GetDUp()){
                 /*autoDropOffController.currentDropLevel = 2;
                 autoDropOffController.ledController.setCurrentIndex(autoDropOffController.currentDropLevel);*/
-                armWrapper.armChain.setPosition(armWrapper.armChain.getPosition()+.05);
+                armWrapper.setOuttakeNew(armWrapper.getCurrentPixelRotEnum(),);
             }
 
 

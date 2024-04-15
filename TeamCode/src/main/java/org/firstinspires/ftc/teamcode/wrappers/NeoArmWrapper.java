@@ -339,7 +339,9 @@ public class NeoArmWrapper {
         telemetry.update();
     }
     public void WristUp(){
+        if (act)
         wristServo.setPosition(.1);
+
     }
     public void WristDown(){
         wristServo.setPosition(.78);
