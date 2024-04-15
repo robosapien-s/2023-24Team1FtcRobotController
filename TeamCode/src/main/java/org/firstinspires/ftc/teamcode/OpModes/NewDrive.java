@@ -216,6 +216,16 @@ public class NewDrive extends LinearOpMode {
                 armWrapper.setHangPos(hanged);
                 hanged = !hanged;
             }
+            if(joystickWrapper.gamepad1GetDLeft()){
+                armWrapper.ResetMotorPositions();
+            }
+            if (joystickWrapper.gamepad1GetDRight()){
+                if(armWrapper.limit){
+                    armWrapper.limit = false;
+                }else {
+                    armWrapper.limit = true;
+                }
+            }
 
 
             if(joystickWrapper.gamepad2GetDDown()){
