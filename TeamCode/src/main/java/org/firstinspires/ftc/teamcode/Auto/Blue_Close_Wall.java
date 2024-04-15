@@ -72,7 +72,7 @@ public class Blue_Close_Wall extends BaseAutoOp {
 
     public static double T2_pickUpWhite_x = -56.5;
 
-    public static double T2_pickUpWhite2_y = 39;
+    public static double T2_pickUpWhite2_y = 39.5;
     public static double T2_pickUpWhite_y =56.5;
     public static double T2_pickUpWhite_heading = -150;
 

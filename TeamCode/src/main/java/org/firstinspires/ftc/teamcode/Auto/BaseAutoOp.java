@@ -141,6 +141,12 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
 
     protected TrajectorySequenceBuilder setIntake(
             TrajectorySequenceBuilder sequenceBuilder) {
+        return  setIntake(sequenceBuilder, 3.4);
+    };
+
+
+    protected TrajectorySequenceBuilder setIntake(
+            TrajectorySequenceBuilder sequenceBuilder, double waitTime) {
 
         TrajectorySequenceBuilder builder =  sequenceBuilder
 
@@ -166,7 +172,7 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
                     neoArmWrapper.setArmChainServo(0.063);
                     neoArmWrapper.MoveExtensionMotors(0);
                     neoArmWrapper.MoveActuatorMotor(0);
-                }).waitSeconds(3.4);
+                }).waitSeconds(waitTime);
 
 
         return builder;
@@ -346,7 +352,7 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
                     //neoArmWrapper.setActuatorPosition(0);
                     neoArmWrapper.MoveExtensionMotors(250);
                 })
-                .waitSeconds(1.3)
+                .waitSeconds(1)
                 .setReversed(true);
     }
 
@@ -475,7 +481,7 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
 
 
 
-        setIntake(sequenceBuilder);
+        setIntake(sequenceBuilder, 2.5);
         return sequenceBuilder.setReversed(true)
 
                 .splineTo(firstLocation,firstHeading)
