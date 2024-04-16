@@ -125,6 +125,7 @@ public class Blue_Close extends BaseAutoOp {
     public void runOpMode() throws InterruptedException {
 
         initialize(new Pose2d(15,62, Math.toRadians(90)), 1);
+        redOrBlue.setBlueAuto();
         redOrBlue.setBlue();
 
 
@@ -199,6 +200,8 @@ public class Blue_Close extends BaseAutoOp {
         } else {
             drive.followTrajectorySequence(trajectory3);
         }
+
+
     }
 
 

@@ -213,6 +213,7 @@ public class Blue_Far_Wall extends BaseAutoOp {
 
         initialize(new Pose2d(start_x,start_y, Math.toRadians(start_heading)), 1);
 
+        redOrBlue.setBlueAuto();
         redOrBlue.setBlue();
 
         TrajectorySequence trajectory1 = buildTragectory1();
@@ -236,6 +237,7 @@ public class Blue_Far_Wall extends BaseAutoOp {
         }
         PoseStorage.currentPose = drive.getPoseEstimate();
         neoArmWrapper.DeactivateLoop();
+
 
     }
 

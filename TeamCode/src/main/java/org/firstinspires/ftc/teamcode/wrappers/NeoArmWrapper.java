@@ -342,6 +342,7 @@ public class NeoArmWrapper {
     }
     public void WristUp(){
         isWristUp = true;
+        wristServo.setPosition(.1);
 
     }
     public void WristDown(){
@@ -351,10 +352,12 @@ public class NeoArmWrapper {
 
     public void UpdateExtensionPlusInput(JoystickWrapper joystickWrapper, int slideEncoderFactor, int actuatorEncoderFactor, IMUWrapper imuWrapper, IMU imu){
 
-        if (ActuatorMotorEx.getCurrentPosition()>1500 && isWristUp){
-            wristServo.setPosition(.1);
-        }else {
-            wristServo.setPosition(.4);
+        if (isWristUp) {
+            if (ActuatorMotorEx.getCurrentPosition() < 1500) {
+                wristServo.setPosition(.1);
+            } else {
+                wristServo.setPosition(.4);
+            }
         }
 
 
@@ -598,7 +601,7 @@ public class NeoArmWrapper {
 
         if(imuWrapper != null) {
             double headingOffset;
-            if (RedOrBlue.isRed) {
+            if (!RedOrBlue.isRed) {
                 headingOffset = imuWrapper.getNormalizedHeadingError() - 90;
             } else {
                 headingOffset = imuWrapper.getNormalizedHeadingError() + 90;
@@ -619,7 +622,7 @@ public class NeoArmWrapper {
             double normalizedHeadingError = -orientation.getYaw(AngleUnit.DEGREES);
 
             double headingOffset;
-            if (!RedOrBlue.isRed) { //Opposite of TeleOp because starting orientation is flipped
+            if (RedOrBlue.isRedAuto) { //Opposite of TeleOp because starting orientation is flipped
                 headingOffset = normalizedHeadingError - 90;
             } else {
                 headingOffset = normalizedHeadingError + 90;

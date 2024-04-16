@@ -177,6 +177,7 @@ public class Red_Far extends BaseAutoOp {
 
         initialize(new Pose2d(start_x,start_y, Math.toRadians(start_heading)), 1);
 
+        redOrBlue.setRedAuto();
         redOrBlue.setRed();
 
         TrajectorySequence trajectory1 = buildTragectory1();
@@ -200,6 +201,7 @@ public class Red_Far extends BaseAutoOp {
             drive.followTrajectorySequence(trajectory3);
         }
         PoseStorage.currentPose = drive.getPoseEstimate();
+
 
     }
 

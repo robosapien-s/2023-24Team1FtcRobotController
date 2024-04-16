@@ -140,6 +140,7 @@ public class Red_Close extends BaseAutoOp {
 
         initialize(new Pose2d(15,-62, Math.toRadians(-90)), 1);
 
+        redOrBlue.setRedAuto();
         redOrBlue.setRed();
 
         TrajectorySequence trajectory1;
@@ -221,6 +222,7 @@ public class Red_Close extends BaseAutoOp {
         while (opModeIsActive()) {
             neoArmWrapper.UpdateExtensionPlusInput(null, 300, 300, null, imu);
         }
+
 
     }
 
