@@ -342,11 +342,7 @@ public class NeoArmWrapper {
     }
     public void WristUp(){
         isWristUp = true;
-        if (ActuatorMotorEx.getCurrentPosition()>100){
-            wristServo.setPosition(.1);
-        }else {
-            wristServo.setPosition(.2);
-        }
+
     }
     public void WristDown(){
         isWristUp = false;
@@ -355,6 +351,11 @@ public class NeoArmWrapper {
 
     public void UpdateExtensionPlusInput(JoystickWrapper joystickWrapper, int slideEncoderFactor, int actuatorEncoderFactor, IMUWrapper imuWrapper, IMU imu){
 
+        if (ActuatorMotorEx.getCurrentPosition()>1500 && isWristUp){
+            wristServo.setPosition(.1);
+        }else {
+            wristServo.setPosition(.4);
+        }
 
 
         double actuatorLimit = 6500;
