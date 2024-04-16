@@ -113,6 +113,7 @@ public class Blue_Far extends BaseAutoOp {
         getArmReady(trajectory2SequenceBuilder1);
         dropPurplePixelLine(trajectory2SequenceBuilder1,
                 new Vector2d(Blue_Far.T1_purplePixelLocation_x, Blue_Far.T1_purplePixelLocation_y), Math.toRadians(Blue_Far.T1_purplePixelLocation_heading), false);
+        trajectory2SequenceBuilder1.waitSeconds(1);
         lineUpForSinglePixelFarBackBoard(trajectory2SequenceBuilder1,
                 new Vector2d(Blue_Far.T1_lineUpSingleWhite_x, Blue_Far.T1_lineUpSingleWhite_y), Math.toRadians(Blue_Far.T1_lineUpSingleWhite_heading));
         pickUpOneFarWhitePixels(trajectory2SequenceBuilder1, new Vector2d(T1_pickUpWhite2_x, T1_pickUpWhite2_y),  Math.toRadians(T1_pickUpWhite2_heading-4));
@@ -133,6 +134,7 @@ public class Blue_Far extends BaseAutoOp {
         getArmReady(trajectory2SequenceBuilder1);
         dropPurplePixelLine(trajectory2SequenceBuilder1,
                 new Vector2d(Blue_Far.T2_purplePixelLocation_x, Blue_Far.T2_purplePixelLocation_y), Math.toRadians(Blue_Far.T2_purplePixelLocation_heading), false);
+        trajectory2SequenceBuilder1.waitSeconds(1);
         trajectory2SequenceBuilder1.strafeLeft(12);
         //trajectory2SequenceBuilder1.strafeLeft(8);
         lineUpForSinglePixelFarBackBoard(trajectory2SequenceBuilder1,
@@ -153,6 +155,7 @@ public class Blue_Far extends BaseAutoOp {
         getArmReady(trajectory2SequenceBuilder3);
         dropPurplePixelLine(trajectory2SequenceBuilder3,
                 new Vector2d(Blue_Far.T3_purplePixelLocation_x, Blue_Far.T3_purplePixelLocation_y), Math.toRadians(Blue_Far.T3_purplePixelLocation_heading), false);
+        trajectory2SequenceBuilder3.waitSeconds(1);
         lineUpForSinglePixelFarBackBoard(trajectory2SequenceBuilder3,
                 new Vector2d(Blue_Far.T3_lineUpSingleWhite_x, Blue_Far.T3_lineUpSingleWhite_y), Math.toRadians(Blue_Far.T3_lineUpSingleWhite_heading));
         pickUpOneFarWhitePixels(trajectory2SequenceBuilder3, new Vector2d(T3_pickUpWhite2_x, T3_pickUpWhite2_y),  Math.toRadians(T3_pickUpWhite2_heading));

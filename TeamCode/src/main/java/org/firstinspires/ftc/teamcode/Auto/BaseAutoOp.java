@@ -284,10 +284,9 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
 
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {neoArmWrapper.PickupStack5Turn(0);});
 
+
 //                .UNSTABLE_addTemporalMarkerOffset(2, () -> {
 //                    neoArmWrapper.WristUp();
-//                    neoArmWrapper.closeLeftPixelHolder();
-//                    neoArmWrapper.closeRightPixelHolder();
 ////                    if(setOuttake) {
 ////                        neoArmWrapper.setOuttakeNewWithAct(NeoArmWrapper.EPixelHolderLocation.SINGLE,1000);
 ////                    }
