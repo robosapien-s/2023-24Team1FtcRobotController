@@ -412,6 +412,7 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
                     neoArmWrapper.closeLeftPixelHolder();
                     //neoArmWrapper.setActuatorPosition(0);
                     neoArmWrapper.MoveExtensionMotors(250);
+                    neoArmWrapper.MoveActuatorMotor(neoArmWrapper.ActuatorMotorEx.getCurrentPosition()+150);
                 })
                 .waitSeconds(1)
                 .setReversed(true);
