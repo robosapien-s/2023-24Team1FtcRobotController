@@ -8,9 +8,9 @@ public class setBlue extends LinearOpMode {
     RedOrBlue redOrBlue;
     @Override
     public void runOpMode() throws InterruptedException {
-        redOrBlue.setBlue();
+        redOrBlue.setRed();
         waitForStart();
-        redOrBlue.setBlue();
+        redOrBlue.setRed();
     }
 }
 //angle = 13.26, slide = 752

@@ -247,7 +247,7 @@ public class NeoArmWrapper {
 
     public void UpdateIntakePower(float power, JoystickWrapper joystickWrapper){
 
-        if(Math.abs(power)>0) {
+        if(Math.abs(power)>0 && isIntakeMode) {
             rightPixelHolder.setPosition(.55);
             leftPixelHolder.setPosition(.5);
         } else {

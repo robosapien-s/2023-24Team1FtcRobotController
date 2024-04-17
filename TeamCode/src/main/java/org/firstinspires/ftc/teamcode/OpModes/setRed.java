@@ -7,8 +7,8 @@ public class setRed extends LinearOpMode {
     RedOrBlue redOrBlue;
     @Override
     public void runOpMode() throws InterruptedException {
-        redOrBlue.setRed();
+        redOrBlue.setBlue();
         waitForStart();
-        redOrBlue.setRed();
+        redOrBlue.setBlue();
     }
 }
