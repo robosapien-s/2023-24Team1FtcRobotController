@@ -247,7 +247,7 @@ public class NeoArmWrapper {
 
     public void UpdateIntakePower(float power, JoystickWrapper joystickWrapper){
 
-        if(Math.abs(power)>0 && isIntakeMode) {
+        if(Math.abs(power)>0 && intakeOuttakeMode == EIntakeOuttakeMode.INTAKE) {
             rightPixelHolder.setPosition(.55);
             leftPixelHolder.setPosition(.5);
         } else {
@@ -601,10 +601,19 @@ public class NeoArmWrapper {
 
         if(imuWrapper != null) {
             double headingOffset;
-            if (!RedOrBlue.isRed) {
-                headingOffset = imuWrapper.getNormalizedHeadingError() - 90;
+
+            if(RedOrBlue.isAuto) {
+                if (!RedOrBlue.isRed) {
+                    headingOffset = imuWrapper.getNormalizedHeadingError() - 90;
+                } else {
+                    headingOffset = imuWrapper.getNormalizedHeadingError() + 90;
+                }
             } else {
-                headingOffset = imuWrapper.getNormalizedHeadingError() + 90;
+                if (!RedOrBlue.isRed) {
+                    headingOffset = imuWrapper.getNormalizedHeadingError() - 90;
+                } else {
+                    headingOffset = imuWrapper.getNormalizedHeadingError() + 90;
+                }
             }
 
 

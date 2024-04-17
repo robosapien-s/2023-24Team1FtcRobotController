@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.teamcode.OpModes.InitActuatorPos;
 import org.firstinspires.ftc.teamcode.OpModes.NewDrive;
+import org.firstinspires.ftc.teamcode.OpModes.RedOrBlue;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.ITrajectorySequenceUpdateCallback;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -43,7 +44,7 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
 
     public void initialize(Pose2d inStartPose, int inBarcodeInt) {
 
-
+        RedOrBlue.setIsAuto();
         startPose = inStartPose;
 
         redClosePropWrapper = new RedClosePropWrapper(hardwareMap,telemetry);
