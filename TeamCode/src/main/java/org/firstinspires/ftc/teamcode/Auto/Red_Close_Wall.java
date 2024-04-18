@@ -113,7 +113,7 @@ public class Red_Close_Wall extends BaseAutoOp {
 
 
     public static double T1_pickUpWhite_x = -57.5;
-    public static double T1_pickUpWhite_y =-37.5;
+    public static double T1_pickUpWhite_y =-37;
     public static double T1_pickUpWhite2_heading = 180;
 
     public static double T2_pickUpWhite_x = -57.5;
@@ -129,7 +129,7 @@ public class Red_Close_Wall extends BaseAutoOp {
 
 
     public static double T1_dropWhite_x = 52;
-    public static double T1_dropWhite_y =-55.5;
+    public static double T1_dropWhite_y =-56.5;
     public static double T1_dropWhite_heading = 45;
 
 

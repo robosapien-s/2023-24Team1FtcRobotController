@@ -127,10 +127,12 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
                     neoArmWrapper.setArmChain((int) actuatorHeight);
                     //neoArmWrapper.setArmChainServo(.8);
                 })
+                .UNSTABLE_addTemporalMarkerOffset(.6+delay, () -> {
+                    neoArmWrapper.setLeftRight(-Math.toDegrees(heading));
+                })
                 .UNSTABLE_addTemporalMarkerOffset(1.5+delay, () -> {
                     neoArmWrapper.setArmPixelRotServo(pixelLocation);
                     //neoArmWrapper.setLeftRightServo(.27);
-                    neoArmWrapper.setLeftRight(-Math.toDegrees(heading));
 
                 })
                 .waitSeconds(waitTime);
@@ -770,6 +772,7 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
 
                 })
                 .UNSTABLE_addTemporalMarkerOffset(1, () -> {
+                    neoArmWrapper.MoveActuatorMotor(neoArmWrapper.ActuatorMotorEx.getCurrentPosition()+250);
                     neoArmWrapper.closeLeftPixelHolder();
                     neoArmWrapper.closeRightPixelHolder();
                 })
