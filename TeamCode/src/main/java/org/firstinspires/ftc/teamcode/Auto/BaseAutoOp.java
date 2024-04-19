@@ -253,7 +253,7 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
       //  .waitSeconds(.8);
 
         if(setOuttake) {
-            setOutTake(builder, 0, NeoArmWrapper.EPixelHolderLocation.SINGLE, 600, 800, 0, 2);
+            setOutTake(builder, 0, NeoArmWrapper.EPixelHolderLocation.SINGLE, 600, 800, 0, 0.8);
         }
 
 
@@ -414,7 +414,7 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
                     neoArmWrapper.closeLeftPixelHolder();
                     //neoArmWrapper.setActuatorPosition(0);
                     neoArmWrapper.MoveExtensionMotors(250);
-                    neoArmWrapper.MoveActuatorMotor(neoArmWrapper.ActuatorMotorEx.getCurrentPosition()+150);
+                    neoArmWrapper.MoveActuatorMotor(neoArmWrapper.ActuatorMotorEx.getCurrentPosition()+250);
                 })
                 .waitSeconds(1)
                 .setReversed(true);
@@ -513,7 +513,7 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
                 .splineTo(new Vector2d(secondLocation.getX()+35, secondLocation.getY()), secondHeading)
                // .lineToLinearHeading(new Pose2d(secondLocation.getX(),secondLocation.getY(), secondHeading))
 
-                .splineTo(secondLocation, secondHeading, SampleMecanumDrive.getVelocityConstraint(20,20,DriveConstants.TRACK_WIDTH),
+                .splineTo(secondLocation, secondHeading, SampleMecanumDrive.getVelocityConstraint(35,35,DriveConstants.TRACK_WIDTH),
                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
 
 //                .lineToLinearHeading(new Pose2d(secondLocation.getX(),secondLocation.getY()), SampleMecanumDrive.getVelocityConstraint(15,15,DriveConstants.TRACK_WIDTH),
@@ -730,7 +730,7 @@ public abstract class BaseAutoOp extends LinearOpMode implements ITrajectorySequ
                     neoArmWrapper.closeRightPixelHolder();
                     neoArmWrapper.MoveActuatorMotor(neoArmWrapper.ActuatorMotorEx.getCurrentPosition()+150);
                 })
-                .waitSeconds(2);
+                .waitSeconds(1);
 //                .UNSTABLE_addTemporalMarkerOffset(1, () -> {
 //                    neoArmWrapper.setIntakeNew();
 //                })

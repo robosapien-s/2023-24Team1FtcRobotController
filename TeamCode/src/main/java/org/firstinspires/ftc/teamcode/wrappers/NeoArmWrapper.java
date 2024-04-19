@@ -35,6 +35,8 @@ import java.util.TimerTask;
 
 public class NeoArmWrapper {
 
+    boolean lastExtResetPressed = false;
+
     double angle;
 
     boolean isWalking = false;
@@ -423,7 +425,7 @@ public class NeoArmWrapper {
             newActTargetPositionRequest = ActuatorMotorEx.getCurrentPosition() + (int) (-joystickWrapper.gamepad2GetLeftStickY() * actuatorEncoderFactor);
 
             //newExtTargetPositionRequest = (0.6834 * newActTargetPositionRequest) + 112.1;
-            if (!joystickWrapper.gamepad2GetLeftStickDown()) {
+            if (!joystickWrapper.gamepad2GetLeftStickDown()&&limit) {
                 newExtTargetPositionRequest = (0.65 * (newActTargetPositionRequest - lastActuator)) + lastExtension;
             }
         }
@@ -519,13 +521,13 @@ public class NeoArmWrapper {
 
 
 
-        if(ExtensionMotorEx1.getCurrentPosition() <= actuatorTransitionPoint) {
-            requestedAct = 0;
-
-            if(ext_targetPosition < ExtensionMotorEx1.getCurrentPosition() && ExtensionMotorEx1.getCurrentPosition() < 100 ) {
-                act_targetPosition = 0;
-            }
-        }
+//        if(ExtensionMotorEx1.getCurrentPosition() <= actuatorTransitionPoint) {
+//            requestedAct = 0;
+//
+//            if(ext_targetPosition < ExtensionMotorEx1.getCurrentPosition() && ExtensionMotorEx1.getCurrentPosition() < 100 ) {
+//                act_targetPosition = 0;
+//            }
+//        }
 
         if(true/*armTouch.getState() || ext_targetPosition < ExtensionMotorEx1.getCurrentPosition()*/) {
 
@@ -931,7 +933,7 @@ public class NeoArmWrapper {
 
         angle = Math.toDegrees(Math.acos((a*a+b*b-(c*c))/(2*a*b)));
         telemetry.addData("Actuator Angle", angle);
-        if (intakeOuttakeMode == EIntakeOuttakeMode.OUTTAKE) {
+        if (intakeOuttakeMode == EIntakeOuttakeMode.OUTTAKE && limit) {
                 //TODO: lower: angle:13.35,servo:0.693333333333333...
                 //TODO: upper: angle:42.535,servo:.8133333333
             armChain.setPosition((.12/29.185)*(angle-42.535)+.813333333333);
@@ -1383,6 +1385,24 @@ public class NeoArmWrapper {
     public int inchesToExtension(double inches) {
         double extToInRatio = 0.008797495682; //(35.875-15.5)/(2316-0)
         return (int) ((inches-15.5)/extToInRatio);
+    }
+
+    public void manualReset(boolean buttonPressed) {
+        if (buttonPressed && !lastExtResetPressed) {
+            limit = false;
+            lastExtResetPressed = true;
+        } else if (!buttonPressed && lastExtResetPressed){
+            ExtensionMotorEx1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            ExtensionMotorEx2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            ActuatorMotorEx.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            ext_targetPosition = 0;
+            act_targetPosition = 0;
+
+            lastExtResetPressed = false;
+            limit = true;
+        }
+
+
     }
 
 

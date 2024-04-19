@@ -156,6 +156,7 @@ public class NewDrive extends LinearOpMode {
             wrapper.Update();
             armWrapper.SetWheelSpin(gamepad2.left_trigger-gamepad2.right_trigger);
             armWrapper.UpdateIntakePower(gamepad1.right_trigger-gamepad1.left_trigger, joystickWrapper);
+            armWrapper.manualReset(gamepad1.dpad_left);
             armWrapper.UpdateExtensionPlusInput(joystickWrapper, 300, 300, wrapper, null);
 
 
@@ -216,16 +217,17 @@ public class NewDrive extends LinearOpMode {
                 armWrapper.setHangPos(hanged);
                 hanged = !hanged;
             }
-            if(joystickWrapper.gamepad1GetDLeft()){
-                armWrapper.ResetMotorPositions();
-            }
-            if (joystickWrapper.gamepad1GetDRight()){
-                if(armWrapper.limit){
-                    armWrapper.limit = false;
-                }else {
-                    armWrapper.limit = true;
-                }
-            }
+//            if(joystickWrapper.gamepad1GetDLeft()){
+//                armWrapper.ResetMotorPositions();
+//            }
+//            if (joystickWrapper.gamepad1GetDRight()){
+//                if(armWrapper.limit){
+//                    armWrapper.limit = false;
+//                }else {
+//                    armWrapper.limit = true;
+//                }
+//            }
+
 
 
             if(joystickWrapper.gamepad2GetDDown()){

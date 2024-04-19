@@ -78,8 +78,8 @@ public class Red_Close extends BaseAutoOp {
 
 
 
-    public static double T2_final_x = 48;
-    public static double T2_final_y =-63;
+    public static double T2_final_x = 43;
+    public static double T2_final_y =-13;
     public static double T2_final_heading = 92;
 
 
@@ -128,7 +128,7 @@ public class Red_Close extends BaseAutoOp {
 
 
 
-    public static double T1_dropWhite_x = 46.5;
+    public static double T1_dropWhite_x = 45;
     public static double T1_dropWhite_y =-36;
     public static double T1_dropWhite_heading = 0;
 
@@ -157,12 +157,12 @@ public class Red_Close extends BaseAutoOp {
                 new Vector2d(24, -12), Math.toRadians(180),
                 new Vector2d(T1_pickUpWhite_x, T1_pickUpWhite_y), Math.toRadians(T1_pickUpWhite_heading));
 
-        trajectory1 = dropOffWhitePixels(trajectory2SequenceBuilder1,
+         dropOffWhitePixels(trajectory2SequenceBuilder1,
                 new Vector2d(24, -12), Math.toRadians(0),
                 new Vector2d(T1_dropWhite_x, T1_dropWhite_y), Math.toRadians(T1_dropWhite_heading)
                 , 800, 1200, NeoArmWrapper.EPixelHolderLocation.SINGLE,0
-        ).build();
-        //trajectory1 = park(trajectory2SequenceBuilder1, new Pose2d(T2_final_x,T2_final_y, Math.toRadians(T2_final_heading))).build();
+        );
+        trajectory1 = park(trajectory2SequenceBuilder1, new Pose2d(T2_final_x,T2_final_y, Math.toRadians(T2_final_heading))).build();
 
 
         TrajectorySequenceBuilder trajectory2SequenceBuilder = setInitialPose(new Pose2d(12, -62, Math.toRadians(-90)));
