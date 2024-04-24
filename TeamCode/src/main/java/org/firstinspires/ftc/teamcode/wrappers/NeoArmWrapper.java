@@ -35,6 +35,8 @@ import java.util.TimerTask;
 
 public class NeoArmWrapper {
 
+    boolean lastExtResetPressed = false;
+
     double angle;
 
     boolean isWalking = false;
@@ -81,7 +83,7 @@ public class NeoArmWrapper {
     //public TouchSensor armTouch;
     public DigitalChannel armTouch;
 
-    boolean limit = true;
+    public boolean limit = true;
 
 
 
@@ -133,6 +135,8 @@ public class NeoArmWrapper {
     ArrayList<EPixelHolderLocation> pixelHolderList = new ArrayList<EPixelHolderLocation>();
 
     ArrayList<Double> pixelHolderListValues = new ArrayList<Double>();
+
+    boolean isWristUp = true;
 
     public NeoArmWrapper(Telemetry inTelemetry, HardwareMap inHardwareMap, Gamepad inGamepad1, Gamepad inGamepad2, Boolean inIsAuto){
         //Set Values
@@ -245,7 +249,7 @@ public class NeoArmWrapper {
 
     public void UpdateIntakePower(float power, JoystickWrapper joystickWrapper){
 
-        if(Math.abs(power)>0) {
+        if(Math.abs(power)>0 && intakeOuttakeMode == EIntakeOuttakeMode.INTAKE) {
             rightPixelHolder.setPosition(.55);
             leftPixelHolder.setPosition(.5);
         } else {
@@ -339,13 +343,24 @@ public class NeoArmWrapper {
         telemetry.update();
     }
     public void WristUp(){
+        isWristUp = true;
         wristServo.setPosition(.1);
+
     }
     public void WristDown(){
+        isWristUp = false;
         wristServo.setPosition(.78);
     }
 
     public void UpdateExtensionPlusInput(JoystickWrapper joystickWrapper, int slideEncoderFactor, int actuatorEncoderFactor, IMUWrapper imuWrapper, IMU imu){
+
+        if (isWristUp) {
+            if (ActuatorMotorEx.getCurrentPosition() < 1500) {
+                wristServo.setPosition(.1);
+            } else {
+                wristServo.setPosition(.4);
+            }
+        }
 
 
         double actuatorLimit = 6500;
@@ -401,14 +416,16 @@ public class NeoArmWrapper {
                     lastActuator = ActuatorMotorEx.getCurrentPosition();
                     lastExtension = ExtensionMotorEx1.getCurrentPosition();
                 }
+                isWalking = true;
+            } else {
+                isWalking = false;
             }
 
-            isWalking = true;
 
             newActTargetPositionRequest = ActuatorMotorEx.getCurrentPosition() + (int) (-joystickWrapper.gamepad2GetLeftStickY() * actuatorEncoderFactor);
 
             //newExtTargetPositionRequest = (0.6834 * newActTargetPositionRequest) + 112.1;
-            if (!joystickWrapper.gamepad2GetLeftStickDown()) {
+            if (!joystickWrapper.gamepad2GetLeftStickDown()&&limit) {
                 newExtTargetPositionRequest = (0.65 * (newActTargetPositionRequest - lastActuator)) + lastExtension;
             }
         }
@@ -504,13 +521,13 @@ public class NeoArmWrapper {
 
 
 
-        if(ExtensionMotorEx1.getCurrentPosition() <= actuatorTransitionPoint) {
-            requestedAct = 0;
-
-            if(ext_targetPosition < ExtensionMotorEx1.getCurrentPosition() && ExtensionMotorEx1.getCurrentPosition() < 100 ) {
-                act_targetPosition = 0;
-            }
-        }
+//        if(ExtensionMotorEx1.getCurrentPosition() <= actuatorTransitionPoint) {
+//            requestedAct = 0;
+//
+//            if(ext_targetPosition < ExtensionMotorEx1.getCurrentPosition() && ExtensionMotorEx1.getCurrentPosition() < 100 ) {
+//                act_targetPosition = 0;
+//            }
+//        }
 
         if(true/*armTouch.getState() || ext_targetPosition < ExtensionMotorEx1.getCurrentPosition()*/) {
 
@@ -586,10 +603,19 @@ public class NeoArmWrapper {
 
         if(imuWrapper != null) {
             double headingOffset;
-            if (RedOrBlue.isRed) {
-                headingOffset = imuWrapper.getNormalizedHeadingError() - 90;
+
+            if(RedOrBlue.isAuto) {
+                if (!RedOrBlue.isRed) {
+                    headingOffset = imuWrapper.getNormalizedHeadingError() - 90;
+                } else {
+                    headingOffset = imuWrapper.getNormalizedHeadingError() + 90;
+                }
             } else {
-                headingOffset = imuWrapper.getNormalizedHeadingError() + 90;
+                if (!RedOrBlue.isRed) {
+                    headingOffset = imuWrapper.getNormalizedHeadingError() - 90;
+                } else {
+                    headingOffset = imuWrapper.getNormalizedHeadingError() + 90;
+                }
             }
 
 
@@ -607,7 +633,7 @@ public class NeoArmWrapper {
             double normalizedHeadingError = -orientation.getYaw(AngleUnit.DEGREES);
 
             double headingOffset;
-            if (!RedOrBlue.isRed) { //Opposite of TeleOp because starting orientation is flipped
+            if (RedOrBlue.isRedAuto) { //Opposite of TeleOp because starting orientation is flipped
                 headingOffset = normalizedHeadingError - 90;
             } else {
                 headingOffset = normalizedHeadingError + 90;
@@ -657,6 +683,7 @@ public class NeoArmWrapper {
 //        }
 
 
+        telemetry.addData("Actuator Pos:", ActuatorMotorEx.getCurrentPosition());
 
     }
 
@@ -752,6 +779,23 @@ public class NeoArmWrapper {
         act_targetPosition = pos;
     }
 
+    public void SetLinearActuatorTask(int pos){
+
+        tasks.add(
+                new CallBackTask(new CallBackTask.CallBackListener() {
+                    @Override
+                    public void setPosition(double value) {
+                        act_targetPosition = value;
+                    }
+
+                    @Override
+                    public double getPosition() {
+                        return ActuatorMotorEx.getCurrentPosition();
+                    }
+                }, 300, 300, "ActuatorMotorEx", true)
+        );
+    }
+
     public void MoveExtensionMotors(int position) {
 
         //ExtensionMotorEx1.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
@@ -777,6 +821,24 @@ public class NeoArmWrapper {
         ActuatorMotorEx.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
     }
 
+    public void ResetMotorPositionsWithoutZero(){
+
+        ActuatorMotorEx.setDirection(DcMotorEx.Direction.FORWARD);
+        //ActuatorMotorEx.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        ActuatorMotorEx.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        ActuatorMotorEx.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        ExtensionMotorEx1.setDirection(DcMotorEx.Direction.REVERSE);
+        //ExtensionMotorEx1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        ExtensionMotorEx1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        ExtensionMotorEx1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        ExtensionMotorEx2.setDirection(DcMotorEx.Direction.FORWARD);
+        //ExtensionMotorEx2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        ExtensionMotorEx2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        ExtensionMotorEx2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+    }
     public void ResetMotorPositions(){
 
         ActuatorMotorEx.setDirection(DcMotorEx.Direction.FORWARD);
@@ -849,11 +911,15 @@ public class NeoArmWrapper {
         if (!hanged) {
             SetLinearActuator(5653);
             SetLinearExtensionPos(1900);
+
+            armWristServo.setPosition(.8);
+            armChain.setPosition(0.06);
         } else {
             SetLinearActuator(5653);
             SetLinearExtensionPos(1260);
         }
     }
+
 
 
     public void setArmChain(int actuatorPos) {
@@ -867,7 +933,7 @@ public class NeoArmWrapper {
 
         angle = Math.toDegrees(Math.acos((a*a+b*b-(c*c))/(2*a*b)));
         telemetry.addData("Actuator Angle", angle);
-        if (intakeOuttakeMode == EIntakeOuttakeMode.OUTTAKE) {
+        if (intakeOuttakeMode == EIntakeOuttakeMode.OUTTAKE && limit) {
                 //TODO: lower: angle:13.35,servo:0.693333333333333...
                 //TODO: upper: angle:42.535,servo:.8133333333
             armChain.setPosition((.12/29.185)*(angle-42.535)+.813333333333);
@@ -918,13 +984,18 @@ public class NeoArmWrapper {
                 headingError *= 1.22; //TODO - ROBOT RIGHT, WRIST TURNED LEFT
             }
 
-            armLeftRight.setPosition(midPoint + headingError / 300);
+            double newPosition = midPoint + (headingError / 300.0);
+
+            telemetry.addData("armLeftRight", newPosition);
+            telemetry.update();
+            armLeftRight.setPosition(newPosition);
         } else {
+            telemetry.addData("not calling", "not calling");
+            telemetry.update();
             //armLeftRight.setPosition(midPoint);
         }
 
     }
-
 
     public void setNextRotServoEnum() {
 
@@ -976,10 +1047,31 @@ public class NeoArmWrapper {
         return pixelHolderList.get(pixelHolderIndex);
     }
 
+    public void setIntakeOuttakeMode(EIntakeOuttakeMode mode) {
+        intakeOuttakeMode = mode;
+    }
+
     public void updatePixelRotServo() {
         if(intakeOuttakeMode == EIntakeOuttakeMode.OUTTAKE) {
             armPixelRot.setPosition(getPixelRotServoValue());
         }
+    }
+
+    public void setLeftRightServo(double position) {
+        armLeftRight.setPosition(position);
+    }
+
+    public void setArmPixelRotServo(EPixelHolderLocation location) {
+
+        armPixelRot.setPosition(getPixelRotServoValueByEnum(location));
+    }
+
+    public void setArmChainServo(double position) {
+        armChain.setPosition(position);
+    }
+
+    public void setArmWristServo(double position) {
+        armWristServo.setPosition(position);
     }
 
     public void setIntakeNew() {
@@ -1088,7 +1180,7 @@ public class NeoArmWrapper {
                     public double getPosition() {
                         return ActuatorMotorEx.getCurrentPosition();
                     }
-                }, 0, 400, "ActuatorMotorEx", true)
+                }, 0, 500, "ActuatorMotorEx", true)
         );
 
         series.add(parallel2);
@@ -1098,26 +1190,35 @@ public class NeoArmWrapper {
 
     }
 
-    public void setOuttakeNew(boolean rotateToDouble) {
+    public void setOuttakeNew(EPixelHolderLocation pixelLocation) {
+        setOuttakeNew(pixelLocation, 500, 500);
+    }
+    public void setOuttakeNewWithActAndExt(EPixelHolderLocation pixelLocation, int actuatorPosition, int extPosition) {
+        setOuttakeNew(pixelLocation, actuatorPosition, extPosition);
+    }
+
+    public void setOuttakeNewWithAct(EPixelHolderLocation pixelLocation, int actuatorPosition) {
+        setOuttakeNew(pixelLocation, actuatorPosition, 500);
+    }
+    public void setOuttakeNew(EPixelHolderLocation pixelLocation, int actuatorPosition, int extPosition) {
         act_lastError = 0;
-        act_targetPosition = 500;
+        act_targetPosition = actuatorPosition;
 
         ext_lastError = 0;
         //ext_targetPosition_delay_until = System.currentTimeMillis() + 500;
-        ext_targetPosition = 500;
+        ext_targetPosition = extPosition;
 
         clearTasks();
 
         RobotTaskSeries series = new RobotTaskSeries();
+
         series.add(new ServoTask(armWristServo, .5, 500, "armWristServo", true));
 
         RobotTaskParallel parallel = new RobotTaskParallel();
         parallel.add(new ServoTask(armWristServo, .3, 600, "armWristServo", true));
         parallel.add(new ServoTask(armChain, .7, 600, "armChain", true));
-        if(rotateToDouble) {
-            parallel.add(new ServoTask(armPixelRot, getPixelRotServoValueByEnum(EPixelHolderLocation.DOUBLE), 600, "armPixelRot", true));
-        }
 
+        parallel.add(new ServoTask(armPixelRot, getPixelRotServoValueByEnum(pixelLocation), 600, "armPixelRot", true));
 
         //parallel.add(new ServoTask(armLeftRight, 0.3, 10000, "armLeftRight", true));
         //parallel.add(new ServoTask(armPixelRot, 0.3, 600, "armPixelRot", true));
@@ -1145,6 +1246,7 @@ public class NeoArmWrapper {
         setRotServoEnum(EPixelHolderLocation.DOUBLE);
 
     }
+
 
     public void clearTasks() {
 
@@ -1283,6 +1385,24 @@ public class NeoArmWrapper {
     public int inchesToExtension(double inches) {
         double extToInRatio = 0.008797495682; //(35.875-15.5)/(2316-0)
         return (int) ((inches-15.5)/extToInRatio);
+    }
+
+    public void manualReset(boolean buttonPressed) {
+        if (buttonPressed && !lastExtResetPressed) {
+            limit = false;
+            lastExtResetPressed = true;
+        } else if (!buttonPressed && lastExtResetPressed){
+            ExtensionMotorEx1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            ExtensionMotorEx2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            ActuatorMotorEx.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            ext_targetPosition = 0;
+            act_targetPosition = 0;
+
+            lastExtResetPressed = false;
+            limit = true;
+        }
+
+
     }
 
 

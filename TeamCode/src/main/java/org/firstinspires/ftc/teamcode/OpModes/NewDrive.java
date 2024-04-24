@@ -36,7 +36,7 @@ public class NewDrive extends LinearOpMode {
 
     JoystickWrapper joystickWrapper;
 
-    AutoDropOffController autoDropOffController;
+    //AutoDropOffController autoDropOffController;
 
     boolean planeShot = false;
 
@@ -116,6 +116,8 @@ public class NewDrive extends LinearOpMode {
     public static int height4_Act = 200;
     public static int height4_Ext = 200;
 
+    int stack5iterator;
+
 
 
     public static boolean reset_imu = true;
@@ -138,8 +140,10 @@ public class NewDrive extends LinearOpMode {
         reset_imu = true;
 
         joystickWrapper = new JoystickWrapper(gamepad1,gamepad2);
-        autoDropOffController = new AutoDropOffController(wrapper, armWrapper);
-        autoDropOffController.initAprilTag(hardwareMap);
+        //autoDropOffController = new AutoDropOffController(wrapper, armWrapper);
+        //autoDropOffController.initAprilTag(hardwareMap);
+
+        armWrapper.WristUp();
         waitForStart();
 
 
@@ -152,6 +156,7 @@ public class NewDrive extends LinearOpMode {
             wrapper.Update();
             armWrapper.SetWheelSpin(gamepad2.left_trigger-gamepad2.right_trigger);
             armWrapper.UpdateIntakePower(gamepad1.right_trigger-gamepad1.left_trigger, joystickWrapper);
+            armWrapper.manualReset(gamepad1.dpad_left);
             armWrapper.UpdateExtensionPlusInput(joystickWrapper, 300, 300, wrapper, null);
 
 
@@ -186,11 +191,11 @@ public class NewDrive extends LinearOpMode {
                 armWrapper.setNextRotServoEnum();
             }
 
-            autoDropOffController.telemetryAprilTag(telemetry, joystickWrapper, new Encoder(hardwareMap.get(DcMotorEx.class, "fL")),  new Encoder(hardwareMap.get(DcMotorEx.class, "bL")));
+            //autoDropOffController.telemetryAprilTag(telemetry, joystickWrapper, new Encoder(hardwareMap.get(DcMotorEx.class, "fL")),  new Encoder(hardwareMap.get(DcMotorEx.class, "bL")));
 
             if(joystickWrapper.gamepad2GetY()){
                 //armWrapper.setOuttake();
-                armWrapper.setOuttakeNew(true);
+                armWrapper.setOuttakeNew(NeoArmWrapper.EPixelHolderLocation.DOUBLE);
             }
 
             if(joystickWrapper.gamepad2GetB()){
@@ -212,39 +217,48 @@ public class NewDrive extends LinearOpMode {
                 armWrapper.setHangPos(hanged);
                 hanged = !hanged;
             }
+//            if(joystickWrapper.gamepad1GetDLeft()){
+//                armWrapper.ResetMotorPositions();
+//            }
+//            if (joystickWrapper.gamepad1GetDRight()){
+//                if(armWrapper.limit){
+//                    armWrapper.limit = false;
+//                }else {
+//                    armWrapper.limit = true;
+//                }
+//            }
+
 
 
             if(joystickWrapper.gamepad2GetDDown()){
                 /*autoDropOffController.currentDropLevel = 0;
                 autoDropOffController.ledController.setCurrentIndex(autoDropOffController.currentDropLevel);*/
-                armWrapper.armChain.setPosition(armWrapper.armChain.getPosition()-.05);
+                armWrapper.setOuttakeNew(armWrapper.getCurrentPixelRotEnum(),500,500);
             }
             if(joystickWrapper.gamepad2GetDRight()){
                 /*autoDropOffController.currentDropLevel = 1;
                 autoDropOffController.ledController.setCurrentIndex(autoDropOffController.currentDropLevel);*/
-                armWrapper.armChain.setPosition(armWrapper.armChain.getPosition()+.01);
+                armWrapper.setOuttakeNew(armWrapper.getCurrentPixelRotEnum(),884,1010);
             }
             if(joystickWrapper.gamepad2GetDLeft()){
                 /*autoDropOffController.currentDropLevel = 3;
                 autoDropOffController.ledController.setCurrentIndex(autoDropOffController.currentDropLevel);*/
-                armWrapper.armChain.setPosition(armWrapper.armChain.getPosition()-.01);
+                armWrapper.setOuttakeNew(armWrapper.getCurrentPixelRotEnum(),1350,1330);
             }
             if(joystickWrapper.gamepad2GetDUp()){
                 /*autoDropOffController.currentDropLevel = 2;
                 autoDropOffController.ledController.setCurrentIndex(autoDropOffController.currentDropLevel);*/
-                armWrapper.armChain.setPosition(armWrapper.armChain.getPosition()+.05);
+                armWrapper.setOuttakeNew(armWrapper.getCurrentPixelRotEnum(),2000,2300);
             }
 
 
-//            if(joystickWrapper.gamepad1GetRightBumperDown()){
-//                if(isOpen){
-//                    armWrapper.ClosePos();
-//                    isOpen = false;
-//                }else {
-//                    armWrapper.OpenPos();
-//                    isOpen = true;
-//                }
-//            }
+            if(joystickWrapper.gamepad1GetRightBumperDown()){
+                stack5iterator += 1;
+                if(stack5iterator == 6){
+                    stack5iterator = 0;
+                }
+                armWrapper.PickupStack5Turn(stack5iterator);
+            }
 
             if(joystickWrapper.gamepad1GetLeftBumperDown()){
                 if(isDown){
@@ -300,6 +314,6 @@ public class NewDrive extends LinearOpMode {
             }
         }
 
-        autoDropOffController.close();
+        //autoDropOffController.close();
     }
 }
