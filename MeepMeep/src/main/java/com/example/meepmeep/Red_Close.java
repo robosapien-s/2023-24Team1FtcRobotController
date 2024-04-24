@@ -21,7 +21,7 @@ public class Red_Close {
             redCloseBot = new DefaultBotBuilder(meepMeep)
                     .setColorScheme(new ColorSchemeRedLight())
                     // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                    .setConstraints(52.48291908330528, 52.48291908330528, Math.toRadians(197.5918273305535), Math.toRadians(222.7444266666667), 13.26)
+                    .setConstraints(70, 70, Math.toRadians(197.5918273305535), Math.toRadians(222.7444266666667), 13.26)
                     .followTrajectorySequence(drive ->
                             drive.trajectorySequenceBuilder(new Pose2d(12, -62, Math.toRadians(-90)))
                                     .lineToLinearHeading(new Pose2d(12, -32, Math.toRadians(-90)))
@@ -30,22 +30,23 @@ public class Red_Close {
                                     .waitSeconds(.5)
                                     .setReversed(true)
                                     .waitSeconds(.5)
-                                    .splineTo(new Vector2d(24, -12), Math.toRadians(180))
-                                    .splineTo(new Vector2d(-60, -12), Math.toRadians(180))
+                                    .splineTo(new Vector2d(24, -60), Math.toRadians(180))
+                                    .splineTo(new Vector2d(-36, -60), Math.toRadians(180))
+                                    .splineTo(new Vector2d(-60, -36), Math.toRadians(180))
                                     .waitSeconds(.5)
                                     .setReversed(false)
-                                    .splineTo(new Vector2d(24, -12), Math.toRadians(0))
-                                    .splineTo(new Vector2d(51, -30), Math.toRadians(0))
+                                    .splineTo(new Vector2d(-36, -60), Math.toRadians(0))
+                                    .splineTo(new Vector2d(24, -60), Math.toRadians(0))
+                                    .splineTo(new Vector2d(51, -50), Math.toRadians(75))
                                     .waitSeconds(.5)
-                                    .lineToLinearHeading(new Pose2d(48,-60, Math.toRadians(0)))
-                                    .lineToLinearHeading(new Pose2d(60,-60, Math.toRadians(0)))
+                                    .lineToLinearHeading(new Pose2d(48,-60, Math.toRadians(90)))
                                     .build()
                     );
         } else if (barcodeInt ==1) {
             redCloseBot = new DefaultBotBuilder(meepMeep)
                     .setColorScheme(new ColorSchemeRedLight())
                     // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                    .setConstraints(52.48291908330528, 52.48291908330528, Math.toRadians(197.5918273305535), Math.toRadians(222.7444266666667), 13.26)
+                    .setConstraints(70, 70, Math.toRadians(197.5918273305535), Math.toRadians(222.7444266666667), 13.26)
                     .followTrajectorySequence(drive ->
                             drive.trajectorySequenceBuilder(new Pose2d(12, -62, Math.toRadians(-90)))
                                     .setReversed(true)
@@ -56,22 +57,23 @@ public class Red_Close {
                                     .waitSeconds(.5)
                                     .setReversed(true)
                                     .waitSeconds(.5)
-                                    .splineTo(new Vector2d(24, -12), Math.toRadians(180))
-                                    .splineTo(new Vector2d(-60, -12), Math.toRadians(180))
+                                    .splineTo(new Vector2d(24, -60), Math.toRadians(180))
+                                    .splineTo(new Vector2d(-36, -60), Math.toRadians(180))
+                                    .splineTo(new Vector2d(-60, -36), Math.toRadians(180))
                                     .waitSeconds(.5)
                                     .setReversed(false)
-                                    .splineTo(new Vector2d(24, -12), Math.toRadians(0))
-                                    .splineTo(new Vector2d(51, -36), Math.toRadians(0))
+                                    .splineTo(new Vector2d(-36, -60), Math.toRadians(0))
+                                    .splineTo(new Vector2d(24, -60), Math.toRadians(0))
+                                    .splineTo(new Vector2d(51, -50), Math.toRadians(75))
                                     .waitSeconds(.5)
-                                    .lineToLinearHeading(new Pose2d(48,-60, Math.toRadians(0)))
-                                    .lineToLinearHeading(new Pose2d(60,-60, Math.toRadians(0)))
+                                    .lineToLinearHeading(new Pose2d(48,-60, Math.toRadians(90)))
                                     .build()
                     );
         } else {
             redCloseBot = new DefaultBotBuilder(meepMeep)
                     .setColorScheme(new ColorSchemeRedLight())
                     // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                    .setConstraints(52.48291908330528, 52.48291908330528, Math.toRadians(197.5918273305535), Math.toRadians(222.7444266666667), 13.26)
+                    .setConstraints(70, 70, Math.toRadians(197.5918273305535), Math.toRadians(222.7444266666667), 13.26)
                     .followTrajectorySequence(drive ->
                             drive.trajectorySequenceBuilder(new Pose2d(12, -62, Math.toRadians(-90)))
                                     .setReversed(true)
@@ -82,15 +84,16 @@ public class Red_Close {
                                     .waitSeconds(.5)
                                     .setReversed(true)
                                     .waitSeconds(.5)
-                                    .splineTo(new Vector2d(24, -12), Math.toRadians(180))
-                                    .splineTo(new Vector2d(-60, -12), Math.toRadians(180))
+                                    .splineTo(new Vector2d(24, -60), Math.toRadians(180))
+                                    .splineTo(new Vector2d(-36, -60), Math.toRadians(180))
+                                    .splineTo(new Vector2d(-60, -36), Math.toRadians(180))
                                     .waitSeconds(.5)
                                     .setReversed(false)
-                                    .splineTo(new Vector2d(24, -12), Math.toRadians(0))
-                                    .splineTo(new Vector2d(51, -30), Math.toRadians(0))
+                                    .splineTo(new Vector2d(-36, -60), Math.toRadians(0))
+                                    .splineTo(new Vector2d(24, -60), Math.toRadians(0))
+                                    .splineTo(new Vector2d(51, -50), Math.toRadians(75))
                                     .waitSeconds(.5)
-                                    .lineToLinearHeading(new Pose2d(48,-60, Math.toRadians(0)))
-                                    .lineToLinearHeading(new Pose2d(60,-60, Math.toRadians(0)))
+                                    .lineToLinearHeading(new Pose2d(48,-60, Math.toRadians(90)))
                                     .build()
                     );
         }
@@ -100,7 +103,7 @@ public class Red_Close {
             redFarBot = new DefaultBotBuilder(meepMeep)
                     .setColorScheme(new ColorSchemeRedDark())
                     // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                    .setConstraints(52.48291908330528, 52.48291908330528, Math.toRadians(197.5918273305535), Math.toRadians(222.7444266666667), 13.26)
+                    .setConstraints(70, 70, Math.toRadians(197.5918273305535), Math.toRadians(222.7444266666667), 13.26)
                     .followTrajectorySequence(drive ->
                             drive.trajectorySequenceBuilder(new Pose2d(-36, -62, Math.toRadians(-90)))
                                     .lineToLinearHeading(new Pose2d(-36, -32, Math.toRadians(-90)))
@@ -119,17 +122,16 @@ public class Red_Close {
                                     .waitSeconds(.5)
                                     .setReversed(false)
                                     .splineTo(new Vector2d(24, -12), Math.toRadians(0))
-                                    .splineTo(new Vector2d(51, -30), Math.toRadians(0))
+                                    .splineTo(new Vector2d(51, -22), Math.toRadians(-75))
                                     .waitSeconds(.5)
-                                    .lineToLinearHeading(new Pose2d(48,-12, Math.toRadians(0)))
-                                    .lineToLinearHeading(new Pose2d(60,-12, Math.toRadians(0)))
+                                    .lineToLinearHeading(new Pose2d(48,-12, Math.toRadians(-90)))
                                     .build()
                     );
         } else if (barcodeInt == 1) {
             redFarBot = new DefaultBotBuilder(meepMeep)
                     .setColorScheme(new ColorSchemeRedDark())
                     // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                    .setConstraints(52.48291908330528, 52.48291908330528, Math.toRadians(197.5918273305535), Math.toRadians(222.7444266666667), 13.26)
+                    .setConstraints(70, 70, Math.toRadians(197.5918273305535), Math.toRadians(222.7444266666667), 13.26)
                     .followTrajectorySequence(drive ->
                             drive.trajectorySequenceBuilder(new Pose2d(-36, -62, Math.toRadians(-90)))
                                     .setReversed(true)
@@ -150,17 +152,16 @@ public class Red_Close {
                                     .waitSeconds(.5)
                                     .setReversed(false)
                                     .splineTo(new Vector2d(24, -12), Math.toRadians(0))
-                                    .splineTo(new Vector2d(51, -36), Math.toRadians(0))
-                                    .waitSeconds(.5)
-                                    .lineToLinearHeading(new Pose2d(48,-12, Math.toRadians(0)))
-                                    .lineToLinearHeading(new Pose2d(60,-12, Math.toRadians(0)))
-                                    .build()
+                                    .splineTo(new Vector2d(51, -22), Math.toRadians(-75))
+                            .waitSeconds(.5)
+                            .lineToLinearHeading(new Pose2d(48,-12, Math.toRadians(-90)))
+                            .build()
                     );
         } else {
             redFarBot = new DefaultBotBuilder(meepMeep)
                     .setColorScheme(new ColorSchemeRedDark())
                     // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                    .setConstraints(52.48291908330528, 52.48291908330528, Math.toRadians(197.5918273305535), Math.toRadians(222.7444266666667), 13.26)
+                    .setConstraints(70, 70, Math.toRadians(197.5918273305535), Math.toRadians(222.7444266666667), 13.26)
                     .followTrajectorySequence(drive ->
                             drive.trajectorySequenceBuilder(new Pose2d(-36, -62, Math.toRadians(-90)))
                                     .setReversed(true)
@@ -181,10 +182,9 @@ public class Red_Close {
                                     .waitSeconds(.5)
                                     .setReversed(false)
                                     .splineTo(new Vector2d(24, -12), Math.toRadians(0))
-                                    .splineTo(new Vector2d(51, -30), Math.toRadians(0))
+                                    .splineTo(new Vector2d(51, -22), Math.toRadians(-75))
                                     .waitSeconds(.5)
-                                    .lineToLinearHeading(new Pose2d(48,-12, Math.toRadians(0)))
-                                    .lineToLinearHeading(new Pose2d(60,-12, Math.toRadians(0)))
+                                    .lineToLinearHeading(new Pose2d(48,-12, Math.toRadians(-90)))
                                     .build()
                     );
         }
@@ -194,7 +194,7 @@ public class Red_Close {
             blueFarBot = new DefaultBotBuilder(meepMeep)
                     .setColorScheme(new ColorSchemeBlueDark())
                     // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                    .setConstraints(52.48291908330528, 52.48291908330528, Math.toRadians(197.5918273305535), Math.toRadians(222.7444266666667), 13.26)
+                    .setConstraints(70, 70, Math.toRadians(197.5918273305535), Math.toRadians(222.7444266666667), 13.26)
                     .followTrajectorySequence(drive ->
                             drive.trajectorySequenceBuilder(new Pose2d(-36, 62, Math.toRadians(90)))
                                     .lineToLinearHeading(new Pose2d(-36, 32, Math.toRadians(90)))
@@ -213,17 +213,16 @@ public class Red_Close {
                                     .waitSeconds(.5)
                                     .setReversed(false)
                                     .splineTo(new Vector2d(24, 12), Math.toRadians(0))
-                                    .splineTo(new Vector2d(51, 30), Math.toRadians(0))
+                                    .splineTo(new Vector2d(51, 22), Math.toRadians(75))
                                     .waitSeconds(.5)
-                                    .lineToLinearHeading(new Pose2d(48,12, Math.toRadians(0)))
-                                    .lineToLinearHeading(new Pose2d(60,12, Math.toRadians(0)))
+                                    .lineToLinearHeading(new Pose2d(48,12, Math.toRadians(90)))
                                     .build()
                     );
         } else if (barcodeInt == 3) {
             blueFarBot = new DefaultBotBuilder(meepMeep)
                     .setColorScheme(new ColorSchemeBlueDark())
                     // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                    .setConstraints(52.48291908330528, 52.48291908330528, Math.toRadians(197.5918273305535), Math.toRadians(222.7444266666667), 13.26)
+                    .setConstraints(70, 70, Math.toRadians(197.5918273305535), Math.toRadians(222.7444266666667), 13.26)
                     .followTrajectorySequence(drive ->
                             drive.trajectorySequenceBuilder(new Pose2d(-36, 62, Math.toRadians(90)))
                                     .setReversed(true)
@@ -244,17 +243,16 @@ public class Red_Close {
                                     .waitSeconds(.5)
                                     .setReversed(false)
                                     .splineTo(new Vector2d(24, 12), Math.toRadians(0))
-                                    .splineTo(new Vector2d(51, 30), Math.toRadians(0))
+                                    .splineTo(new Vector2d(51, 22), Math.toRadians(75))
                                     .waitSeconds(.5)
-                                    .lineToLinearHeading(new Pose2d(48,12, Math.toRadians(0)))
-                                    .lineToLinearHeading(new Pose2d(60,12, Math.toRadians(0)))
+                                    .lineToLinearHeading(new Pose2d(48,12, Math.toRadians(90)))
                                     .build()
                     );
         } else {
             blueFarBot = new DefaultBotBuilder(meepMeep)
                     .setColorScheme(new ColorSchemeBlueDark())
                     // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                    .setConstraints(52.48291908330528, 52.48291908330528, Math.toRadians(197.5918273305535), Math.toRadians(222.7444266666667), 13.26)
+                    .setConstraints(70, 70, Math.toRadians(197.5918273305535), Math.toRadians(222.7444266666667), 13.26)
                     .followTrajectorySequence(drive ->
                             drive.trajectorySequenceBuilder(new Pose2d(-36, 62, Math.toRadians(90)))
                                     .setReversed(true)
@@ -275,10 +273,9 @@ public class Red_Close {
                                     .waitSeconds(.5)
                                     .setReversed(false)
                                     .splineTo(new Vector2d(24, 12), Math.toRadians(0))
-                                    .splineTo(new Vector2d(51, 30), Math.toRadians(0))
+                                    .splineTo(new Vector2d(51, 22), Math.toRadians(75))
                                     .waitSeconds(.5)
-                                    .lineToLinearHeading(new Pose2d(48,12, Math.toRadians(0)))
-                                    .lineToLinearHeading(new Pose2d(60,12, Math.toRadians(0)))
+                                    .lineToLinearHeading(new Pose2d(48,12, Math.toRadians(90)))
                                     .build()
                     );
         }
@@ -288,7 +285,7 @@ public class Red_Close {
             blueCloseBot = new DefaultBotBuilder(meepMeep)
                     .setColorScheme(new ColorSchemeBlueLight())
                     // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                    .setConstraints(52.48291908330528, 52.48291908330528, Math.toRadians(197.5918273305535), Math.toRadians(222.7444266666667), 13.26)
+                    .setConstraints(70, 70, Math.toRadians(197.5918273305535), Math.toRadians(222.7444266666667), 13.26)
                     .followTrajectorySequence(drive ->
                             drive.trajectorySequenceBuilder(new Pose2d(12, 62, Math.toRadians(90)))
                                     .lineToLinearHeading(new Pose2d(12, 32, Math.toRadians(90)))
@@ -297,22 +294,23 @@ public class Red_Close {
                                     .waitSeconds(.5)
                                     .setReversed(true)
                                     .waitSeconds(.5)
-                                    .splineTo(new Vector2d(24, 12), Math.toRadians(180))
-                                    .splineTo(new Vector2d(-60, 12), Math.toRadians(180))
+                                    .splineTo(new Vector2d(24, 60), Math.toRadians(180))
+                                    .splineTo(new Vector2d(-36, 60), Math.toRadians(180))
+                                    .splineTo(new Vector2d(-60, 36), Math.toRadians(180))
                                     .waitSeconds(.5)
                                     .setReversed(false)
-                                    .splineTo(new Vector2d(24, 12), Math.toRadians(0))
-                                    .splineTo(new Vector2d(51, 30), Math.toRadians(0))
+                                    .splineTo(new Vector2d(-36, 60), Math.toRadians(0))
+                                    .splineTo(new Vector2d(24, 60), Math.toRadians(0))
+                                    .splineTo(new Vector2d(51, 50), Math.toRadians(-75))
                                     .waitSeconds(.5)
-                                    .lineToLinearHeading(new Pose2d(48,60, Math.toRadians(0)))
-                                    .lineToLinearHeading(new Pose2d(60,60, Math.toRadians(0)))
+                                    .lineToLinearHeading(new Pose2d(48,60, Math.toRadians(-90)))
                                     .build()
                     );
         } else if (barcodeInt ==3) {
             blueCloseBot = new DefaultBotBuilder(meepMeep)
                     .setColorScheme(new ColorSchemeBlueLight())
                     // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                    .setConstraints(52.48291908330528, 52.48291908330528, Math.toRadians(197.5918273305535), Math.toRadians(222.7444266666667), 13.26)
+                    .setConstraints(70, 70, Math.toRadians(197.5918273305535), Math.toRadians(222.7444266666667), 13.26)
                     .followTrajectorySequence(drive ->
                             drive.trajectorySequenceBuilder(new Pose2d(12, 62, Math.toRadians(90)))
                                     .setReversed(true)
@@ -323,22 +321,23 @@ public class Red_Close {
                                     .waitSeconds(.5)
                                     .setReversed(true)
                                     .waitSeconds(.5)
-                                    .splineTo(new Vector2d(24, 12), Math.toRadians(180))
-                                    .splineTo(new Vector2d(-60, 12), Math.toRadians(180))
+                                    .splineTo(new Vector2d(24, 60), Math.toRadians(180))
+                                    .splineTo(new Vector2d(-36, 60), Math.toRadians(180))
+                                    .splineTo(new Vector2d(-60, 36), Math.toRadians(180))
                                     .waitSeconds(.5)
                                     .setReversed(false)
-                                    .splineTo(new Vector2d(24, 12), Math.toRadians(0))
-                                    .splineTo(new Vector2d(51, 30), Math.toRadians(0))
+                                    .splineTo(new Vector2d(-36, 60), Math.toRadians(0))
+                                    .splineTo(new Vector2d(24, 60), Math.toRadians(0))
+                                    .splineTo(new Vector2d(51, 50), Math.toRadians(-75))
                                     .waitSeconds(.5)
-                                    .lineToLinearHeading(new Pose2d(48,60, Math.toRadians(0)))
-                                    .lineToLinearHeading(new Pose2d(60,60, Math.toRadians(0)))
+                                    .lineToLinearHeading(new Pose2d(48,60, Math.toRadians(-90)))
                                     .build()
                     );
         } else {
             blueCloseBot = new DefaultBotBuilder(meepMeep)
                     .setColorScheme(new ColorSchemeBlueLight())
                     // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                    .setConstraints(52.48291908330528, 52.48291908330528, Math.toRadians(197.5918273305535), Math.toRadians(222.7444266666667), 13.26)
+                    .setConstraints(70, 70, Math.toRadians(197.5918273305535), Math.toRadians(222.7444266666667), 13.26)
                     .followTrajectorySequence(drive ->
                             drive.trajectorySequenceBuilder(new Pose2d(12, 62, Math.toRadians(90)))
                                     .setReversed(true)
@@ -349,15 +348,16 @@ public class Red_Close {
                                     .waitSeconds(.5)
                                     .setReversed(true)
                                     .waitSeconds(.5)
-                                    .splineTo(new Vector2d(24, 12), Math.toRadians(180))
-                                    .splineTo(new Vector2d(-60, 12), Math.toRadians(180))
+                                    .splineTo(new Vector2d(24, 60), Math.toRadians(180))
+                                    .splineTo(new Vector2d(-36, 60), Math.toRadians(180))
+                                    .splineTo(new Vector2d(-60, 36), Math.toRadians(180))
                                     .waitSeconds(.5)
                                     .setReversed(false)
-                                    .splineTo(new Vector2d(24, 12), Math.toRadians(0))
-                                    .splineTo(new Vector2d(51, 30), Math.toRadians(0))
+                                    .splineTo(new Vector2d(-36, 60), Math.toRadians(0))
+                                    .splineTo(new Vector2d(24, 60), Math.toRadians(0))
+                                    .splineTo(new Vector2d(51, 50), Math.toRadians(-75))
                                     .waitSeconds(.5)
-                                    .lineToLinearHeading(new Pose2d(48,60, Math.toRadians(0)))
-                                    .lineToLinearHeading(new Pose2d(60,60, Math.toRadians(0)))
+                                    .lineToLinearHeading(new Pose2d(48,60, Math.toRadians(-90)))
                                     .build()
                     );
         }
